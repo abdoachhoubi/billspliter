@@ -1,0 +1,59 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3B82F6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1D4ED8;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="billGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFFFFF;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#F8FAFC;stop-opacity:1" />
+    </linearGradient>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="8" stdDeviation="16" flood-color="#000" flood-opacity="0.15"/>
+    </filter>
+  </defs>
+  
+  <!-- Background Circle -->
+  <circle cx="512" cy="512" r="480" fill="url(#bgGradient)"/>
+  
+  <!-- Bill/Receipt Shape -->
+  <rect x="256" y="180" width="384" height="664" rx="24" ry="24" fill="url(#billGradient)" filter="url(#shadow)"/>
+  
+  <!-- Header Section -->
+  <rect x="320" y="260" width="280" height="20" rx="10" fill="#3B82F6" opacity="0.8"/>
+  <rect x="320" y="300" width="180" height="14" rx="7" fill="#64748B" opacity="0.7"/>
+  <rect x="320" y="330" width="220" height="14" rx="7" fill="#64748B" opacity="0.7"/>
+  
+  <!-- Bill Items -->
+  <rect x="320" y="380" width="240" height="12" rx="6" fill="#64748B" opacity="0.6"/>
+  <rect x="320" y="410" width="160" height="12" rx="6" fill="#64748B" opacity="0.6"/>
+  <rect x="320" y="440" width="200" height="12" rx="6" fill="#64748B" opacity="0.6"/>
+  <rect x="320" y="470" width="180" height="12" rx="6" fill="#64748B" opacity="0.6"/>
+  
+  <!-- Split Line (Zigzag/Dashed) -->
+  <path d="M 280 520 L 608 520" stroke="#EF4444" stroke-width="6" stroke-dasharray="16,12" opacity="0.9"/>
+  
+  <!-- Split Symbol -->
+  <circle cx="444" cy="520" r="36" fill="#EF4444"/>
+  <path d="M 420 520 L 468 520 M 444 496 L 444 544" stroke="white" stroke-width="6" stroke-linecap="round"/>
+  
+  <!-- Bottom Section After Split -->
+  <rect x="320" y="570" width="140" height="12" rx="6" fill="#64748B" opacity="0.6"/>
+  <rect x="320" y="600" width="180" height="12" rx="6" fill="#64748B" opacity="0.6"/>
+  <rect x="320" y="630" width="120" height="12" rx="6" fill="#64748B" opacity="0.6"/>
+  
+  <!-- Total Amount -->
+  <rect x="320" y="700" width="280" height="24" rx="12" fill="#10B981" opacity="0.9"/>
+  <text x="380" y="718" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="white">TOTAL SPLIT</text>
+  
+  <!-- Perforation dots at top -->
+  <circle cx="288" cy="204" r="8" fill="#3B82F6" opacity="0.4"/>
+  <circle cx="328" cy="204" r="8" fill="#3B82F6" opacity="0.4"/>
+  <circle cx="368" cy="204" r="8" fill="#3B82F6" opacity="0.4"/>
+  <circle cx="408" cy="204" r="8" fill="#3B82F6" opacity="0.4"/>
+  <circle cx="448" cy="204" r="8" fill="#3B82F6" opacity="0.4"/>
+  <circle cx="488" cy="204" r="8" fill="#3B82F6" opacity="0.4"/>
+  <circle cx="528" cy="204" r="8" fill="#3B82F6" opacity="0.4"/>
+  <circle cx="568" cy="204" r="8" fill="#3B82F6" opacity="0.4"/>
+  <circle cx="608" cy="204" r="8" fill="#3B82F6" opacity="0.4"/>
+</svg>

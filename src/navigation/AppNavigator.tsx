@@ -2,6 +2,7 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StatusBar } from 'expo-status-bar';
+import { useTranslation } from 'react-i18next';
 
 import { RootStackParamList } from './types';
 import { useTheme } from '../context/ThemeContext';
@@ -12,6 +13,7 @@ import ProfileScreen from '../screens/ProfileScreen';
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const AppNavigator: React.FC = () => {
+  const { t } = useTranslation();
   const { isDark } = useTheme();
 
   return (
@@ -37,7 +39,7 @@ const AppNavigator: React.FC = () => {
           <Stack.Screen
             name="Profile"
             component={ProfileScreen}
-            options={{ title: 'Profile' }}
+            options={{ title: t('navigation.profile') }}
           />
         </Stack.Navigator>
       </NavigationContainer>

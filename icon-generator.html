@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Bill Splitter Icon Generator</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f5f5;
+        }
+        .icon-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        .icon {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            padding: 20px;
+            text-align: center;
+        }
+        h1 { text-align: center; color: #333; }
+        p { text-align: center; color: #666; }
+    </style>
+</head>
+<body>
+    <h1>Bill Splitter - App Icon</h1>
+    <p>Modern, clean design with bill and split concept</p>
+    
+    <div class="icon-container">
+        <!-- Main App Icon 1024x1024 -->
+        <div class="icon">
+            <h3>App Icon (1024x1024)</h3>
+            <svg width="200" height="200" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+                <!-- Background Gradient -->
+                <defs>
+                    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#3B82F6;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#1D4ED8;stop-opacity:1" />
+                    </linearGradient>
+                    <linearGradient id="billGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#FFFFFF;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#F1F5F9;stop-opacity:1" />
+                    </linearGradient>
+                    <filter id="shadow">
+                        <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000" flood-opacity="0.2"/>
+                    </filter>
+                </defs>
+                
+                <!-- Background Circle -->
+                <circle cx="512" cy="512" r="480" fill="url(#bgGradient)"/>
+                
+                <!-- Bill/Receipt Shape -->
+                <rect x="256" y="192" width="384" height="640" rx="24" ry="24" fill="url(#billGradient)" filter="url(#shadow)"/>
+                
+                <!-- Bill Details Lines -->
+                <rect x="320" y="280" width="256" height="16" rx="8" fill="#3B82F6" opacity="0.7"/>
+                <rect x="320" y="328" width="192" height="12" rx="6" fill="#6B7280" opacity="0.6"/>
+                <rect x="320" y="368" width="224" height="12" rx="6" fill="#6B7280" opacity="0.6"/>
+                <rect x="320" y="408" width="160" height="12" rx="6" fill="#6B7280" opacity="0.6"/>
+                
+                <!-- Split Line (Dashed) -->
+                <path d="M 280 500 L 608 500" stroke="#EF4444" stroke-width="4" stroke-dasharray="12,8" opacity="0.8"/>
+                
+                <!-- Split Symbol -->
+                <circle cx="448" cy="500" r="32" fill="#EF4444"/>
+                <path d="M 428 500 L 468 500 M 448 480 L 448 520" stroke="white" stroke-width="4" stroke-linecap="round"/>
+                
+                <!-- Bottom Section -->
+                <rect x="320" y="560" width="128" height="12" rx="6" fill="#6B7280" opacity="0.6"/>
+                <rect x="320" y="600" width="160" height="12" rx="6" fill="#6B7280" opacity="0.6"/>
+                
+                <!-- Total Amount -->
+                <rect x="320" y="680" width="256" height="20" rx="10" fill="#10B981" opacity="0.8"/>
+                
+                <!-- Perforation dots at top -->
+                <circle cx="280" cy="216" r="6" fill="#3B82F6" opacity="0.3"/>
+                <circle cx="320" cy="216" r="6" fill="#3B82F6" opacity="0.3"/>
+                <circle cx="360" cy="216" r="6" fill="#3B82F6" opacity="0.3"/>
+                <circle cx="400" cy="216" r="6" fill="#3B82F6" opacity="0.3"/>
+                <circle cx="440" cy="216" r="6" fill="#3B82F6" opacity="0.3"/>
+                <circle cx="480" cy="216" r="6" fill="#3B82F6" opacity="0.3"/>
+                <circle cx="520" cy="216" r="6" fill="#3B82F6" opacity="0.3"/>
+                <circle cx="560" cy="216" r="6" fill="#3B82F6" opacity="0.3"/>
+                <circle cx="600" cy="216" r="6" fill="#3B82F6" opacity="0.3"/>
+                <circle cx="640" cy="216" r="6" fill="#3B82F6" opacity="0.3"/>
+            </svg>
+        </div>
+        
+        <!-- Splash Screen Icon 512x512 -->
+        <div class="icon">
+            <h3>Splash Icon (512x512)</h3>
+            <svg width="200" height="200" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+                <!-- Background -->
+                <rect width="512" height="512" fill="#3B82F6"/>
+                
+                <!-- Simplified Bill Icon for Splash -->
+                <rect x="128" y="96" width="256" height="320" rx="16" ry="16" fill="white" opacity="0.95"/>
+                
+                <!-- Bill Lines -->
+                <rect x="160" y="140" width="192" height="12" rx="6" fill="#3B82F6" opacity="0.7"/>
+                <rect x="160" y="172" width="128" height="8" rx="4" fill="#6B7280" opacity="0.6"/>
+                <rect x="160" y="196" width="160" height="8" rx="4" fill="#6B7280" opacity="0.6"/>
+                <rect x="160" y="220" width="112" height="8" rx="4" fill="#6B7280" opacity="0.6"/>
+                
+                <!-- Split Line -->
+                <path d="M 140 256 L 372 256" stroke="#EF4444" stroke-width="3" stroke-dasharray="8,6" opacity="0.8"/>
+                
+                <!-- Split Symbol -->
+                <circle cx="256" cy="256" r="20" fill="#EF4444"/>
+                <path d="M 244 256 L 268 256 M 256 244 L 256 268" stroke="white" stroke-width="3" stroke-linecap="round"/>
+                
+                <!-- Bottom Lines -->
+                <rect x="160" y="300" width="96" height="8" rx="4" fill="#6B7280" opacity="0.6"/>
+                <rect x="160" y="324" width="128" height="8" rx="4" fill="#6B7280" opacity="0.6"/>
+                <rect x="160" y="360" width="192" height="12" rx="6" fill="#10B981" opacity="0.8"/>
+            </svg>
+        </div>
+    </div>
+    
+    <script>
+        // Convert SVG to PNG and download
+        function downloadIcon(svgElement, filename, size) {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = size;
+            canvas.height = size;
+            
+            const data = new XMLSerializer().serializeToString(svgElement);
+            const svg = new Blob([data], { type: 'image/svg+xml;charset=utf-8' });
+            const url = URL.createObjectURL(svg);
+            
+            const img = new Image();
+            img.onload = () => {
+                ctx.drawImage(img, 0, 0, size, size);
+                canvas.toBlob((blob) => {
+                    const link = document.createElement('a');
+                    link.download = filename;
+                    link.href = URL.createObjectURL(blob);
+                    link.click();
+                    URL.revokeObjectURL(url);
+                });
+            };
+            img.src = url;
+        }
+        
+        // Add download buttons
+        document.addEventListener('DOMContentLoaded', () => {
+            const icons = document.querySelectorAll('.icon');
+            icons.forEach((icon, index) => {
+                const button = document.createElement('button');
+                button.textContent = 'Download PNG';
+                button.style.marginTop = '10px';
+                button.style.padding = '8px 16px';
+                button.style.backgroundColor = '#3B82F6';
+                button.style.color = 'white';
+                button.style.border = 'none';
+                button.style.borderRadius = '6px';
+                button.style.cursor = 'pointer';
+                
+                const svg = icon.querySelector('svg');
+                const size = index === 0 ? 1024 : 512;
+                const filename = index === 0 ? 'icon.png' : 'splash-icon.png';
+                
+                button.onclick = () => downloadIcon(svg, filename, size);
+                icon.appendChild(button);
+            });
+        });
+    </script>
+</body>
+</html>

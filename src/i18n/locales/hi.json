@@ -1,0 +1,67 @@
+{
+  "common": {
+    "loading": "लोड हो रहा है...",
+    "error": "त्रुटि",
+    "success": "सफलता",
+    "cancel": "रद्द करें",
+    "confirm": "पुष्टि करें",
+    "save": "सेव करें",
+    "delete": "हटाएं",
+    "edit": "संपादित करें",
+    "back": "वापस",
+    "selectLanguage": "भाषा चुनें",
+    "searchLanguage": "भाषा खोजें"
+  },
+  "navigation": {
+    "home": "होम",
+    "profile": "प्रोफाइल",
+    "bills": "बिल",
+    "settings": "सेटिंग्स"
+  },
+  "home": {
+    "title": "Bill Splitter में आपका स्वागत है!",
+    "greeting": "नमस्ते, {{name}}!",
+    "goToProfile": "प्रोफाइल पर जाएं",
+    "toggleTheme": "थीम बदलें ({{theme}})",
+    "signOut": "साइन आउट",
+    "signOutSuccess": "आप सफलतापूर्वक साइन आउट हो गए हैं",
+    "signOutError": "साइन आउट करने में विफल"
+  },
+  "profile": {
+    "title": "प्रोफाइल",
+    "signInPrompt": "कृपया अपनी प्रोफाइल देखने के लिए साइन इन करें",
+    "userInformation": "उपयोगकर्ता जानकारी",
+    "email": "ईमेल",
+    "password": "पासवर्ड",
+    "name": "नाम",
+    "id": "आईडी",
+    "signIn": "साइन इन",
+    "signingIn": "साइन इन हो रहे हैं...",
+    "signInSuccess": "आप सफलतापूर्वक साइन इन हो गए हैं!",
+    "signInError": "साइन इन करने में विफल",
+    "emailRequired": "कृपया ईमेल और पासवर्ड दर्ज करें",
+    "emailPlaceholder": "अपना ईमेल दर्ज करें",
+    "passwordPlaceholder": "अपना पासवर्ड दर्ज करें",
+    "backToHome": "होम पर वापस जाएं"
+  },
+  "theme": {
+    "light": "हल्का",
+    "dark": "गहरा",
+    "system": "सिस्टम"
+  },
+  "auth": {
+    "signIn": "साइन इन",
+    "signOut": "साइन आउट",
+    "signUp": "साइन अप",
+    "forgotPassword": "पासवर्ड भूल गए?",
+    "rememberMe": "मुझे याद रखें"
+  },
+  "bills": {
+    "title": "बिल",
+    "createBill": "बिल बनाएं",
+    "noBills": "अभी तक कोई बिल नहीं",
+    "total": "कुल",
+    "split": "बांटें",
+    "participants": "सहभागी"
+  }
+}

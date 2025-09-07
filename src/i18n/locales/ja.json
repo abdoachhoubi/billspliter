@@ -1,0 +1,67 @@
+{
+  "common": {
+    "loading": "読み込み中...",
+    "error": "エラー",
+    "success": "成功",
+    "cancel": "キャンセル",
+    "confirm": "確認",
+    "save": "保存",
+    "delete": "削除",
+    "edit": "編集",
+    "back": "戻る",
+    "selectLanguage": "言語選択",
+    "searchLanguage": "言語を検索"
+  },
+  "navigation": {
+    "home": "ホーム",
+    "profile": "プロフィール",
+    "bills": "請求書",
+    "settings": "設定"
+  },
+  "home": {
+    "title": "Bill Splitterへようこそ！",
+    "greeting": "こんにちは、{{name}}さん！",
+    "goToProfile": "プロフィールへ",
+    "toggleTheme": "テーマ切替 ({{theme}})",
+    "signOut": "ログアウト",
+    "signOutSuccess": "ログアウトしました",
+    "signOutError": "ログアウトに失敗しました"
+  },
+  "profile": {
+    "title": "プロフィール",
+    "signInPrompt": "プロフィールを表示するにはログインしてください",
+    "userInformation": "ユーザー情報",
+    "email": "メールアドレス",
+    "password": "パスワード",
+    "name": "名前",
+    "id": "ID",
+    "signIn": "ログイン",
+    "signingIn": "ログイン中...",
+    "signInSuccess": "ログインしました！",
+    "signInError": "ログインに失敗しました",
+    "emailRequired": "メールアドレスとパスワードを入力してください",
+    "emailPlaceholder": "メールアドレスを入力",
+    "passwordPlaceholder": "パスワードを入力",
+    "backToHome": "ホームに戻る"
+  },
+  "theme": {
+    "light": "ライト",
+    "dark": "ダーク",
+    "system": "システム"
+  },
+  "auth": {
+    "signIn": "ログイン",
+    "signOut": "ログアウト",
+    "signUp": "サインアップ",
+    "forgotPassword": "パスワードを忘れた方",
+    "rememberMe": "ログイン状態を保持"
+  },
+  "bills": {
+    "title": "請求書",
+    "createBill": "請求書作成",
+    "noBills": "請求書がありません",
+    "total": "合計",
+    "split": "分割",
+    "participants": "参加者"
+  }
+}

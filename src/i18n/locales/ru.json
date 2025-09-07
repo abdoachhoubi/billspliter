@@ -1,0 +1,67 @@
+{
+  "common": {
+    "loading": "Загрузка...",
+    "error": "Ошибка",
+    "success": "Успех",
+    "cancel": "Отмена",
+    "confirm": "Подтвердить",
+    "save": "Сохранить",
+    "delete": "Удалить",
+    "edit": "Редактировать",
+    "back": "Назад",
+    "selectLanguage": "Выбрать Язык",
+    "searchLanguage": "Поиск языка"
+  },
+  "navigation": {
+    "home": "Главная",
+    "profile": "Профиль",
+    "bills": "Счета",
+    "settings": "Настройки"
+  },
+  "home": {
+    "title": "Добро пожаловать в Bill Splitter!",
+    "greeting": "Привет, {{name}}!",
+    "goToProfile": "Перейти в Профиль",
+    "toggleTheme": "Сменить Тему ({{theme}})",
+    "signOut": "Выйти",
+    "signOutSuccess": "Вы вышли из системы",
+    "signOutError": "Не удалось выйти"
+  },
+  "profile": {
+    "title": "Профиль",
+    "signInPrompt": "Пожалуйста, войдите в систему для просмотра профиля",
+    "userInformation": "Информация о пользователе",
+    "email": "Эл. почта",
+    "password": "Пароль",
+    "name": "Имя",
+    "id": "ID",
+    "signIn": "Войти",
+    "signingIn": "Вход в систему...",
+    "signInSuccess": "Вы вошли в систему!",
+    "signInError": "Не удалось войти",
+    "emailRequired": "Пожалуйста, введите эл. почту и пароль",
+    "emailPlaceholder": "Введите вашу эл. почту",
+    "passwordPlaceholder": "Введите ваш пароль",
+    "backToHome": "Вернуться на Главную"
+  },
+  "theme": {
+    "light": "Светлая",
+    "dark": "Тёмная",
+    "system": "Системная"
+  },
+  "auth": {
+    "signIn": "Войти",
+    "signOut": "Выйти",
+    "signUp": "Регистрация",
+    "forgotPassword": "Забыли пароль?",
+    "rememberMe": "Запомнить меня"
+  },
+  "bills": {
+    "title": "Счета",
+    "createBill": "Создать Счёт",
+    "noBills": "Пока нет счетов",
+    "total": "Итого",
+    "split": "Разделить",
+    "participants": "Участники"
+  }
+}

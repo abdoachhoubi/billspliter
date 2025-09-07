@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, Text, ActivityIndicator } from 'react-native';
+import { TouchableOpacity, Text, ActivityIndicator, StyleSheet, ViewStyle, TextStyle } from 'react-native';
 import { useTheme } from '../context/ThemeContext';
 
 interface ButtonProps {
@@ -23,54 +23,63 @@ const Button: React.FC<ButtonProps> = ({
 }) => {
   const { isDark } = useTheme();
 
-  const getVariantStyles = () => {
-    const baseStyle = 'rounded-lg';
-    
+  const getButtonStyle = (): ViewStyle => {
+    const baseStyle: ViewStyle = {
+      borderRadius: 8,
+      alignItems: 'center',
+      justifyContent: 'center',
+    };
+
+    const sizeStyles = {
+      small: { paddingVertical: 8, paddingHorizontal: 16 },
+      medium: { paddingVertical: 12, paddingHorizontal: 24 },
+      large: { paddingVertical: 16, paddingHorizontal: 32 },
+    };
+
+    let backgroundColor: string;
     if (disabled || loading) {
-      return `${baseStyle} ${isDark ? 'bg-gray-600' : 'bg-gray-300'}`;
+      backgroundColor = isDark ? '#4b5563' : '#d1d5db';
+    } else {
+      switch (variant) {
+        case 'primary':
+          backgroundColor = isDark ? '#2563eb' : '#3b82f6';
+          break;
+        case 'secondary':
+          backgroundColor = isDark ? '#4b5563' : '#6b7280';
+          break;
+        case 'danger':
+          backgroundColor = '#ef4444';
+          break;
+        default:
+          backgroundColor = isDark ? '#2563eb' : '#3b82f6';
+      }
     }
 
-    switch (variant) {
-      case 'primary':
-        return `${baseStyle} ${isDark ? 'bg-blue-600' : 'bg-blue-500'}`;
-      case 'secondary':
-        return `${baseStyle} ${isDark ? 'bg-gray-600' : 'bg-gray-500'}`;
-      case 'danger':
-        return `${baseStyle} bg-red-500`;
-      default:
-        return `${baseStyle} ${isDark ? 'bg-blue-600' : 'bg-blue-500'}`;
-    }
+    return {
+      ...baseStyle,
+      ...sizeStyles[size],
+      backgroundColor,
+      ...(fullWidth && { width: '100%' }),
+    };
   };
 
-  const getSizeStyles = () => {
-    switch (size) {
-      case 'small':
-        return 'py-2 px-4';
-      case 'medium':
-        return 'py-3 px-6';
-      case 'large':
-        return 'py-4 px-8';
-      default:
-        return 'py-3 px-6';
-    }
-  };
+  const getTextStyle = (): TextStyle => {
+    const textSizes = {
+      small: { fontSize: 14 },
+      medium: { fontSize: 16 },
+      large: { fontSize: 18 },
+    };
 
-  const getTextSizeStyles = () => {
-    switch (size) {
-      case 'small':
-        return 'text-sm';
-      case 'medium':
-        return 'text-base';
-      case 'large':
-        return 'text-lg';
-      default:
-        return 'text-base';
-    }
+    return {
+      color: '#ffffff',
+      fontWeight: '600',
+      ...textSizes[size],
+    };
   };
 
   return (
     <TouchableOpacity
-      className={`${getVariantStyles()} ${getSizeStyles()} ${fullWidth ? 'w-full' : ''}`}
+      style={getButtonStyle()}
       onPress={onPress}
       disabled={disabled || loading}
       activeOpacity={0.8}
@@ -78,9 +87,7 @@ const Button: React.FC<ButtonProps> = ({
       {loading ? (
         <ActivityIndicator color="white" size="small" />
       ) : (
-        <Text className={`text-white text-center font-semibold ${getTextSizeStyles()}`}>
-          {title}
-        </Text>
+        <Text style={getTextStyle()}>{title}</Text>
       )}
     </TouchableOpacity>
   );

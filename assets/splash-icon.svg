@@ -1,0 +1,58 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="splashBgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3B82F6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1D4ED8;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="splashBillGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFFFFF;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#F8FAFC;stop-opacity:1" />
+    </linearGradient>
+    <filter id="splashShadow">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#000" flood-opacity="0.2"/>
+    </filter>
+  </defs>
+  
+  <!-- Background Circle -->
+  <circle cx="256" cy="256" r="240" fill="url(#splashBgGradient)"/>
+  
+  <!-- Bill/Receipt Shape -->
+  <rect x="128" y="90" width="192" height="332" rx="12" ry="12" fill="url(#splashBillGradient)" filter="url(#splashShadow)"/>
+  
+  <!-- Header Section -->
+  <rect x="160" y="130" width="140" height="10" rx="5" fill="#3B82F6" opacity="0.8"/>
+  <rect x="160" y="150" width="90" height="7" rx="3.5" fill="#64748B" opacity="0.7"/>
+  <rect x="160" y="165" width="110" height="7" rx="3.5" fill="#64748B" opacity="0.7"/>
+  
+  <!-- Bill Items -->
+  <rect x="160" y="190" width="120" height="6" rx="3" fill="#64748B" opacity="0.6"/>
+  <rect x="160" y="205" width="80" height="6" rx="3" fill="#64748B" opacity="0.6"/>
+  <rect x="160" y="220" width="100" height="6" rx="3" fill="#64748B" opacity="0.6"/>
+  <rect x="160" y="235" width="90" height="6" rx="3" fill="#64748B" opacity="0.6"/>
+  
+  <!-- Split Line -->
+  <path d="M 140 260 L 304 260" stroke="#EF4444" stroke-width="3" stroke-dasharray="8,6" opacity="0.9"/>
+  
+  <!-- Split Symbol -->
+  <circle cx="222" cy="260" r="18" fill="#EF4444"/>
+  <path d="M 210 260 L 234 260 M 222 248 L 222 272" stroke="white" stroke-width="3" stroke-linecap="round"/>
+  
+  <!-- Bottom Section After Split -->
+  <rect x="160" y="285" width="70" height="6" rx="3" fill="#64748B" opacity="0.6"/>
+  <rect x="160" y="300" width="90" height="6" rx="3" fill="#64748B" opacity="0.6"/>
+  <rect x="160" y="315" width="60" height="6" rx="3" fill="#64748B" opacity="0.6"/>
+  
+  <!-- Total Amount -->
+  <rect x="160" y="350" width="140" height="12" rx="6" fill="#10B981" opacity="0.9"/>
+  
+  <!-- Perforation dots at top -->
+  <circle cx="144" cy="102" r="4" fill="#3B82F6" opacity="0.4"/>
+  <circle cx="164" cy="102" r="4" fill="#3B82F6" opacity="0.4"/>
+  <circle cx="184" cy="102" r="4" fill="#3B82F6" opacity="0.4"/>
+  <circle cx="204" cy="102" r="4" fill="#3B82F6" opacity="0.4"/>
+  <circle cx="224" cy="102" r="4" fill="#3B82F6" opacity="0.4"/>
+  <circle cx="244" cy="102" r="4" fill="#3B82F6" opacity="0.4"/>
+  <circle cx="264" cy="102" r="4" fill="#3B82F6" opacity="0.4"/>
+  <circle cx="284" cy="102" r="4" fill="#3B82F6" opacity="0.4"/>
+  <circle cx="304" cy="102" r="4" fill="#3B82F6" opacity="0.4"/>
+</svg>

@@ -1,0 +1,85 @@
+<svg width="1284" height="2778" viewBox="0 0 1284 2778" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="fullSplashGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3B82F6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1D4ED8;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="fullBillGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFFFFF;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#F8FAFC;stop-opacity:1" />
+    </linearGradient>
+    <filter id="fullSplashShadow">
+      <feDropShadow dx="0" dy="8" stdDeviation="24" flood-color="#000" flood-opacity="0.15"/>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1284" height="2778" fill="url(#fullSplashGradient)"/>
+  
+  <!-- Main Icon Area -->
+  <g transform="translate(642, 1100)">
+    <!-- Icon Background Circle -->
+    <circle cx="0" cy="0" r="200" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.2)" stroke-width="2"/>
+    
+    <!-- Bill/Receipt Shape -->
+    <rect x="-150" y="-260" width="300" height="520" rx="20" ry="20" fill="url(#fullBillGradient)" filter="url(#fullSplashShadow)"/>
+    
+    <!-- Header Section -->
+    <rect x="-100" y="-200" width="180" height="16" rx="8" fill="#3B82F6" opacity="0.8"/>
+    <rect x="-100" y="-170" width="120" height="10" rx="5" fill="#64748B" opacity="0.7"/>
+    <rect x="-100" y="-150" width="140" height="10" rx="5" fill="#64748B" opacity="0.7"/>
+    
+    <!-- Bill Items -->
+    <rect x="-100" y="-110" width="160" height="8" rx="4" fill="#64748B" opacity="0.6"/>
+    <rect x="-100" y="-90" width="100" height="8" rx="4" fill="#64748B" opacity="0.6"/>
+    <rect x="-100" y="-70" width="130" height="8" rx="4" fill="#64748B" opacity="0.6"/>
+    <rect x="-100" y="-50" width="110" height="8" rx="4" fill="#64748B" opacity="0.6"/>
+    
+    <!-- Split Line -->
+    <path d="M -130 0 L 130 0" stroke="#EF4444" stroke-width="4" stroke-dasharray="12,8" opacity="0.9"/>
+    
+    <!-- Split Symbol -->
+    <circle cx="0" cy="0" r="28" fill="#EF4444"/>
+    <path d="M -14 0 L 14 0 M 0 -14 L 0 14" stroke="white" stroke-width="4" stroke-linecap="round"/>
+    
+    <!-- Bottom Section After Split -->
+    <rect x="-100" y="40" width="90" height="8" rx="4" fill="#64748B" opacity="0.6"/>
+    <rect x="-100" y="60" width="120" height="8" rx="4" fill="#64748B" opacity="0.6"/>
+    <rect x="-100" y="80" width="80" height="8" rx="4" fill="#64748B" opacity="0.6"/>
+    
+    <!-- Total Amount -->
+    <rect x="-100" y="140" width="180" height="18" rx="9" fill="#10B981" opacity="0.9"/>
+    
+    <!-- Perforation dots at top -->
+    <circle cx="-120" cy="-240" r="6" fill="#3B82F6" opacity="0.4"/>
+    <circle cx="-90" cy="-240" r="6" fill="#3B82F6" opacity="0.4"/>
+    <circle cx="-60" cy="-240" r="6" fill="#3B82F6" opacity="0.4"/>
+    <circle cx="-30" cy="-240" r="6" fill="#3B82F6" opacity="0.4"/>
+    <circle cx="0" cy="-240" r="6" fill="#3B82F6" opacity="0.4"/>
+    <circle cx="30" cy="-240" r="6" fill="#3B82F6" opacity="0.4"/>
+    <circle cx="60" cy="-240" r="6" fill="#3B82F6" opacity="0.4"/>
+    <circle cx="90" cy="-240" r="6" fill="#3B82F6" opacity="0.4"/>
+    <circle cx="120" cy="-240" r="6" fill="#3B82F6" opacity="0.4"/>
+  </g>
+  
+  <!-- App Name -->
+  <text x="642" y="1450" font-family="System, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" 
+        font-size="48" font-weight="bold" fill="white" text-anchor="middle">Bill Splitter</text>
+  
+  <!-- Tagline -->
+  <text x="642" y="1500" font-family="System, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" 
+        font-size="18" font-weight="400" fill="rgba(255,255,255,0.8)" text-anchor="middle">Split bills. Share fairly.</text>
+  
+  <!-- Subtle Loading Animation Area -->
+  <g transform="translate(642, 1600)">
+    <circle cx="-30" cy="0" r="8" fill="rgba(255,255,255,0.6)">
+      <animate attributeName="opacity" values="0.3;1;0.3" dur="1.5s" repeatCount="indefinite" begin="0s"/>
+    </circle>
+    <circle cx="0" cy="0" r="8" fill="rgba(255,255,255,0.6)">
+      <animate attributeName="opacity" values="0.3;1;0.3" dur="1.5s" repeatCount="indefinite" begin="0.5s"/>
+    </circle>
+    <circle cx="30" cy="0" r="8" fill="rgba(255,255,255,0.6)">
+      <animate attributeName="opacity" values="0.3;1;0.3" dur="1.5s" repeatCount="indefinite" begin="1s"/>
+    </circle>
+  </g>
+</svg>

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Alert, ScrollView } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Alert, ScrollView, StyleSheet } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { useTranslation } from 'react-i18next';
 import { RootStackParamList } from '../navigation/types';
 import { useTheme } from '../context/ThemeContext';
 import { useAuth } from '../context/AuthContext';
@@ -8,6 +9,7 @@ import { useAuth } from '../context/AuthContext';
 type Props = NativeStackScreenProps<RootStackParamList, 'Profile'>;
 
 const ProfileScreen: React.FC<Props> = ({ navigation }) => {
+  const { t } = useTranslation();
   const { isDark } = useTheme();
   const { user, signIn, isAuthenticated, isLoading } = useAuth();
   const [email, setEmail] = useState('');
@@ -15,81 +17,144 @@ const ProfileScreen: React.FC<Props> = ({ navigation }) => {
 
   const handleSignIn = async () => {
     if (!email || !password) {
-      Alert.alert('Error', 'Please enter both email and password');
+      Alert.alert(t('common.error'), t('profile.emailRequired'));
       return;
     }
 
     try {
       await signIn(email, password);
-      Alert.alert('Success', 'You have been signed in!');
+      Alert.alert(t('common.success'), t('profile.signInSuccess'));
       setEmail('');
       setPassword('');
     } catch (error) {
-      Alert.alert('Error', 'Failed to sign in');
+      Alert.alert(t('common.error'), t('profile.signInError'));
     }
   };
 
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: isDark ? '#111827' : '#ffffff',
+    },
+    content: {
+      padding: 16,
+    },
+    title: {
+      fontSize: 24,
+      fontWeight: 'bold',
+      marginBottom: 24,
+      color: isDark ? '#ffffff' : '#111827',
+    },
+    loadingContainer: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: isDark ? '#111827' : '#ffffff',
+    },
+    loadingText: {
+      fontSize: 18,
+      color: isDark ? '#ffffff' : '#111827',
+    },
+    userInfoContainer: {
+      padding: 16,
+      borderRadius: 8,
+      backgroundColor: isDark ? '#1f2937' : '#f3f4f6',
+      marginBottom: 16,
+    },
+    userInfoTitle: {
+      fontSize: 18,
+      fontWeight: '600',
+      marginBottom: 8,
+      color: isDark ? '#ffffff' : '#111827',
+    },
+    userInfoText: {
+      marginBottom: 4,
+      color: isDark ? '#d1d5db' : '#6b7280',
+    },
+    signInText: {
+      fontSize: 18,
+      marginBottom: 16,
+      color: isDark ? '#d1d5db' : '#6b7280',
+    },
+    inputContainer: {
+      marginBottom: 16,
+    },
+    label: {
+      marginBottom: 8,
+      color: isDark ? '#ffffff' : '#111827',
+    },
+    input: {
+      borderWidth: 1,
+      borderRadius: 8,
+      padding: 12,
+      borderColor: isDark ? '#4b5563' : '#d1d5db',
+      backgroundColor: isDark ? '#1f2937' : '#ffffff',
+      color: isDark ? '#ffffff' : '#111827',
+    },
+    button: {
+      paddingVertical: 12,
+      paddingHorizontal: 24,
+      borderRadius: 8,
+      alignItems: 'center',
+      marginBottom: 12,
+    },
+    primaryButton: {
+      backgroundColor: isDark ? '#2563eb' : '#3b82f6',
+    },
+    secondaryButton: {
+      backgroundColor: isDark ? '#4b5563' : '#6b7280',
+    },
+    successButton: {
+      backgroundColor: isDark ? '#059669' : '#10b981',
+    },
+    buttonText: {
+      color: '#ffffff',
+      fontSize: 16,
+      fontWeight: '600',
+    },
+  });
+
   if (isLoading) {
     return (
-      <View className={`flex-1 justify-center items-center ${isDark ? 'bg-gray-900' : 'bg-white'}`}>
-        <Text className={`text-lg ${isDark ? 'text-white' : 'text-gray-900'}`}>
-          Loading...
-        </Text>
+      <View style={styles.loadingContainer}>
+        <Text style={styles.loadingText}>{t('common.loading')}</Text>
       </View>
     );
   }
 
   return (
-    <ScrollView className={`flex-1 ${isDark ? 'bg-gray-900' : 'bg-white'}`}>
-      <View className="p-4">
-        <Text className={`text-2xl font-bold mb-6 ${isDark ? 'text-white' : 'text-gray-900'}`}>
-          Profile
-        </Text>
+    <ScrollView style={styles.container}>
+      <View style={styles.content}>
+        <Text style={styles.title}>{t('profile.title')}</Text>
 
         {isAuthenticated && user ? (
-          <View className="space-y-4">
-            <View className={`p-4 rounded-lg ${isDark ? 'bg-gray-800' : 'bg-gray-100'}`}>
-              <Text className={`text-lg font-semibold mb-2 ${isDark ? 'text-white' : 'text-gray-900'}`}>
-                User Information
-              </Text>
-              <Text className={`mb-1 ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
-                ID: {user.id}
-              </Text>
-              <Text className={`mb-1 ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
-                Name: {user.name}
-              </Text>
-              <Text className={`${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
-                Email: {user.email}
-              </Text>
+          <View>
+            <View style={styles.userInfoContainer}>
+              <Text style={styles.userInfoTitle}>{t('profile.userInformation')}</Text>
+              <Text style={styles.userInfoText}>{t('profile.id')}: {user.id}</Text>
+              <Text style={styles.userInfoText}>{t('profile.name')}: {user.name}</Text>
+              <Text style={styles.userInfoText}>{t('profile.email')}: {user.email}</Text>
             </View>
 
             <TouchableOpacity
-              className={`py-3 px-6 rounded-lg ${isDark ? 'bg-blue-600' : 'bg-blue-500'}`}
+              style={[styles.button, styles.primaryButton]}
               onPress={() => navigation.goBack()}
             >
-              <Text className="text-white text-center font-semibold">
-                Back to Home
-              </Text>
+              <Text style={styles.buttonText}>{t('profile.backToHome')}</Text>
             </TouchableOpacity>
           </View>
         ) : (
-          <View className="space-y-4">
-            <Text className={`text-lg mb-4 ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
-              Please sign in to view your profile
+          <View>
+            <Text style={styles.signInText}>
+              {t('profile.signInPrompt')}
             </Text>
 
-            <View>
-              <Text className={`mb-2 ${isDark ? 'text-white' : 'text-gray-900'}`}>
-                Email
-              </Text>
+            <View style={styles.inputContainer}>
+              <Text style={styles.label}>{t('profile.email')}</Text>
               <TextInput
-                className={`border rounded-lg p-3 ${
-                  isDark 
-                    ? 'border-gray-600 bg-gray-800 text-white' 
-                    : 'border-gray-300 bg-white text-gray-900'
-                }`}
-                placeholder="Enter your email"
-                placeholderTextColor={isDark ? '#9CA3AF' : '#6B7280'}
+                style={styles.input}
+                placeholder={t('profile.emailPlaceholder')}
+                placeholderTextColor={isDark ? '#9ca3af' : '#6b7280'}
                 value={email}
                 onChangeText={setEmail}
                 keyboardType="email-address"
@@ -97,18 +162,12 @@ const ProfileScreen: React.FC<Props> = ({ navigation }) => {
               />
             </View>
 
-            <View>
-              <Text className={`mb-2 ${isDark ? 'text-white' : 'text-gray-900'}`}>
-                Password
-              </Text>
+            <View style={styles.inputContainer}>
+              <Text style={styles.label}>{t('profile.password')}</Text>
               <TextInput
-                className={`border rounded-lg p-3 ${
-                  isDark 
-                    ? 'border-gray-600 bg-gray-800 text-white' 
-                    : 'border-gray-300 bg-white text-gray-900'
-                }`}
-                placeholder="Enter your password"
-                placeholderTextColor={isDark ? '#9CA3AF' : '#6B7280'}
+                style={styles.input}
+                placeholder={t('profile.passwordPlaceholder')}
+                placeholderTextColor={isDark ? '#9ca3af' : '#6b7280'}
                 value={password}
                 onChangeText={setPassword}
                 secureTextEntry
@@ -116,22 +175,20 @@ const ProfileScreen: React.FC<Props> = ({ navigation }) => {
             </View>
 
             <TouchableOpacity
-              className={`py-3 px-6 rounded-lg ${isDark ? 'bg-green-600' : 'bg-green-500'}`}
+              style={[styles.button, styles.successButton]}
               onPress={handleSignIn}
               disabled={isLoading}
             >
-              <Text className="text-white text-center font-semibold">
-                {isLoading ? 'Signing In...' : 'Sign In'}
+              <Text style={styles.buttonText}>
+                {isLoading ? t('profile.signingIn') : t('profile.signIn')}
               </Text>
             </TouchableOpacity>
 
             <TouchableOpacity
-              className={`py-3 px-6 rounded-lg ${isDark ? 'bg-gray-600' : 'bg-gray-500'}`}
+              style={[styles.button, styles.secondaryButton]}
               onPress={() => navigation.goBack()}
             >
-              <Text className="text-white text-center font-semibold">
-                Back to Home
-              </Text>
+              <Text style={styles.buttonText}>{t('profile.backToHome')}</Text>
             </TouchableOpacity>
           </View>
         )}

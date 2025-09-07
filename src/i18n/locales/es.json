@@ -1,0 +1,67 @@
+{
+  "common": {
+    "loading": "Cargando...",
+    "error": "Error",
+    "success": "Éxito",
+    "cancel": "Cancelar",
+    "confirm": "Confirmar",
+    "save": "Guardar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "back": "Atrás",
+    "selectLanguage": "Seleccionar Idioma",
+    "searchLanguage": "Buscar idioma"
+  },
+  "navigation": {
+    "home": "Inicio",
+    "profile": "Perfil",
+    "bills": "Facturas",
+    "settings": "Configuración"
+  },
+  "home": {
+    "title": "¡Bienvenido a Bill Splitter!",
+    "greeting": "¡Hola, {{name}}!",
+    "goToProfile": "Ir al Perfil",
+    "toggleTheme": "Cambiar Tema ({{theme}})",
+    "signOut": "Cerrar Sesión",
+    "signOutSuccess": "Has cerrado sesión",
+    "signOutError": "Error al cerrar sesión"
+  },
+  "profile": {
+    "title": "Perfil",
+    "signInPrompt": "Por favor inicia sesión para ver tu perfil",
+    "userInformation": "Información del Usuario",
+    "email": "Correo Electrónico",
+    "password": "Contraseña",
+    "name": "Nombre",
+    "id": "ID",
+    "signIn": "Iniciar Sesión",
+    "signingIn": "Iniciando Sesión...",
+    "signInSuccess": "¡Has iniciado sesión!",
+    "signInError": "Error al iniciar sesión",
+    "emailRequired": "Por favor ingresa correo y contraseña",
+    "emailPlaceholder": "Ingresa tu correo electrónico",
+    "passwordPlaceholder": "Ingresa tu contraseña",
+    "backToHome": "Volver al Inicio"
+  },
+  "theme": {
+    "light": "Claro",
+    "dark": "Oscuro",
+    "system": "Sistema"
+  },
+  "auth": {
+    "signIn": "Iniciar Sesión",
+    "signOut": "Cerrar Sesión",
+    "signUp": "Registrarse",
+    "forgotPassword": "¿Olvidaste la contraseña?",
+    "rememberMe": "Recordarme"
+  },
+  "bills": {
+    "title": "Facturas",
+    "createBill": "Crear Factura",
+    "noBills": "No hay facturas aún",
+    "total": "Total",
+    "split": "Dividir",
+    "participants": "Participantes"
+  }
+}
