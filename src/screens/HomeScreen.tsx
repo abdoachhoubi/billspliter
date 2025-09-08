@@ -111,6 +111,15 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
           </Text>
         </TouchableOpacity>
 
+        <TouchableOpacity
+          style={[styles.button, styles.secondaryButton]}
+          onPress={() => navigation.navigate('FlashListDemo')}
+        >
+          <Text style={styles.buttonText}>
+            ⚡ FlashList Demo
+          </Text>
+        </TouchableOpacity>
+
         {isAuthenticated && (
           <TouchableOpacity
             style={[styles.button, styles.dangerButton]}

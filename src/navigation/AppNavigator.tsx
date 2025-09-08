@@ -9,6 +9,8 @@ import { useTheme } from '../context/ThemeContext';
 
 import HomeScreen from '../screens/HomeScreen';
 import ProfileScreen from '../screens/ProfileScreen';
+import ModernOnboardingScreen from '../screens/ModernOnboardingScreen';
+import FlashListDemo from '../screens/FlashListDemo';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -21,6 +23,7 @@ const AppNavigator: React.FC = () => {
       <StatusBar style={isDark ? 'light' : 'dark'} />
       <NavigationContainer>
         <Stack.Navigator
+          initialRouteName="Onboarding"
           screenOptions={{
             headerStyle: {
               backgroundColor: isDark ? '#1f2937' : '#ffffff',
@@ -32,6 +35,13 @@ const AppNavigator: React.FC = () => {
           }}
         >
           <Stack.Screen
+            name="Onboarding"
+            component={ModernOnboardingScreen}
+            options={{ 
+              headerShown: false 
+            }}
+          />
+          <Stack.Screen
             name="Home"
             component={HomeScreen}
             options={{ title: 'Bill Splitter' }}
@@ -40,6 +50,11 @@ const AppNavigator: React.FC = () => {
             name="Profile"
             component={ProfileScreen}
             options={{ title: t('navigation.profile') }}
+          />
+          <Stack.Screen
+            name="FlashListDemo"
+            component={FlashListDemo}
+            options={{ title: 'FlashList Demo' }}
           />
         </Stack.Navigator>
       </NavigationContainer>

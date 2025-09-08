@@ -17,9 +17,12 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.yourcompany.billsplitter",
+      "bundleIdentifier": "com.billsplitter.app",
+      "buildNumber": "1",
       "infoPlist": {
-        "UILaunchStoryboardName": "SplashScreen"
+        "UILaunchStoryboardName": "SplashScreen",
+        "NSCameraUsageDescription": "This app uses camera to scan receipts",
+        "NSPhotoLibraryUsageDescription": "This app accesses photo library to import receipt images"
       }
     },
     "android": {
@@ -28,7 +31,13 @@
         "backgroundColor": "#3B82F6"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.yourcompany.billsplitter"
+      "package": "com.billsplitter.app",
+      "versionCode": 1,
+      "permissions": [
+        "CAMERA",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png",
@@ -39,6 +48,11 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "da76841c-5ca4-4a5a-a650-e75e17c3fe61"
+      }
     }
   }
 }
