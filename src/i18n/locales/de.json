@@ -1,0 +1,22 @@
+{
+  "common": {
+    "hello": "Hallo Welt!",
+    "welcome": "Willkommen",
+    "language": "Sprache",
+    "settings": "Einstellungen",
+    "back": "Zurück",
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "ok": "OK",
+    "yes": "Ja",
+    "no": "Nein"
+  },
+  "app": {
+    "title": "Rechnung Teiler"
+  },
+  "language_settings": {
+    "title": "Spracheinstellungen",
+    "select_language": "Sprache Auswählen",
+    "current_language": "Aktuelle Sprache"
+  }
+}

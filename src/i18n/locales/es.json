@@ -1,0 +1,22 @@
+{
+  "common": {
+    "hello": "¡Hola Mundo!",
+    "welcome": "Bienvenido",
+    "language": "Idioma",
+    "settings": "Configuración",
+    "back": "Atrás",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "ok": "OK",
+    "yes": "Sí",
+    "no": "No"
+  },
+  "app": {
+    "title": "Divisor de Cuentas"
+  },
+  "language_settings": {
+    "title": "Configuración de Idioma",
+    "select_language": "Seleccionar Idioma",
+    "current_language": "Idioma Actual"
+  }
+}

@@ -12,12 +12,17 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.billsplitter.app",
-      "buildNumber": "1"
+      "buildNumber": "1",
+      "infoPlist": {
+        "CFBundleDevelopmentRegion": "en",
+        "CFBundleAllowMixedLocalizations": true
+      }
     },
     "android": {
       "edgeToEdgeEnabled": true,
       "package": "com.billsplitter.app",
-      "versionCode": 1
+      "versionCode": 1,
+      "allowBackup": false
     },
     "web": {
       "bundler": "metro"

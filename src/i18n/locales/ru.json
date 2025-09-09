@@ -1,0 +1,22 @@
+{
+  "common": {
+    "hello": "Привет, мир!",
+    "welcome": "Добро пожаловать",
+    "language": "Язык",
+    "settings": "Настройки",
+    "back": "Назад",
+    "save": "Сохранить",
+    "cancel": "Отмена",
+    "ok": "ОК",
+    "yes": "Да",
+    "no": "Нет"
+  },
+  "app": {
+    "title": "Разделитель Счетов"
+  },
+  "language_settings": {
+    "title": "Настройки Языка",
+    "select_language": "Выбрать Язык",
+    "current_language": "Текущий Язык"
+  }
+}

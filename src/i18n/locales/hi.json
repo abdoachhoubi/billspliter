@@ -1,0 +1,22 @@
+{
+  "common": {
+    "hello": "नमस्ते दुनिया!",
+    "welcome": "स्वागत है",
+    "language": "भाषा",
+    "settings": "सेटिंग्स",
+    "back": "वापस",
+    "save": "सेव करें",
+    "cancel": "रद्द करें",
+    "ok": "ठीक है",
+    "yes": "हाँ",
+    "no": "नहीं"
+  },
+  "app": {
+    "title": "बिल स्प्लिटर"
+  },
+  "language_settings": {
+    "title": "भाषा सेटिंग्स",
+    "select_language": "भाषा चुनें",
+    "current_language": "वर्तमान भाषा"
+  }
+}

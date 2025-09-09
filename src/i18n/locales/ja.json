@@ -1,0 +1,22 @@
+{
+  "common": {
+    "hello": "こんにちは世界！",
+    "welcome": "ようこそ",
+    "language": "言語",
+    "settings": "設定",
+    "back": "戻る",
+    "save": "保存",
+    "cancel": "キャンセル",
+    "ok": "OK",
+    "yes": "はい",
+    "no": "いいえ"
+  },
+  "app": {
+    "title": "請求書分割アプリ"
+  },
+  "language_settings": {
+    "title": "言語設定",
+    "select_language": "言語を選択",
+    "current_language": "現在の言語"
+  }
+}

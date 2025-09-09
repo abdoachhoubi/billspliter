@@ -1,0 +1,22 @@
+{
+  "common": {
+    "hello": "你好世界！",
+    "welcome": "欢迎",
+    "language": "语言",
+    "settings": "设置",
+    "back": "返回",
+    "save": "保存",
+    "cancel": "取消",
+    "ok": "确定",
+    "yes": "是",
+    "no": "否"
+  },
+  "app": {
+    "title": "账单分割器"
+  },
+  "language_settings": {
+    "title": "语言设置",
+    "select_language": "选择语言",
+    "current_language": "当前语言"
+  }
+}

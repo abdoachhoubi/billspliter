@@ -1,0 +1,22 @@
+{
+  "common": {
+    "hello": "Hello World!",
+    "welcome": "Welcome",
+    "language": "Language",
+    "settings": "Settings",
+    "back": "Back",
+    "save": "Save",
+    "cancel": "Cancel",
+    "ok": "OK",
+    "yes": "Yes",
+    "no": "No"
+  },
+  "app": {
+    "title": "Bill Splitter"
+  },
+  "language_settings": {
+    "title": "Language Settings",
+    "select_language": "Select Language",
+    "current_language": "Current Language"
+  }
+}

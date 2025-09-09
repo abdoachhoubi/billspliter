@@ -1,0 +1,22 @@
+{
+  "common": {
+    "hello": "Bonjour le monde!",
+    "welcome": "Bienvenue",
+    "language": "Langue",
+    "settings": "Paramètres",
+    "back": "Retour",
+    "save": "Sauvegarder",
+    "cancel": "Annuler",
+    "ok": "OK",
+    "yes": "Oui",
+    "no": "Non"
+  },
+  "app": {
+    "title": "Diviseur de Factures"
+  },
+  "language_settings": {
+    "title": "Paramètres de Langue",
+    "select_language": "Sélectionner la Langue",
+    "current_language": "Langue Actuelle"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "common": {
+    "hello": "مرحبا بالعالم!",
+    "welcome": "مرحباً",
+    "language": "اللغة",
+    "settings": "الإعدادات",
+    "back": "رجوع",
+    "save": "حفظ",
+    "cancel": "إلغاء",
+    "ok": "موافق",
+    "yes": "نعم",
+    "no": "لا"
+  },
+  "app": {
+    "title": "مقسم الفواتير"
+  },
+  "language_settings": {
+    "title": "إعدادات اللغة",
+    "select_language": "اختر اللغة",
+    "current_language": "اللغة الحالية"
+  }
+}
