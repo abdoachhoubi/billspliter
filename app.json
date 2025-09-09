@@ -4,48 +4,24 @@
     "slug": "bill-splitter",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "cover",
-      "backgroundColor": "#3B82F6"
-    },
     "assetBundlePatterns": [
       "**/*"
     ],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.billsplitter.app",
-      "buildNumber": "1",
-      "infoPlist": {
-        "UILaunchStoryboardName": "SplashScreen",
-        "NSCameraUsageDescription": "This app uses camera to scan receipts",
-        "NSPhotoLibraryUsageDescription": "This app accesses photo library to import receipt images"
-      }
+      "buildNumber": "1"
     },
     "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#3B82F6"
-      },
       "edgeToEdgeEnabled": true,
       "package": "com.billsplitter.app",
-      "versionCode": 1,
-      "permissions": [
-        "CAMERA",
-        "READ_EXTERNAL_STORAGE",
-        "WRITE_EXTERNAL_STORAGE"
-      ]
+      "versionCode": 1
     },
     "web": {
-      "favicon": "./assets/favicon.png",
       "bundler": "metro"
     },
-    "plugins": [
-      "expo-secure-store"
-    ],
     "experiments": {
       "typedRoutes": true
     },
