@@ -43,9 +43,6 @@ function AppContent() {
         <Text style={[styles.hello, isCurrentRTL && { textAlign: 'center', writingDirection: 'rtl' }]}>
           {t('common.hello')}
         </Text>
-        <Text style={[styles.welcome, isCurrentRTL && { textAlign: 'center', writingDirection: 'rtl' }]}>
-          {t('common.welcome')}
-        </Text>
         
         <View style={styles.languageInfo}>
           <Text style={styles.currentLangLabel}>
