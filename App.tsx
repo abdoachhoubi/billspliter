@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import { ChevronLeft, ChevronRight } from 'lucide-react-native';
+import { ChevronLeft, ChevronRight, Languages } from 'lucide-react-native';
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
+import { store, persistor } from './src/store';
 import { LanguageProvider, useLanguage } from './src/context/LanguageContext';
 import LanguageSettingsScreen from './src/screens/language-settings';
+import ContactsScreen from '@/screens/contacts';
 
 function AppContent() {
   const { t } = useTranslation();
@@ -54,7 +58,10 @@ function AppContent() {
           style={styles.languageButton}
           onPress={() => setShowLanguageSettings(true)}
         >
-          <Text style={styles.languageButtonText}>🌐 {t('language_settings.title')}</Text>
+          <View style={styles.languageButtonContent}>
+            <Languages size={16} color="#3b82f6" />
+            <Text style={styles.languageButtonText}>{t('language_settings.title')}</Text>
+          </View>
         </TouchableOpacity>
       </View>
     </View>
@@ -63,9 +70,22 @@ function AppContent() {
 
 export default function App() {
   return (
-    <LanguageProvider>
-      <AppContent />
-    </LanguageProvider>
+    <Provider store={store}>
+      <PersistGate 
+        loading={
+          <View style={styles.loadingContainer}>
+            <ActivityIndicator size="large" color="#3b82f6" />
+            <Text style={styles.loadingText}>Loading...</Text>
+          </View>
+        } 
+        persistor={persistor}
+      >
+        <LanguageProvider>
+          {/* <AppContent /> */}
+          <ContactsScreen />
+        </LanguageProvider>
+      </PersistGate>
+    </Provider>
   );
 }
 
@@ -73,6 +93,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#f8f9fa',
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#f8f9fa',
+  },
+  loadingText: {
+    marginTop: 8,
+    fontSize: 16,
+    color: '#6b7280',
   },
   content: {
     flex: 1,
@@ -132,6 +163,11 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 8,
     elevation: 5,
+  },
+  languageButtonContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
   },
   languageButtonText: {
     color: '#ffffff',
