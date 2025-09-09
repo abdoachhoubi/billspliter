@@ -37,15 +37,32 @@ export const isRTL = (languageCode: string): boolean => {
   return RTL_LANGUAGES.includes(languageCode);
 };
 
-// Get device language with fallback
+// Get device language with better fallback logic
 const getDeviceLanguage = (): string => {
-  const deviceLocales = Localization.getLocales();
-  const deviceLocale = deviceLocales[0]?.languageCode || 'en';
-  return Object.keys(languages).includes(deviceLocale) ? deviceLocale : 'en';
+  try {
+    const deviceLocales = Localization.getLocales();
+    
+    // Try to find exact match first
+    for (const locale of deviceLocales) {
+      const languageCode = locale.languageCode?.toLowerCase();
+      if (languageCode && Object.keys(languages).includes(languageCode)) {
+        console.log(`Device language detected: ${languageCode}`);
+        return languageCode;
+      }
+    }
+    
+    // Fallback to English if no supported language found
+    console.log('No supported device language found, defaulting to English');
+    return 'en';
+  } catch (error) {
+    console.error('Error detecting device language:', error);
+    return 'en';
+  }
 };
 
 // Storage functions
 const LANGUAGE_STORAGE_KEY = 'app_language';
+const FIRST_LAUNCH_KEY = 'app_first_launch';
 
 export const saveLanguage = async (languageCode: string): Promise<void> => {
   try {
@@ -64,10 +81,46 @@ export const getStoredLanguage = async (): Promise<string | null> => {
   }
 };
 
-// Initialize i18n
+export const isFirstLaunch = async (): Promise<boolean> => {
+  try {
+    const hasLaunched = await AsyncStorage.getItem(FIRST_LAUNCH_KEY);
+    return hasLaunched === null;
+  } catch (error) {
+    console.error('Error checking first launch:', error);
+    return true;
+  }
+};
+
+export const setFirstLaunchCompleted = async (): Promise<void> => {
+  try {
+    await AsyncStorage.setItem(FIRST_LAUNCH_KEY, 'false');
+  } catch (error) {
+    console.error('Error setting first launch completed:', error);
+  }
+};
+
+// Initialize i18n with first-time user detection
 const initI18n = async () => {
   const storedLanguage = await getStoredLanguage();
-  const initialLanguage = storedLanguage || getDeviceLanguage();
+  const firstLaunch = await isFirstLaunch();
+  
+  let initialLanguage: string;
+  
+  if (firstLaunch) {
+    // First time user - use device language
+    initialLanguage = getDeviceLanguage();
+    console.log(`First launch detected, setting device language: ${initialLanguage}`);
+    
+    // Save the device language as user preference
+    await saveLanguage(initialLanguage);
+    
+    // Mark first launch as completed
+    await setFirstLaunchCompleted();
+  } else {
+    // Returning user - use stored language or fallback to device
+    initialLanguage = storedLanguage || getDeviceLanguage();
+    console.log(`Returning user, using language: ${initialLanguage}`);
+  }
 
   await i18n
     .use(initReactI18next)
@@ -109,6 +162,17 @@ export const getCurrentLanguageInfo = () => {
     code: currentLang,
     ...languages[currentLang as keyof typeof languages],
   };
+};
+
+// Reset first launch flag (useful for testing)
+export const resetFirstLaunch = async (): Promise<void> => {
+  try {
+    await AsyncStorage.removeItem(FIRST_LAUNCH_KEY);
+    await AsyncStorage.removeItem(LANGUAGE_STORAGE_KEY);
+    console.log('First launch and language preference reset');
+  } catch (error) {
+    console.error('Error resetting first launch:', error);
+  }
 };
 
 // Initialize on import
