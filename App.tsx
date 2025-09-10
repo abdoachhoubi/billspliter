@@ -7,7 +7,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { store, persistor } from './src/store';
 import { LanguageProvider, useLanguage } from './src/context/LanguageContext';
 import LanguageSettingsScreen from './src/screens/language-settings';
-import ContactsScreen from '@/screens/contacts';
+import WelcomeScreen from './src/screens/welcome';
 
 function AppContent() {
   const { t } = useTranslation();
@@ -82,7 +82,7 @@ export default function App() {
       >
         <LanguageProvider>
           {/* <AppContent /> */}
-          <ContactsScreen />
+          <WelcomeScreen />
         </LanguageProvider>
       </PersistGate>
     </Provider>
