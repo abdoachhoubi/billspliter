@@ -8,11 +8,18 @@ import { store, persistor } from './src/store';
 import { LanguageProvider, useLanguage } from './src/context/LanguageContext';
 import LanguageSettingsScreen from './src/screens/language-settings';
 import WelcomeScreen from './src/screens/welcome';
+import OnboardingScreen from './src/screens/onboarding';
+import HomeScreen from './src/screens/home';
 
 function AppContent() {
   const { t } = useTranslation();
   const { currentLanguage, isCurrentRTL } = useLanguage();
   const [showLanguageSettings, setShowLanguageSettings] = useState(false);
+  const [currentScreen, setCurrentScreen] = useState<'onboarding' | 'home'>('onboarding');
+
+  const handleGetStarted = () => {
+    setCurrentScreen('home');
+  };
 
   if (showLanguageSettings) {
     return (
@@ -38,34 +45,15 @@ function AppContent() {
     );
   }
 
-  return (
-    <View style={styles.container}>
-      <View style={styles.content}>
-        <Text style={[styles.appTitle, isCurrentRTL && { textAlign: 'center', writingDirection: 'rtl' }]}>
-          {t('app.title')}
-        </Text>
-        
-        <View style={styles.languageInfo}>
-          <Text style={styles.currentLangLabel}>
-            {t('language_settings.current_language')}:
-          </Text>
-          <Text style={styles.currentLang}>
-            {currentLanguage.flag} {currentLanguage.nativeName}
-          </Text>
-        </View>
+  if (currentScreen === 'onboarding') {
+    return <OnboardingScreen onGetStarted={handleGetStarted} />;
+  }
 
-        <TouchableOpacity
-          style={styles.languageButton}
-          onPress={() => setShowLanguageSettings(true)}
-        >
-          <View style={styles.languageButtonContent}>
-            <Languages size={16} color="#000000" />
-            <Text style={styles.languageButtonText}>{t('language_settings.title')}</Text>
-          </View>
-        </TouchableOpacity>
-      </View>
-    </View>
-  );
+  if (currentScreen === 'home') {
+    return <HomeScreen />;
+  }
+
+  return null;
 }
 
 export default function App() {
@@ -81,8 +69,7 @@ export default function App() {
         persistor={persistor}
       >
         <LanguageProvider>
-          {/* <AppContent /> */}
-          <WelcomeScreen />
+          <AppContent />
         </LanguageProvider>
       </PersistGate>
     </Provider>
