@@ -1,14 +1,14 @@
 import React from 'react';
 import {
-  View,
-  Text,
-  StyleSheet,
-  SafeAreaView,
-  Image,
-  TouchableOpacity,
   Dimensions,
+  Image,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
-import Svg, { SvgProps, Path } from 'react-native-svg';
+import Svg, { Path, SvgProps } from 'react-native-svg';
 
 const { width, height } = Dimensions.get('window');
 
@@ -37,11 +37,11 @@ const GoogleIcon = (props: SvgProps) => (
 
 const AppleIcon = (props: SvgProps) => (
   <Svg width={24} height={24} viewBox="0 0 24 24" {...props}>
-    <Path 
+    <Path
       fill="#ffffff"
       d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09z"
     />
-    <Path 
+    <Path
       fill="#ffffff"
       d="M15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701z"
     />
@@ -60,47 +60,45 @@ export default function WelcomeScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.content}>
-        {/* Welcome Image - moved to top */}
-        <View style={styles.imageContainer}>
-          <Image
-            source={require('../../assets/images/welcome.png')}
-            style={styles.welcomeImage}
-            resizeMode="contain"
-          />
-        </View>
+    <View style={styles.container}>
+      <Image
+        source={require('../../assets/images/welcome.png')}
+        style={styles.welcomeImage}
+        resizeMode="cover"
+      />
 
-        {/* Welcome Text */}
-        <View style={styles.textContainer}>
-          <Text style={styles.welcomeTitle}>Welcome to billsplit</Text>
-          <Text style={styles.welcomeSubtitle}>
-            Split bills easily with friends and{'\n'}keep track of your expenses
-          </Text>
-        </View>
+      {/* Content container for text and buttons with SafeAreaView */}
+      <SafeAreaView style={styles.safeContent}>
+        <View style={styles.content}>
+          {/* Sign In Buttons */}
+          <View style={styles.buttonContainer}>
+            <Text style={styles.signInText}>Sign in to get started</Text>
 
-        {/* Sign In Buttons */}
-        <View style={styles.buttonContainer}>
-          <Text style={styles.signInText}>Sign in to get started</Text>
-          
-          {/* Google Sign In Button */}
-          <TouchableOpacity style={styles.googleButton} onPress={handleGoogleSignIn}>
-            <View style={styles.buttonContent}>
-              <GoogleIcon />
-              <Text style={styles.googleButtonText}>Sign in with Google</Text>
-            </View>
-          </TouchableOpacity>
+            {/* Google Sign In Button */}
+            <TouchableOpacity
+              style={styles.googleButton}
+              onPress={handleGoogleSignIn}
+            >
+              <View style={styles.buttonContent}>
+                <GoogleIcon />
+                <Text style={styles.googleButtonText}>Sign in with Google</Text>
+              </View>
+            </TouchableOpacity>
 
-          {/* Apple Sign In Button */}
-          <TouchableOpacity style={styles.appleButton} onPress={handleAppleSignIn}>
-            <View style={styles.buttonContent}>
-              <AppleIcon />
-              <Text style={styles.appleButtonText}>Sign in with Apple</Text>
-            </View>
-          </TouchableOpacity>
+            {/* Apple Sign In Button */}
+            <TouchableOpacity
+              style={styles.appleButton}
+              onPress={handleAppleSignIn}
+            >
+              <View style={styles.buttonContent}>
+                <AppleIcon />
+                <Text style={styles.appleButtonText}>Sign in with Apple</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
-    </SafeAreaView>
+      </SafeAreaView>
+    </View>
   );
 }
 
@@ -109,45 +107,21 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#000000',
   },
+  safeContent: {
+    flex: 1,
+    backgroundColor: '#000000',
+  },
   content: {
     flex: 1,
     paddingHorizontal: 24,
-    paddingBottom: 48,
-    paddingTop: 20,
-  },
-  imageContainer: {
+    paddingTop: 24,
     justifyContent: 'center',
-    alignItems: 'center',
-    paddingVertical: 20,
-    marginBottom: 40,
   },
   welcomeImage: {
-    width: width * 0.85,
-    height: height * 0.4,
-    maxWidth: 380,
-    maxHeight: 320,
-  },
-  textContainer: {
-    alignItems: 'center',
-    paddingHorizontal: 16,
-    marginBottom: 80,
-    flex: 1,
-    justifyContent: 'center',
-  },
-  welcomeTitle: {
-    fontSize: 28,
-    fontWeight: '700',
-    color: '#ffffff',
-    textAlign: 'center',
-    marginBottom: 12,
-    letterSpacing: -0.3,
-  },
-  welcomeSubtitle: {
-    fontSize: 17,
-    color: '#888888',
-    textAlign: 'center',
-    lineHeight: 24,
-    fontWeight: '500',
+    width: '100%',
+    height: '55%',
+    maxWidth: undefined,
+    maxHeight: undefined,
   },
   buttonContainer: {
     gap: 16,
