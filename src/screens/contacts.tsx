@@ -139,7 +139,7 @@ export default function ContactsScreen() {
         style={styles.deleteButton}
         onPress={() => handleDeleteContact(item.id, item.fullName)}
       >
-        <X size={16} color="#ef4444" />
+        <X size={16} color="#ffffff" />
       </TouchableOpacity>
     </View>
   );
@@ -147,7 +147,7 @@ export default function ContactsScreen() {
   if (loading && !hasLocalData) {
     return (
       <SafeAreaView style={styles.centerContainer}>
-        <ActivityIndicator size="large" color="#3b82f6" />
+        <ActivityIndicator size="large" color="#ffffff" />
         <Text style={styles.loadingText}>Loading contacts...</Text>
       </SafeAreaView>
     );
@@ -160,7 +160,7 @@ export default function ContactsScreen() {
           <Text style={styles.title}>Contacts ({contacts.length})</Text>
           {hasLocalData && (
             <View style={styles.persistedIndicator}>
-              <HardDrive size={12} color="#10b981" />
+              <HardDrive size={12} color="#888888" />
               <Text style={styles.persistedText}>Saved Locally</Text>
             </View>
           )}
@@ -170,22 +170,16 @@ export default function ContactsScreen() {
             style={styles.refreshButton}
             onPress={handleRefresh}
           >
-            <RefreshCw size={16} color="#6b7280" />
+            <RefreshCw size={20} color="#ffffff" />
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.addButton}
             onPress={() => setShowAddForm(!showAddForm)}
           >
             {showAddForm ? (
-              <View style={styles.buttonContent}>
-                <X size={16} color="white" />
-                <Text style={styles.addButtonText}>Cancel</Text>
-              </View>
+              <X size={20} color="#000000" />
             ) : (
-              <View style={styles.buttonContent}>
-                <Plus size={16} color="white" />
-                <Text style={styles.addButtonText}>Add</Text>
-              </View>
+              <Plus size={20} color="#000000" />
             )}
           </TouchableOpacity>
         </View>
@@ -194,6 +188,7 @@ export default function ContactsScreen() {
       <TextInput
         style={styles.searchInput}
         placeholder="Search contacts..."
+        placeholderTextColor="#888888"
         value={searchQuery}
         onChangeText={setSearchQuery}
       />
@@ -203,18 +198,21 @@ export default function ContactsScreen() {
           <TextInput
             style={styles.input}
             placeholder="First Name *"
+            placeholderTextColor="#888888"
             value={newContact.firstName}
             onChangeText={(text) => setNewContact({ ...newContact, firstName: text })}
           />
           <TextInput
             style={styles.input}
             placeholder="Last Name *"
+            placeholderTextColor="#888888"
             value={newContact.lastName}
             onChangeText={(text) => setNewContact({ ...newContact, lastName: text })}
           />
           <TextInput
             style={styles.input}
             placeholder="Email *"
+            placeholderTextColor="#888888"
             value={newContact.email}
             onChangeText={(text) => setNewContact({ ...newContact, email: text })}
             keyboardType="email-address"
@@ -222,6 +220,7 @@ export default function ContactsScreen() {
           <TextInput
             style={styles.input}
             placeholder="Phone"
+            placeholderTextColor="#888888"
             value={newContact.phone}
             onChangeText={(text) => setNewContact({ ...newContact, phone: text })}
             keyboardType="phone-pad"
@@ -240,7 +239,7 @@ export default function ContactsScreen() {
 
       {isSearching && (
         <View style={styles.centerContainer}>
-          <ActivityIndicator size="small" color="#3b82f6" />
+          <ActivityIndicator size="small" color="#ffffff" />
           <Text style={styles.searchingText}>Searching...</Text>
         </View>
       )}
@@ -266,47 +265,60 @@ export default function ContactsScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f8f9fa',
-    padding: 16,
+    backgroundColor: '#000000',
   },
   centerContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#000000',
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 16,
+    paddingHorizontal: 24,
+    paddingTop: 60,
+    paddingBottom: 32,
+    backgroundColor: '#000000',
   },
   titleContainer: {
     flex: 1,
   },
   title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#1a1a1a',
+    fontSize: 34,
+    fontWeight: '700',
+    color: '#ffffff',
+    letterSpacing: -0.5,
   },
   persistedIndicator: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 2,
-    gap: 4,
+    marginTop: 8,
+    gap: 6,
   },
   persistedText: {
-    fontSize: 12,
-    color: '#10b981',
+    fontSize: 13,
+    color: '#888888',
+    fontWeight: '500',
   },
   headerButtons: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
+    gap: 16,
   },
   refreshButton: {
-    padding: 8,
-    borderRadius: 8,
-    backgroundColor: '#f3f4f6',
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    backgroundColor: '#1a1a1a',
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#ffffff',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 3,
   },
   buttonContent: {
     flexDirection: 'row',
@@ -314,133 +326,182 @@ const styles = StyleSheet.create({
     gap: 4,
   },
   addButton: {
-    backgroundColor: '#3b82f6',
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 8,
+    backgroundColor: '#ffffff',
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#ffffff',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 12,
+    elevation: 5,
   },
   addButtonText: {
-    color: 'white',
+    color: '#000000',
     fontWeight: '600',
   },
   searchInput: {
-    backgroundColor: 'white',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    borderRadius: 8,
-    fontSize: 16,
-    marginBottom: 16,
-    borderWidth: 1,
-    borderColor: '#e5e7eb',
+    backgroundColor: '#1a1a1a',
+    paddingHorizontal: 20,
+    paddingVertical: 16,
+    borderRadius: 16,
+    fontSize: 17,
+    marginHorizontal: 24,
+    marginBottom: 24,
+    borderWidth: 0,
+    color: '#ffffff',
+    fontWeight: '500',
+    shadowColor: '#ffffff',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    elevation: 2,
   },
   addForm: {
-    backgroundColor: 'white',
-    padding: 16,
-    borderRadius: 8,
-    marginBottom: 16,
-    borderWidth: 1,
-    borderColor: '#e5e7eb',
+    backgroundColor: '#1a1a1a',
+    marginHorizontal: 24,
+    marginBottom: 24,
+    padding: 24,
+    borderRadius: 20,
+    shadowColor: '#ffffff',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 12,
+    elevation: 5,
   },
   input: {
-    borderWidth: 1,
-    borderColor: '#d1d5db',
-    borderRadius: 6,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    marginBottom: 12,
-    fontSize: 16,
+    borderWidth: 0,
+    borderRadius: 12,
+    paddingHorizontal: 16,
+    paddingVertical: 14,
+    marginBottom: 16,
+    fontSize: 17,
+    backgroundColor: '#2a2a2a',
+    color: '#ffffff',
+    fontWeight: '500',
   },
   saveButton: {
-    backgroundColor: '#10b981',
-    paddingVertical: 12,
-    borderRadius: 6,
+    backgroundColor: '#ffffff',
+    paddingVertical: 16,
+    borderRadius: 16,
     alignItems: 'center',
+    marginTop: 8,
+    shadowColor: '#ffffff',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 8,
+    elevation: 4,
   },
   saveButtonText: {
-    color: 'white',
+    color: '#000000',
     fontWeight: '600',
     fontSize: 16,
   },
   list: {
     flex: 1,
+    paddingHorizontal: 24,
   },
   contactItem: {
-    backgroundColor: 'white',
-    padding: 16,
-    borderRadius: 8,
-    marginBottom: 8,
+    backgroundColor: '#1a1a1a',
+    padding: 20,
+    borderRadius: 20,
+    marginBottom: 16,
     flexDirection: 'row',
     alignItems: 'center',
-    borderWidth: 1,
-    borderColor: '#e5e7eb',
+    shadowColor: '#ffffff',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 8,
+    elevation: 3,
   },
   avatar: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    backgroundColor: '#3b82f6',
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    backgroundColor: '#ffffff',
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 12,
+    marginRight: 16,
+    shadowColor: '#ffffff',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
   },
   avatarText: {
-    color: 'white',
-    fontWeight: 'bold',
-    fontSize: 18,
+    color: '#000000',
+    fontWeight: '700',
+    fontSize: 20,
   },
   contactInfo: {
     flex: 1,
   },
   contactName: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: '600',
-    color: '#1a1a1a',
-    marginBottom: 2,
+    color: '#ffffff',
+    marginBottom: 4,
+    letterSpacing: -0.2,
   },
   contactEmail: {
-    fontSize: 14,
-    color: '#6b7280',
+    fontSize: 15,
+    color: '#888888',
     marginBottom: 2,
+    fontWeight: '500',
   },
   contactPhone: {
     fontSize: 14,
-    color: '#6b7280',
+    color: '#888888',
+    fontWeight: '400',
   },
   deleteButton: {
-    padding: 8,
+    padding: 12,
+    borderRadius: 20,
   },
   emptyContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingVertical: 32,
+    paddingVertical: 48,
+    paddingHorizontal: 24,
   },
   emptyText: {
-    fontSize: 16,
-    color: '#6b7280',
+    fontSize: 18,
+    color: '#888888',
     textAlign: 'center',
+    fontWeight: '500',
+    lineHeight: 24,
   },
   loadingText: {
-    marginTop: 8,
-    fontSize: 16,
-    color: '#6b7280',
+    marginTop: 12,
+    fontSize: 17,
+    color: '#888888',
+    fontWeight: '500',
   },
   searchingText: {
-    marginLeft: 8,
-    fontSize: 14,
-    color: '#6b7280',
+    marginLeft: 12,
+    fontSize: 15,
+    color: '#888888',
+    fontWeight: '500',
   },
   errorContainer: {
-    backgroundColor: '#fef2f2',
-    padding: 12,
-    borderRadius: 6,
+    backgroundColor: '#1a1a1a',
+    marginHorizontal: 24,
+    padding: 16,
+    borderRadius: 16,
     marginBottom: 16,
-    borderWidth: 1,
-    borderColor: '#fecaca',
+    shadowColor: '#ffffff',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 3,
   },
   errorText: {
-    color: '#dc2626',
-    fontSize: 14,
+    color: '#ffffff',
+    fontSize: 15,
     textAlign: 'center',
+    fontWeight: '500',
   },
 });

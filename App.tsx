@@ -24,11 +24,11 @@ function AppContent() {
           {isCurrentRTL ? (
             <View style={styles.rtlBackButton}>
               <Text style={styles.backButtonText}>{t('common.back')}</Text>
-              <ChevronRight size={20} color="#3b82f6" />
+              <ChevronRight size={20} color="#ffffff" />
             </View>
           ) : (
             <View style={styles.ltrBackButton}>
-              <ChevronLeft size={20} color="#3b82f6" />
+              <ChevronLeft size={20} color="#ffffff" />
               <Text style={styles.backButtonText}>{t('common.back')}</Text>
             </View>
           )}
@@ -59,7 +59,7 @@ function AppContent() {
           onPress={() => setShowLanguageSettings(true)}
         >
           <View style={styles.languageButtonContent}>
-            <Languages size={16} color="#3b82f6" />
+            <Languages size={16} color="#000000" />
             <Text style={styles.languageButtonText}>{t('language_settings.title')}</Text>
           </View>
         </TouchableOpacity>
@@ -74,7 +74,7 @@ export default function App() {
       <PersistGate 
         loading={
           <View style={styles.loadingContainer}>
-            <ActivityIndicator size="large" color="#3b82f6" />
+            <ActivityIndicator size="large" color="#ffffff" />
             <Text style={styles.loadingText}>Loading...</Text>
           </View>
         } 
@@ -92,18 +92,18 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f8f9fa',
+    backgroundColor: '#000000',
   },
   loadingContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#f8f9fa',
+    backgroundColor: '#000000',
   },
   loadingText: {
     marginTop: 8,
     fontSize: 16,
-    color: '#6b7280',
+    color: '#888888',
   },
   content: {
     flex: 1,
@@ -114,20 +114,20 @@ const styles = StyleSheet.create({
   appTitle: {
     fontSize: 32,
     fontWeight: 'bold',
-    color: '#1a1a1a',
+    color: '#ffffff',
     marginBottom: 20,
     textAlign: 'center',
   },
   hello: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#333',
+    color: '#ffffff',
     marginBottom: 10,
     textAlign: 'center',
   },
   welcome: {
     fontSize: 18,
-    color: '#666',
+    color: '#888888',
     marginBottom: 30,
     textAlign: 'center',
   },
@@ -135,9 +135,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 30,
     padding: 20,
-    backgroundColor: '#ffffff',
+    backgroundColor: '#1a1a1a',
     borderRadius: 12,
-    shadowColor: '#000',
+    shadowColor: '#ffffff',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
@@ -145,20 +145,20 @@ const styles = StyleSheet.create({
   },
   currentLangLabel: {
     fontSize: 14,
-    color: '#6b7280',
+    color: '#888888',
     marginBottom: 5,
   },
   currentLang: {
     fontSize: 18,
     fontWeight: '600',
-    color: '#1a1a1a',
+    color: '#ffffff',
   },
   languageButton: {
-    backgroundColor: '#3b82f6',
+    backgroundColor: '#ffffff',
     paddingHorizontal: 30,
     paddingVertical: 15,
     borderRadius: 25,
-    shadowColor: '#3b82f6',
+    shadowColor: '#ffffff',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
     shadowRadius: 8,
@@ -170,7 +170,7 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   languageButtonText: {
-    color: '#ffffff',
+    color: '#000000',
     fontSize: 16,
     fontWeight: '600',
   },
@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
   },
   backButtonText: {
     fontSize: 16,
-    color: '#3b82f6',
+    color: '#ffffff',
     fontWeight: '600',
   },
 });
