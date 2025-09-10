@@ -9,7 +9,9 @@
     "cancel": "取消",
     "ok": "确定",
     "yes": "是",
-    "no": "否"
+    "no": "否",
+    "delete": "删除",
+    "clear": "清除"
   },
   "app": {
     "title": "账单分割器"
@@ -18,5 +20,29 @@
     "title": "语言设置",
     "select_language": "选择语言",
     "current_language": "当前语言"
+  },
+  "onboarding": {
+    "title": "轻松账单分割",
+    "subtitle": "与朋友无缝分割账单。跟踪支出，分享成本，轻松结算债务。",
+    "get_started": "开始使用"
+  },
+  "welcome": {
+    "sign_in_text": "登录开始使用",
+    "sign_in_google": "使用谷歌登录",
+    "sign_in_apple": "使用苹果登录"
+  },
+  "home": {
+    "title": "欢迎使用账单分割器！",
+    "subtitle": "您的轻松账单分割之旅从这里开始。"
+  },
+  "contacts": {
+    "title": "联系人",
+    "delete_contact_title": "删除联系人",
+    "delete_contact_message": "您确定要删除此联系人吗？",
+    "clear_contacts_title": "清除所有联系人",
+    "clear_contacts_message": "您确定要清除所有联系人吗？此操作无法撤销。",
+    "search_placeholder": "搜索联系人...",
+    "no_contacts_title": "未找到联系人",
+    "no_contacts_message": "添加一些联系人以开始分割账单。"
   }
 }

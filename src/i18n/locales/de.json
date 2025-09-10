@@ -9,7 +9,9 @@
     "cancel": "Abbrechen",
     "ok": "OK",
     "yes": "Ja",
-    "no": "Nein"
+    "no": "Nein",
+    "delete": "Löschen",
+    "clear": "Leeren"
   },
   "app": {
     "title": "Rechnung Teiler"
@@ -18,5 +20,29 @@
     "title": "Spracheinstellungen",
     "select_language": "Sprache Auswählen",
     "current_language": "Aktuelle Sprache"
+  },
+  "onboarding": {
+    "title": "Müheloses Rechnung Teilen",
+    "subtitle": "Teile Rechnungen nahtlos mit Freunden. Verfolge Ausgaben, teile Kosten und begleiche Schulden mit Leichtigkeit.",
+    "get_started": "Loslegen"
+  },
+  "welcome": {
+    "sign_in_text": "Melde dich an, um zu beginnen",
+    "sign_in_google": "Mit Google anmelden",
+    "sign_in_apple": "Mit Apple anmelden"
+  },
+  "home": {
+    "title": "Willkommen bei Rechnung Teiler!",
+    "subtitle": "Deine Reise zum mühelosen Rechnung Teilen beginnt hier."
+  },
+  "contacts": {
+    "title": "Kontakte",
+    "delete_contact_title": "Kontakt Löschen",
+    "delete_contact_message": "Bist du sicher, dass du diesen Kontakt löschen möchtest?",
+    "clear_contacts_title": "Alle Kontakte Leeren",
+    "clear_contacts_message": "Bist du sicher, dass du alle Kontakte leeren möchtest? Diese Aktion kann nicht rückgängig gemacht werden.",
+    "search_placeholder": "Kontakte suchen...",
+    "no_contacts_title": "Keine Kontakte Gefunden",
+    "no_contacts_message": "Füge einige Kontakte hinzu, um mit dem Rechnung Teilen zu beginnen."
   }
 }

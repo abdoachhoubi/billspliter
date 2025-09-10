@@ -9,7 +9,10 @@
     "cancel": "Annuler",
     "ok": "OK",
     "yes": "Oui",
-    "no": "Non"
+    "no": "Non",
+    "delete": "Supprimer",
+    "clear": "Effacer",
+    "loading": "Chargement..."
   },
   "app": {
     "title": "Diviseur de Factures"
@@ -18,5 +21,30 @@
     "title": "Paramètres de Langue",
     "select_language": "Sélectionner la Langue",
     "current_language": "Langue Actuelle"
+  },
+  "onboarding": {
+    "title": "Division de Factures Sans Effort",
+    "subtitle": "Divisez les factures avec vos amis en toute transparence. Suivez les dépenses, partagez les coûts et réglez les dettes facilement.",
+    "get_started": "Commencer"
+  },
+  "welcome": {
+    "sign_in_text": "Connectez-vous pour commencer",
+    "sign_in_google": "Se connecter avec Google",
+    "sign_in_apple": "Se connecter avec Apple"
+  },
+  "home": {
+    "title": "Bienvenue dans Diviseur de Factures!",
+    "subtitle": "Votre voyage vers la division de factures sans effort commence ici."
+  },
+  "contacts": {
+    "title": "Contacts",
+    "delete_contact_title": "Supprimer le Contact",
+    "delete_contact_message": "Êtes-vous sûr de vouloir supprimer ce contact?",
+    "clear_contacts_title": "Effacer Tous les Contacts",
+    "clear_contacts_message": "Êtes-vous sûr de vouloir effacer tous les contacts? Cette action ne peut pas être annulée.",
+    "search_placeholder": "Rechercher des contacts...",
+    "searching": "Recherche...",
+    "no_contacts_title": "Aucun Contact Trouvé",
+    "no_contacts_message": "Ajoutez des contacts pour commencer à diviser les factures."
   }
 }

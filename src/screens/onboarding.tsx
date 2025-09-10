@@ -7,6 +7,7 @@ import {
   Text,
   View,
 } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import PrimaryButton from '../common/components/primary-button';
 
 const { width, height } = Dimensions.get('window');
@@ -18,6 +19,8 @@ interface OnboardingScreenProps {
 export default function OnboardingScreen({
   onGetStarted,
 }: OnboardingScreenProps) {
+  const { t } = useTranslation();
+
   return (
     <View style={styles.container}>
       {/* Main Image */}
@@ -33,19 +36,18 @@ export default function OnboardingScreen({
           <View style={styles.textContainer}>
 
             {/* Main Title */}
-            <Text style={styles.title}>Effortless Bill Splitting</Text>
+            <Text style={styles.title}>{t('onboarding.title')}</Text>
 
             {/* Subtitle */}
             <Text style={styles.subtitle}>
-              Split bills with friends seamlessly. Track expenses, share costs,
-              and settle debts with ease.
+              {t('onboarding.subtitle')}
             </Text>
           </View>
 
           {/* Get Started Button */}
           <View style={styles.buttonContainer}>
             <PrimaryButton
-              title="Get Started"
+              title={t('onboarding.get_started')}
               onPress={onGetStarted}
               style={styles.getStartedButton}
               textStyle={styles.getStartedButtonText}

@@ -9,7 +9,9 @@
     "cancel": "キャンセル",
     "ok": "OK",
     "yes": "はい",
-    "no": "いいえ"
+    "no": "いいえ",
+    "delete": "削除",
+    "clear": "クリア"
   },
   "app": {
     "title": "請求書分割アプリ"
@@ -18,5 +20,29 @@
     "title": "言語設定",
     "select_language": "言語を選択",
     "current_language": "現在の言語"
+  },
+  "onboarding": {
+    "title": "簡単な請求書分割",
+    "subtitle": "友達とシームレスに請求書を分割しましょう。支出を追跡し、コストを共有し、借金を簡単に精算します。",
+    "get_started": "始める"
+  },
+  "welcome": {
+    "sign_in_text": "サインインして始める",
+    "sign_in_google": "Googleでサインイン",
+    "sign_in_apple": "Appleでサインイン"
+  },
+  "home": {
+    "title": "請求書分割アプリへようこそ！",
+    "subtitle": "簡単な請求書分割の旅がここから始まります。"
+  },
+  "contacts": {
+    "title": "連絡先",
+    "delete_contact_title": "連絡先を削除",
+    "delete_contact_message": "この連絡先を削除してもよろしいですか？",
+    "clear_contacts_title": "すべての連絡先をクリア",
+    "clear_contacts_message": "すべての連絡先をクリアしてもよろしいですか？この操作は元に戻せません。",
+    "search_placeholder": "連絡先を検索...",
+    "no_contacts_title": "連絡先が見つかりません",
+    "no_contacts_message": "請求書分割を始めるために連絡先を追加してください。"
   }
 }

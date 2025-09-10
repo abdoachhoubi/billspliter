@@ -5,14 +5,17 @@ import {
   StyleSheet,
   SafeAreaView,
 } from 'react-native';
+import { useTranslation } from 'react-i18next';
 
 export default function HomeScreen() {
+  const { t } = useTranslation();
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
-        <Text style={styles.title}>Welcome to Bill Splitter!</Text>
+        <Text style={styles.title}>{t('home.title')}</Text>
         <Text style={styles.subtitle}>
-          Your journey to effortless bill splitting starts here.
+          {t('home.subtitle')}
         </Text>
       </View>
     </SafeAreaView>

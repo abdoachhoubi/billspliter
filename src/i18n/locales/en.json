@@ -9,7 +9,10 @@
     "cancel": "Cancel",
     "ok": "OK",
     "yes": "Yes",
-    "no": "No"
+    "no": "No",
+    "delete": "Delete",
+    "clear": "Clear",
+    "loading": "Loading..."
   },
   "app": {
     "title": "Bill Splitter"
@@ -18,5 +21,30 @@
     "title": "Language Settings",
     "select_language": "Select Language",
     "current_language": "Current Language"
+  },
+  "onboarding": {
+    "title": "Effortless Bill Splitting",
+    "subtitle": "Split bills with friends seamlessly. Track expenses, share costs, and settle debts with ease.",
+    "get_started": "Get Started"
+  },
+  "welcome": {
+    "sign_in_text": "Sign in to get started",
+    "sign_in_google": "Sign in with Google",
+    "sign_in_apple": "Sign in with Apple"
+  },
+  "home": {
+    "title": "Welcome to Bill Splitter!",
+    "subtitle": "Your journey to effortless bill splitting starts here."
+  },
+  "contacts": {
+    "title": "Contacts",
+    "delete_contact_title": "Delete Contact",
+    "delete_contact_message": "Are you sure you want to delete this contact?",
+    "clear_contacts_title": "Clear All Contacts",
+    "clear_contacts_message": "Are you sure you want to clear all contacts? This action cannot be undone.",
+    "search_placeholder": "Search contacts...",
+    "searching": "Searching...",
+    "no_contacts_title": "No Contacts Found",
+    "no_contacts_message": "Add some contacts to get started with bill splitting."
   }
 }

@@ -7,6 +7,7 @@ import {
   Alert,
   SafeAreaView,
 } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { HardDrive, RefreshCw, Plus, X } from 'lucide-react-native';
 import { Contact, CreateContact, ContactUtils } from '../common/entities/contact.entity';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
@@ -44,6 +45,7 @@ interface ContactWithDisplay extends Contact {
 }
 
 export default function ContactsScreen() {
+  const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const contacts = useAppSelector(selectContactsWithFullName);
   const loading = useAppSelector(selectContactsLoading);
@@ -93,12 +95,12 @@ export default function ContactsScreen() {
 
   const handleDeleteContact = (id: string, name: string) => {
     Alert.alert(
-      'Delete Contact',
-      `Are you sure you want to delete ${name}?`,
+      t('contacts.delete_contact_title'),
+      t('contacts.delete_contact_message'),
       [
-        { text: 'Cancel', style: 'cancel' },
+        { text: t('common.cancel'), style: 'cancel' },
         {
-          text: 'Delete',
+          text: t('common.delete'),
           style: 'destructive',
           onPress: () => dispatch(deleteContact(id)),
         },
@@ -112,12 +114,12 @@ export default function ContactsScreen() {
 
   const handleClearLocalData = () => {
     Alert.alert(
-      'Clear Local Data',
-      'This will remove all contacts from local storage. Are you sure?',
+      t('contacts.clear_contacts_title'),
+      t('contacts.clear_contacts_message'),
       [
-        { text: 'Cancel', style: 'cancel' },
+        { text: t('common.cancel'), style: 'cancel' },
         {
-          text: 'Clear',
+          text: t('common.clear'),
           style: 'destructive',
           onPress: async () => {
             await ContactsService.clearLocalData();
@@ -145,7 +147,7 @@ export default function ContactsScreen() {
   if (loading && !hasLocalData) {
     return (
       <SafeAreaView style={styles.centerContainer}>
-        <LoadingState message="Loading contacts..." />
+        <LoadingState message={t('common.loading')} />
       </SafeAreaView>
     );
   }
@@ -154,7 +156,7 @@ export default function ContactsScreen() {
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <View style={styles.titleContainer}>
-          <Text style={styles.title}>Contacts ({contacts.length})</Text>
+          <Text style={styles.title}>{t('contacts.title')} ({contacts.length})</Text>
           {hasLocalData && (
             <View style={styles.persistedIndicator}>
               <HardDrive size={12} color="#888888" />
@@ -179,7 +181,7 @@ export default function ContactsScreen() {
       <SearchInput
         value={searchQuery}
         onChangeText={setSearchQuery}
-        placeholder="Search contacts..."
+        placeholder={t('contacts.search_placeholder')}
       />
 
       {showAddForm && (
@@ -194,7 +196,7 @@ export default function ContactsScreen() {
 
       {isSearching && (
         <View style={styles.centerContainer}>
-          <LoadingState message="Searching..." size="small" />
+          <LoadingState message={t('contacts.searching')} size="small" />
         </View>
       )}
 
@@ -206,7 +208,7 @@ export default function ContactsScreen() {
         showsVerticalScrollIndicator={false}
         ListEmptyComponent={
           <EmptyState 
-            message={searchQuery ? 'No contacts found' : 'No contacts yet'} 
+            message={searchQuery ? t('contacts.no_contacts_title') : t('contacts.no_contacts_message')} 
           />
         }
       />

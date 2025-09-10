@@ -9,7 +9,10 @@
     "cancel": "Cancelar",
     "ok": "OK",
     "yes": "Sí",
-    "no": "No"
+    "no": "No",
+    "delete": "Eliminar",
+    "clear": "Limpiar",
+    "loading": "Cargando..."
   },
   "app": {
     "title": "Divisor de Cuentas"
@@ -18,5 +21,30 @@
     "title": "Configuración de Idioma",
     "select_language": "Seleccionar Idioma",
     "current_language": "Idioma Actual"
+  },
+  "onboarding": {
+    "title": "División de Cuentas Sin Esfuerzo",
+    "subtitle": "Divide cuentas con amigos sin problemas. Rastrea gastos, comparte costos y liquida deudas con facilidad.",
+    "get_started": "Comenzar"
+  },
+  "welcome": {
+    "sign_in_text": "Inicia sesión para comenzar",
+    "sign_in_google": "Iniciar sesión con Google",
+    "sign_in_apple": "Iniciar sesión con Apple"
+  },
+  "home": {
+    "title": "¡Bienvenido a Divisor de Cuentas!",
+    "subtitle": "Tu viaje hacia la división de cuentas sin esfuerzo comienza aquí."
+  },
+  "contacts": {
+    "title": "Contactos",
+    "delete_contact_title": "Eliminar Contacto",
+    "delete_contact_message": "¿Estás seguro de que quieres eliminar este contacto?",
+    "clear_contacts_title": "Limpiar Todos los Contactos",
+    "clear_contacts_message": "¿Estás seguro de que quieres limpiar todos los contactos? Esta acción no se puede deshacer.",
+    "search_placeholder": "Buscar contactos...",
+    "searching": "Buscando...",
+    "no_contacts_title": "No se Encontraron Contactos",
+    "no_contacts_message": "Agrega algunos contactos para comenzar a dividir cuentas."
   }
 }

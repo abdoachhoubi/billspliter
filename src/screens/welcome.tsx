@@ -8,9 +8,9 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import Svg, { Path, SvgProps } from 'react-native-svg';
 
-const { width, height } = Dimensions.get('window');
 
 // Import SVG components - we'll need to create wrapper components for the assets
 const GoogleIcon = (props: SvgProps) => (
@@ -49,6 +49,8 @@ const AppleIcon = (props: SvgProps) => (
 );
 
 export default function WelcomeScreen() {
+  const { t } = useTranslation();
+
   const handleGoogleSignIn = () => {
     // TODO: Implement Google Sign In
     console.log('Google Sign In pressed');
@@ -72,7 +74,7 @@ export default function WelcomeScreen() {
         <View style={styles.content}>
           {/* Sign In Buttons */}
           <View style={styles.buttonContainer}>
-            <Text style={styles.signInText}>Sign in to get started</Text>
+            <Text style={styles.signInText}>{t('welcome.sign_in_text')}</Text>
 
             {/* Google Sign In Button */}
             <TouchableOpacity
@@ -81,7 +83,7 @@ export default function WelcomeScreen() {
             >
               <View style={styles.buttonContent}>
                 <GoogleIcon />
-                <Text style={styles.googleButtonText}>Sign in with Google</Text>
+                <Text style={styles.googleButtonText}>{t('welcome.sign_in_google')}</Text>
               </View>
             </TouchableOpacity>
 
@@ -92,7 +94,7 @@ export default function WelcomeScreen() {
             >
               <View style={styles.buttonContent}>
                 <AppleIcon />
-                <Text style={styles.appleButtonText}>Sign in with Apple</Text>
+                <Text style={styles.appleButtonText}>{t('welcome.sign_in_apple')}</Text>
               </View>
             </TouchableOpacity>
           </View>
