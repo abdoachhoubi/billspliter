@@ -62,12 +62,7 @@ export default function WelcomeScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
-        {/* Logo/Brand */}
-        <View style={styles.logoContainer}>
-          <Text style={styles.logoText}>billsplit</Text>
-        </View>
-
-        {/* Welcome Image */}
+        {/* Welcome Image - moved to top */}
         <View style={styles.imageContainer}>
           <Image
             source={require('../../assets/images/welcome.png')}
@@ -118,25 +113,13 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 24,
     paddingBottom: 48,
-  },
-  logoContainer: {
-    alignItems: 'center',
-    paddingTop: 60,
-    marginBottom: 20,
-  },
-  logoText: {
-    fontSize: 38,
-    fontWeight: '800',
-    color: '#ffffff',
-    letterSpacing: -1,
-    textTransform: 'lowercase',
+    paddingTop: 20,
   },
   imageContainer: {
-    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     paddingVertical: 20,
-    marginBottom: 20,
+    marginBottom: 40,
   },
   welcomeImage: {
     width: width * 0.85,
@@ -147,7 +130,9 @@ const styles = StyleSheet.create({
   textContainer: {
     alignItems: 'center',
     paddingHorizontal: 16,
-    marginBottom: 60,
+    marginBottom: 80,
+    flex: 1,
+    justifyContent: 'center',
   },
   welcomeTitle: {
     fontSize: 28,
