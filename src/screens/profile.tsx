@@ -41,7 +41,7 @@ const MOCK_USER: UserType = {
   totalBills: 42,
   totalSpent: 1250.5,
   joinedDate: new Date('2024-01-15'),
-  subscriptionType: 'basic',
+  subscriptionType: 'premium',
   preferences: {
     currency: 'USD',
     language: 'en',
@@ -142,55 +142,62 @@ export default function ProfileScreen({
   );
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['top', 'left', 'right']}>
       <ScrollView
         style={styles.scrollView}
         showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.scrollContent}
       >
-        {/* Profile Header */}
-        <ProfileHeader 
-          user={user} 
-          onEditProfile={createNavigationHandler('Edit profile')} 
-        />
-
-        {/* Actions Section */}
-        <View style={styles.rowSection}>
-          {actionCards.slice(0 ,3).map(renderActionCard)}
-        </View>
-        <View style={styles.rowSection}>
-          {actionCards.slice(3 ,6).map(renderActionCard)}
-        </View>
-
-        {/* Menu Items */}
-        <View style={styles.section}>
-          <ProfileMenuItem
-            icon={Shield}
-            title={t('profile.privacy_policy')}
-            onPress={createNavigationHandler('Privacy Policy')}
-            showChevron={true}
+        {/* Top Content */}
+        <View style={styles.topContent}>
+          {/* Profile Header */}
+          <ProfileHeader 
+            user={user} 
+            onEditProfile={createNavigationHandler('Edit profile')} 
           />
-          <ProfileMenuItem
-            icon={Trash2}
-            title={t('profile.delete_account')}
-            onPress={createNavigationHandler('Delete Account')}
-            showChevron={true}
-            iconColor="#ff4444"
-          />
+
+          {/* Actions Section */}
+          <View style={styles.rowSection}>
+            {actionCards.slice(0 ,3).map(renderActionCard)}
+          </View>
+          <View style={styles.rowSection}>
+            {actionCards.slice(3 ,6).map(renderActionCard)}
+          </View>
         </View>
 
-        {/* Logout */}
-        <View style={styles.section}>
-          <ProfileMenuItem
-            icon={LogOut}
-            title={t('profile.logout')}
-            onPress={handleLogout}
-            showChevron={false}
-            iconColor="#ff4444"
-          />
-        </View>
+        {/* Bottom Content */}
+        <View style={styles.bottomContent}>
+          {/* Menu Items */}
+          <View style={styles.section}>
+            <ProfileMenuItem
+              icon={Shield}
+              title={t('profile.privacy_policy')}
+              onPress={createNavigationHandler('Privacy Policy')}
+              showChevron={true}
+            />
+            <ProfileMenuItem
+              icon={Trash2}
+              title={t('profile.delete_account')}
+              onPress={createNavigationHandler('Delete Account')}
+              showChevron={true}
+              iconColor="#ff4444"
+            />
+          </View>
 
-        {/* Bottom spacing for navigation */}
-        <View style={styles.bottomSpacing} />
+          {/* Logout */}
+          <View style={styles.section}>
+            <ProfileMenuItem
+              icon={LogOut}
+              title={t('profile.logout')}
+              onPress={handleLogout}
+              showChevron={false}
+              iconColor="#ff4444"
+            />
+          </View>
+
+          {/* Bottom spacing for navigation */}
+          <View style={styles.bottomSpacing} />
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
@@ -203,6 +210,16 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     flex: 1,
+  },
+  scrollContent: {
+    flexGrow: 1,
+    justifyContent: 'space-between',
+  },
+  topContent: {
+    flex: 0,
+  },
+  bottomContent: {
+    flex: 0,
   },
   section: {
     paddingHorizontal: SPACING.xl,
@@ -220,7 +237,7 @@ const styles = StyleSheet.create({
     borderRadius: BORDER_RADIUS.md,
     padding: SPACING.lg,
     height: 80,
-	aspectRatio: 1,
+    aspectRatio: 1,
     justifyContent: 'space-between',
   },
   actionCardText: {

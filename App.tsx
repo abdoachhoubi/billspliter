@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
 import { ChevronLeft, ChevronRight, Languages } from 'lucide-react-native';
 import { Provider } from 'react-redux';
@@ -11,6 +12,7 @@ import WelcomeScreen from './src/screens/auth';
 import OnboardingScreen from './src/screens/onboarding';
 import HomeScreen from './src/screens/home';
 import ProfileScreen from './src/screens/profile';
+import { CreateBillScreen } from '@/screens/create-bill';
 
 function AppContent() {
   const { t } = useTranslation();
@@ -63,21 +65,23 @@ function AppContent() {
 
 export default function App() {
   return (
-    <Provider store={store}>
-      <PersistGate 
-        loading={
-          <View style={styles.loadingContainer}>
-            <ActivityIndicator size="large" color="#ffffff" />
-            <Text style={styles.loadingText}>Loading...</Text>
-          </View>
-        } 
-        persistor={persistor}
-      >
-        <LanguageProvider>
-          <ProfileScreen />
-        </LanguageProvider>
-      </PersistGate>
-    </Provider>
+    <SafeAreaProvider>
+      <Provider store={store}>
+        <PersistGate 
+          loading={
+            <View style={styles.loadingContainer}>
+              <ActivityIndicator size="large" color="#ffffff" />
+              <Text style={styles.loadingText}>Loading...</Text>
+            </View>
+          } 
+          persistor={persistor}
+        >
+          <LanguageProvider>
+            <CreateBillScreen navigation={{ navigate: () => {}, goBack: () => {} }} />
+          </LanguageProvider>
+        </PersistGate>
+      </Provider>
+    </SafeAreaProvider>
   );
 }
 

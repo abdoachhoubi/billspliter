@@ -7,6 +7,8 @@ interface CustomInputProps {
   placeholder?: string;
   keyboardType?: KeyboardTypeOptions;
   style?: any;
+  multiline?: boolean;
+  numberOfLines?: number;
 }
 
 export default function CustomInput({ 
@@ -14,7 +16,9 @@ export default function CustomInput({
   onChangeText, 
   placeholder, 
   keyboardType = 'default',
-  style 
+  style,
+  multiline = false,
+  numberOfLines = 1
 }: CustomInputProps) {
   return (
     <TextInput
@@ -24,6 +28,8 @@ export default function CustomInput({
       value={value}
       onChangeText={onChangeText}
       keyboardType={keyboardType}
+      multiline={multiline}
+      numberOfLines={numberOfLines}
     />
   );
 }

@@ -6,7 +6,9 @@ export const COLORS = {
   textSecondary: '#888888',
   textMuted: '#666666',
   error: '#ff4444',
-  premium: '#FFD700',
+  success: '#4CAF50',
+  warning: '#ff9800',
+  premium: '#ffffff',
   basic: '#666666',
   border: '#333333',
 } as const;
