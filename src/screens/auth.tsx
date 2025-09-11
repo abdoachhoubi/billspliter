@@ -1,16 +1,8 @@
 import React from 'react';
-import {
-  Dimensions,
-  Image,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
 import { useTranslation } from 'react-i18next';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import Svg, { Path, SvgProps } from 'react-native-svg';
-
 
 // Import SVG components - we'll need to create wrapper components for the assets
 const GoogleIcon = (props: SvgProps) => (
@@ -83,7 +75,9 @@ export default function WelcomeScreen() {
             >
               <View style={styles.buttonContent}>
                 <GoogleIcon />
-                <Text style={styles.googleButtonText}>{t('welcome.sign_in_google')}</Text>
+                <Text style={styles.googleButtonText}>
+                  {t('welcome.sign_in_google')}
+                </Text>
               </View>
             </TouchableOpacity>
 
@@ -94,7 +88,9 @@ export default function WelcomeScreen() {
             >
               <View style={styles.buttonContent}>
                 <AppleIcon />
-                <Text style={styles.appleButtonText}>{t('welcome.sign_in_apple')}</Text>
+                <Text style={styles.appleButtonText}>
+                  {t('welcome.sign_in_apple')}
+                </Text>
               </View>
             </TouchableOpacity>
           </View>
