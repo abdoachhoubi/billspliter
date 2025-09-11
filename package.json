@@ -9,24 +9,25 @@
     "web": "expo start --web"
   },
   "dependencies": {
-    "@react-native-async-storage/async-storage": "^2.2.0",
+    "@react-native-async-storage/async-storage": "2.2.0",
     "@reduxjs/toolkit": "^2.9.0",
-    "expo": "~53.0.22",
-    "expo-localization": "^16.1.6",
-    "expo-status-bar": "~2.2.3",
+    "expo": "~54.0.0",
+    "expo-localization": "~17.0.6",
+    "expo-status-bar": "~3.0.7",
     "i18next": "^25.5.2",
     "lucide-react-native": "^0.542.0",
-    "react": "19.0.0",
+    "react": "19.1.0",
     "react-i18next": "^15.7.3",
-    "react-native": "0.79.6",
-    "react-native-svg": "^15.7.1",
+    "react-native": "0.81.4",
+    "react-native-svg": "15.12.1",
     "react-redux": "^9.2.0",
     "redux-persist": "^6.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
-    "@types/react": "~19.0.10",
-    "typescript": "~5.8.3"
+    "@types/react": "~19.1.10",
+    "babel-preset-expo": "~54.0.0",
+    "typescript": "~5.9.2"
   },
   "private": true
 }
