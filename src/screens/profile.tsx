@@ -1,15 +1,4 @@
-import {
-  Briefcase,
-  FileText,
-  Globe,
-  Heart,
-  LogOut,
-  MessageSquare,
-  Settings,
-  Shield,
-  User,
-  Wallet,
-} from 'lucide-react-native';
+import { Globe, Heart, LogOut, Wallet } from 'lucide-react-native';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -28,36 +17,6 @@ import {
 } from '../common/components';
 import { User as UserType } from '../common/entities/user.entity';
 
-// Mock user data - in a real app, this would come from state management or API
-const mockUser: UserType = {
-  id: '1',
-  firstName: 'David',
-  lastName: 'Saito',
-  email: 'david.saito@example.com',
-  phone: '+1 (555) 123-4567',
-  rating: 5.0,
-  totalBills: 42,
-  totalSpent: 1250.5,
-  joinedDate: new Date('2024-01-15'),
-  subscriptionType: 'premium',
-  preferences: {
-    currency: 'USD',
-    language: 'en',
-    notifications: {
-      billReminders: true,
-      paymentRequests: true,
-      activityUpdates: true,
-      marketing: false,
-    },
-    privacy: {
-      profileVisibility: 'friends',
-      showEmail: false,
-      showPhone: false,
-      showActivity: true,
-    },
-  },
-};
-
 interface ProfileScreenProps {
   onLanguageSettings?: () => void;
   onLogout?: () => void;
@@ -68,7 +27,34 @@ export default function ProfileScreen({
   onLogout,
 }: ProfileScreenProps) {
   const { t } = useTranslation();
-  const [user] = useState<UserType>(mockUser);
+  const [user] = useState<UserType>({
+    id: '1',
+    firstName: 'David',
+    lastName: 'Saito',
+    email: 'david.saito@example.com',
+    phone: '+1 (555) 123-4567',
+    rating: 5.0,
+    totalBills: 42,
+    totalSpent: 1250.5,
+    joinedDate: new Date('2024-01-15'),
+    subscriptionType: 'basic',
+    preferences: {
+      currency: 'USD',
+      language: 'en',
+      notifications: {
+        billReminders: true,
+        paymentRequests: true,
+        activityUpdates: true,
+        marketing: false,
+      },
+      privacy: {
+        profileVisibility: 'friends',
+        showEmail: false,
+        showPhone: false,
+        showActivity: true,
+      },
+    },
+  });
 
   const handleFavorites = () => {
     // TODO: Navigate to favorites screen

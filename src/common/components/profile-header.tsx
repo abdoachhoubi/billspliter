@@ -1,6 +1,6 @@
+import { BadgeCent, Crown, User as UserIcon } from 'lucide-react-native';
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
-import { User as UserIcon, Crown } from 'lucide-react-native';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { User, UserUtils } from '../entities/user.entity';
 
 interface ProfileHeaderProps {
@@ -8,28 +8,49 @@ interface ProfileHeaderProps {
   onEditProfile: () => void;
 }
 
-export default function ProfileHeader({ user, onEditProfile }: ProfileHeaderProps) {
+export default function ProfileHeader({
+  user,
+  onEditProfile,
+}: ProfileHeaderProps) {
   const fullName = UserUtils.getFullName(user);
   const initials = UserUtils.getInitials(user);
-  const subscriptionText = UserUtils.getSubscriptionDisplayText(user.subscriptionType);
-  const subscriptionColor = UserUtils.getSubscriptionColor(user.subscriptionType);
+  const subscriptionText = UserUtils.getSubscriptionDisplayText(
+    user.subscriptionType
+  );
+  const subscriptionColor = UserUtils.getSubscriptionColor(
+    user.subscriptionType
+  );
+  const badgeBackgroundColor =
+    user.subscriptionType === 'premium' ? '#FFD700' : '#666666';
+  const badgeTextColor =
+    user.subscriptionType === 'premium' ? '#000000' : '#ffffff';
 
   return (
     <View style={styles.container}>
       <View style={styles.userInfo}>
         <View style={styles.userDetails}>
           <Text style={styles.userName}>{fullName}</Text>
-          <View style={styles.subscriptionContainer}>
-            {user.subscriptionType === 'premium' && (
-              <Crown size={16} color={subscriptionColor} fill={subscriptionColor} />
+          <View
+            style={[
+              styles.subscriptionBadge,
+              { backgroundColor: badgeBackgroundColor },
+            ]}
+          >
+            {user.subscriptionType === 'premium' ? (
+              <Crown size={14} color={badgeTextColor} fill={badgeTextColor} />
+            ) : (
+              <BadgeCent size={14} color={badgeTextColor} />
             )}
-            <Text style={[styles.subscription, { color: subscriptionColor }]}>
+            <Text style={[styles.subscriptionText, { color: badgeTextColor }]}>
               {subscriptionText}
             </Text>
           </View>
         </View>
-        
-        <TouchableOpacity style={styles.avatarContainer} onPress={onEditProfile}>
+
+        <TouchableOpacity
+          style={styles.avatarContainer}
+          onPress={onEditProfile}
+        >
           {user.avatar ? (
             <Image source={{ uri: user.avatar }} style={styles.avatar} />
           ) : (
@@ -81,15 +102,19 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     color: '#ffffff',
-    marginBottom: 4,
+    marginBottom: 8,
   },
-  subscriptionContainer: {
+  subscriptionBadge: {
     flexDirection: 'row',
     alignItems: 'center',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 16,
+    alignSelf: 'flex-start',
   },
-  subscription: {
-    fontSize: 16,
-    marginLeft: 4,
+  subscriptionText: {
+    fontSize: 14,
     fontWeight: '600',
+    marginLeft: 4,
   },
 });
