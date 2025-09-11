@@ -72,6 +72,11 @@
     "member_since": "Member since",
     "favorites": "Favorites",
     "language": "Language",
-    "currency": "Currency"
+    "currency": "Currency",
+    "categories": "Categories",
+    "contacts": "Contacts",
+    "plan": "Plan",
+    "privacy_policy": "Privacy Policy",
+    "delete_account": "Delete Account"
   }
 }

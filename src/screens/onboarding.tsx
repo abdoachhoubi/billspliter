@@ -2,11 +2,11 @@ import React from 'react';
 import {
   Dimensions,
   Image,
-  SafeAreaView,
   StyleSheet,
   Text,
   View,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
 import PrimaryButton from '../common/components/primary-button';
 

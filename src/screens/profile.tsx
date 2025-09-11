@@ -1,15 +1,15 @@
-import { Globe, Heart, LogOut, Wallet } from 'lucide-react-native';
+import { Globe, Heart, LogOut, Wallet, Grid3x3, Users, CreditCard, Shield, Trash2 } from 'lucide-react-native';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   Alert,
-  SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import {
   ProfileHeader,
   ProfileMenuItem,
@@ -110,6 +110,24 @@ export default function ProfileScreen({
       icon: Wallet,
       onPress: createNavigationHandler('Currency settings'),
     },
+    {
+      key: 'categories',
+      translationKey: 'profile.categories',
+      icon: Grid3x3,
+      onPress: createNavigationHandler('Categories'),
+    },
+    {
+      key: 'contacts',
+      translationKey: 'profile.contacts',
+      icon: Users,
+      onPress: createNavigationHandler('Contacts'),
+    },
+    {
+      key: 'plan',
+      translationKey: 'profile.plan',
+      icon: CreditCard,
+      onPress: createNavigationHandler('Plan'),
+    },
   ];
 
   const renderActionCard = (card: ActionCard) => (
@@ -137,7 +155,27 @@ export default function ProfileScreen({
 
         {/* Actions Section */}
         <View style={styles.rowSection}>
-          {actionCards.map(renderActionCard)}
+          {actionCards.slice(0 ,3).map(renderActionCard)}
+        </View>
+        <View style={styles.rowSection}>
+          {actionCards.slice(3 ,6).map(renderActionCard)}
+        </View>
+
+        {/* Menu Items */}
+        <View style={styles.section}>
+          <ProfileMenuItem
+            icon={Shield}
+            title={t('profile.privacy_policy')}
+            onPress={createNavigationHandler('Privacy Policy')}
+            showChevron={true}
+          />
+          <ProfileMenuItem
+            icon={Trash2}
+            title={t('profile.delete_account')}
+            onPress={createNavigationHandler('Delete Account')}
+            showChevron={true}
+            iconColor="#ff4444"
+          />
         </View>
 
         {/* Logout */}
@@ -182,7 +220,7 @@ const styles = StyleSheet.create({
     borderRadius: BORDER_RADIUS.md,
     padding: SPACING.lg,
     height: 80,
-    aspectRatio: 1,
+	aspectRatio: 1,
     justifyContent: 'space-between',
   },
   actionCardText: {

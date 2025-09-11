@@ -5,8 +5,8 @@ import {
   FlatList,
   StyleSheet,
   Alert,
-  SafeAreaView,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
 import { HardDrive, RefreshCw, Plus, X } from 'lucide-react-native';
 import { Contact, CreateContact, ContactUtils } from '../common/entities/contact.entity';

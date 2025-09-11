@@ -72,6 +72,11 @@
     "member_since": "Miembro desde",
     "favorites": "Favoritos",
     "language": "Idioma",
-    "currency": "Moneda"
+    "currency": "Moneda",
+    "categories": "Categorías",
+    "contacts": "Contactos",
+    "plan": "Plan",
+    "privacy_policy": "Política de Privacidad",
+    "delete_account": "Eliminar Cuenta"
   }
 }

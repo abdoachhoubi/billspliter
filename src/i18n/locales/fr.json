@@ -72,6 +72,11 @@
     "member_since": "Membre depuis",
     "favorites": "Favoris",
     "language": "Langue",
-    "currency": "Devise"
+    "currency": "Devise",
+    "categories": "Catégories",
+    "contacts": "Contacts",
+    "plan": "Plan",
+    "privacy_policy": "Politique de Confidentialité",
+    "delete_account": "Supprimer le Compte"
   }
 }
