@@ -8,5 +8,4 @@ export { default as EmptyState } from './empty-state';
 export { default as ErrorContainer } from './error-container';
 export { default as ContactForm } from './contact-form';
 export { default as ProfileMenuItem } from './profile-menu-item';
-export { default as ProfileStats } from './profile-stats';
 export { default as ProfileHeader } from './profile-header';

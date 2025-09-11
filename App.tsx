@@ -7,7 +7,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { store, persistor } from './src/store';
 import { LanguageProvider, useLanguage } from './src/context/LanguageContext';
 import LanguageSettingsScreen from './src/screens/language-settings';
-import WelcomeScreen from './src/screens/welcome';
+import WelcomeScreen from './src/screens/auth';
 import OnboardingScreen from './src/screens/onboarding';
 import HomeScreen from './src/screens/home';
 import ProfileScreen from './src/screens/profile';

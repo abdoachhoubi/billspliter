@@ -13,114 +13,65 @@ import {
 import {
   ProfileHeader,
   ProfileMenuItem,
-  ProfileStats,
 } from '../common/components';
+import { COLORS, SPACING, BORDER_RADIUS, FONT_SIZES, FONT_WEIGHTS } from '../common/constants/theme';
 import { User as UserType } from '../common/entities/user.entity';
+import { createNavigationHandler, createConditionalHandler } from '../common/utils/navigation';
 
 interface ProfileScreenProps {
   onLanguageSettings?: () => void;
   onLogout?: () => void;
 }
 
+interface ActionCard {
+  key: string;
+  translationKey: string;
+  icon: React.ComponentType<any>;
+  onPress: () => void;
+}
+
+// Mock user data - in a real app, this would come from state management or API
+const MOCK_USER: UserType = {
+  id: '1',
+  firstName: 'David',
+  lastName: 'Saito',
+  email: 'david.saito@example.com',
+  phone: '+1 (555) 123-4567',
+  rating: 5.0,
+  totalBills: 42,
+  totalSpent: 1250.5,
+  joinedDate: new Date('2024-01-15'),
+  subscriptionType: 'basic',
+  preferences: {
+    currency: 'USD',
+    language: 'en',
+    notifications: {
+      billReminders: true,
+      paymentRequests: true,
+      activityUpdates: true,
+      marketing: false,
+    },
+    privacy: {
+      profileVisibility: 'friends',
+      showEmail: false,
+      showPhone: false,
+      showActivity: true,
+    },
+  },
+};
+
 export default function ProfileScreen({
   onLanguageSettings,
   onLogout,
 }: ProfileScreenProps) {
   const { t } = useTranslation();
-  const [user] = useState<UserType>({
-    id: '1',
-    firstName: 'David',
-    lastName: 'Saito',
-    email: 'david.saito@example.com',
-    phone: '+1 (555) 123-4567',
-    rating: 5.0,
-    totalBills: 42,
-    totalSpent: 1250.5,
-    joinedDate: new Date('2024-01-15'),
-    subscriptionType: 'basic',
-    preferences: {
-      currency: 'USD',
-      language: 'en',
-      notifications: {
-        billReminders: true,
-        paymentRequests: true,
-        activityUpdates: true,
-        marketing: false,
-      },
-      privacy: {
-        profileVisibility: 'friends',
-        showEmail: false,
-        showPhone: false,
-        showActivity: true,
-      },
-    },
-  });
+  const [user] = useState<UserType>(MOCK_USER);
 
-  const handleFavorites = () => {
-    // TODO: Navigate to favorites screen
-    console.log('Favorites pressed');
-  };
-
-  const handleLanguage = () => {
-    if (onLanguageSettings) {
-      onLanguageSettings();
-    } else {
-      console.log('Language settings pressed');
-    }
-  };
-
-  const handleCurrency = () => {
-    // TODO: Navigate to currency settings
-    console.log('Currency settings pressed');
-  };
-
-  const handleEditProfile = () => {
-    // TODO: Navigate to edit profile screen
-    console.log('Edit profile pressed');
-  };
-
-  const handleHelp = () => {
-    // TODO: Navigate to help screen
-    console.log('Help pressed');
-  };
-
-  const handleStats = () => {
-    // TODO: Navigate to stats screen
-    console.log('Stats pressed');
-  };
-
-  const handlePrivacyCheckup = () => {
-    // TODO: Navigate to privacy checkup
-    console.log('Privacy checkup pressed');
-  };
-
-  const handleSettings = () => {
-    if (onLanguageSettings) {
-      onLanguageSettings();
-    } else {
-      console.log('Settings pressed');
-    }
-  };
-
-  const handleMessages = () => {
-    // TODO: Navigate to messages screen
-    console.log('Messages pressed');
-  };
-
-  const handleBusinessProfile = () => {
-    // TODO: Navigate to business profile setup
-    console.log('Business profile pressed');
-  };
-
-  const handleManageAccount = () => {
-    // TODO: Navigate to account management
-    console.log('Manage account pressed');
-  };
-
-  const handleLegal = () => {
-    // TODO: Navigate to legal documents
-    console.log('Legal pressed');
-  };
+  // Action handlers using utility functions
+  const handleLanguageSettings = createConditionalHandler(
+    onLanguageSettings, 
+    'Language settings'
+  );
 
   const handleLogout = () => {
     Alert.alert(t('profile.logout'), t('profile.logout_message'), [
@@ -139,23 +90,38 @@ export default function ProfileScreen({
     ]);
   };
 
-  const quickStats = [
+  // Action cards configuration
+  const actionCards: ActionCard[] = [
     {
-      value: user.totalBills?.toString() || '0',
-      label: t('profile.total_bills'),
-      subtitle: t('profile.this_month'),
-      onPress: handleStats,
-      showAddButton: true,
+      key: 'favorites',
+      translationKey: 'profile.favorites',
+      icon: Heart,
+      onPress: createNavigationHandler('Favorites'),
     },
     {
-      value: user.totalSpent?.toFixed(0) || '0',
-      unit: '$',
-      label: t('profile.total_spent'),
-      subtitle: t('profile.this_month'),
-      onPress: handleStats,
-      showAddButton: true,
+      key: 'language',
+      translationKey: 'profile.language',
+      icon: Globe,
+      onPress: handleLanguageSettings,
+    },
+    {
+      key: 'currency',
+      translationKey: 'profile.currency',
+      icon: Wallet,
+      onPress: createNavigationHandler('Currency settings'),
     },
   ];
+
+  const renderActionCard = (card: ActionCard) => (
+    <TouchableOpacity
+      key={card.key}
+      style={styles.actionCard}
+      onPress={card.onPress}
+    >
+      <Text style={styles.actionCardText}>{t(card.translationKey)}</Text>
+      <card.icon size={26} color="#666666" style={styles.actionCardIcon} />
+    </TouchableOpacity>
+  );
 
   return (
     <SafeAreaView style={styles.container}>
@@ -164,29 +130,14 @@ export default function ProfileScreen({
         showsVerticalScrollIndicator={false}
       >
         {/* Profile Header */}
-        <ProfileHeader user={user} onEditProfile={handleEditProfile} />
-
-        {/* Quick Stats */}
-        <View style={styles.section}>
-          <ProfileStats stats={quickStats} />
-        </View>
+        <ProfileHeader 
+          user={user} 
+          onEditProfile={createNavigationHandler('Edit profile')} 
+        />
 
         {/* Actions Section */}
         <View style={styles.rowSection}>
-          <TouchableOpacity style={styles.actionCard} onPress={handleFavorites}>
-            <Text style={styles.actionCardText}>{t('profile.favorites')}</Text>
-            <Heart size={26} color="#666666" style={styles.actionCardIcon} />
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.actionCard} onPress={handleLanguage}>
-            <Text style={styles.actionCardText}>{t('profile.language')}</Text>
-            <Globe size={26} color="#666666" style={styles.actionCardIcon} />
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.actionCard} onPress={handleCurrency}>
-            <Text style={styles.actionCardText}>{t('profile.currency')}</Text>
-            <Wallet size={26} color="#666666" style={styles.actionCardIcon} />
-          </TouchableOpacity>
+          {actionCards.map(renderActionCard)}
         </View>
 
         {/* Logout */}
@@ -210,35 +161,34 @@ export default function ProfileScreen({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000000',
+    backgroundColor: COLORS.background,
   },
-
   scrollView: {
     flex: 1,
   },
   section: {
-    paddingHorizontal: 24,
-    paddingVertical: 8,
+    paddingHorizontal: SPACING.xl,
+    paddingVertical: SPACING.sm,
   },
   rowSection: {
     flexDirection: 'row',
-    gap: 12,
-    paddingHorizontal: 24,
-    paddingVertical: 8,
+    gap: SPACING.md,
+    paddingHorizontal: SPACING.xl,
+    paddingVertical: SPACING.sm,
   },
   actionCard: {
     flex: 1,
-    backgroundColor: '#1a1a1a',
-    borderRadius: 12,
-    padding: 16,
+    backgroundColor: COLORS.cardBackground,
+    borderRadius: BORDER_RADIUS.md,
+    padding: SPACING.lg,
     height: 80,
     aspectRatio: 1,
     justifyContent: 'space-between',
   },
   actionCardText: {
-    color: '#ffffff',
-    fontSize: 14,
-    fontWeight: '500',
+    color: COLORS.text,
+    fontSize: FONT_SIZES.sm,
+    fontWeight: FONT_WEIGHTS.medium,
     alignSelf: 'flex-start',
   },
   actionCardIcon: {

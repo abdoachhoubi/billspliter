@@ -1,6 +1,7 @@
-import { BadgeCent, Crown, User as UserIcon } from 'lucide-react-native';
+import { Crown, User as UserIcon } from 'lucide-react-native';
 import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { COLORS, SPACING, BORDER_RADIUS, FONT_SIZES, FONT_WEIGHTS } from '../constants/theme';
 import { User, UserUtils } from '../entities/user.entity';
 
 interface ProfileHeaderProps {
@@ -36,10 +37,8 @@ export default function ProfileHeader({
               { backgroundColor: badgeBackgroundColor },
             ]}
           >
-            {user.subscriptionType === 'premium' ? (
+            {user.subscriptionType === 'premium' && (
               <Crown size={14} color={badgeTextColor} fill={badgeTextColor} />
-            ) : (
-              <BadgeCent size={14} color={badgeTextColor} />
             )}
             <Text style={[styles.subscriptionText, { color: badgeTextColor }]}>
               {subscriptionText}
@@ -66,10 +65,10 @@ export default function ProfileHeader({
 
 const styles = StyleSheet.create({
   container: {
-    paddingVertical: 24,
-    paddingHorizontal: 24,
+    paddingVertical: SPACING.xl,
+    paddingHorizontal: SPACING.xl,
     borderBottomWidth: 1,
-    borderBottomColor: '#1a1a1a',
+    borderBottomColor: COLORS.cardBackground,
   },
   userInfo: {
     flexDirection: 'row',
@@ -77,44 +76,44 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   avatarContainer: {
-    marginLeft: 16,
+    marginLeft: SPACING.lg,
   },
   avatar: {
     width: 64,
     height: 64,
-    borderRadius: 32,
+    borderRadius: BORDER_RADIUS.round,
   },
   avatarPlaceholder: {
     width: 64,
     height: 64,
-    borderRadius: 32,
-    backgroundColor: '#1a1a1a',
+    borderRadius: BORDER_RADIUS.round,
+    backgroundColor: COLORS.cardBackground,
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 2,
-    borderColor: '#333333',
+    borderColor: COLORS.border,
   },
   userDetails: {
     flex: 1,
     alignItems: 'flex-start',
   },
   userName: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#ffffff',
-    marginBottom: 8,
+    fontSize: FONT_SIZES.xxl,
+    fontWeight: FONT_WEIGHTS.bold,
+    color: COLORS.text,
+    marginBottom: SPACING.sm,
   },
   subscriptionBadge: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 12,
+    paddingHorizontal: SPACING.md,
     paddingVertical: 6,
-    borderRadius: 16,
+    borderRadius: BORDER_RADIUS.lg,
     alignSelf: 'flex-start',
   },
   subscriptionText: {
-    fontSize: 14,
-    fontWeight: '600',
-    marginLeft: 4,
+    fontSize: FONT_SIZES.sm,
+    fontWeight: FONT_WEIGHTS.semibold,
+    marginLeft: SPACING.xs,
   },
 });
