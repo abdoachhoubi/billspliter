@@ -10,6 +10,7 @@ import LanguageSettingsScreen from './src/screens/language-settings';
 import WelcomeScreen from './src/screens/welcome';
 import OnboardingScreen from './src/screens/onboarding';
 import HomeScreen from './src/screens/home';
+import ProfileScreen from './src/screens/profile';
 
 function AppContent() {
   const { t } = useTranslation();
@@ -19,6 +20,10 @@ function AppContent() {
 
   const handleGetStarted = () => {
     setCurrentScreen('home');
+  };
+
+  const handleLanguageSettings = () => {
+    setShowLanguageSettings(true);
   };
 
   if (showLanguageSettings) {
@@ -50,7 +55,7 @@ function AppContent() {
   }
 
   if (currentScreen === 'home') {
-    return <HomeScreen />;
+    return <HomeScreen onLanguageSettings={handleLanguageSettings} />;
   }
 
   return null;
@@ -69,7 +74,7 @@ export default function App() {
         persistor={persistor}
       >
         <LanguageProvider>
-          <AppContent />
+          <ProfileScreen />
         </LanguageProvider>
       </PersistGate>
     </Provider>

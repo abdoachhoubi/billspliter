@@ -46,5 +46,32 @@
     "searching": "Recherche...",
     "no_contacts_title": "Aucun Contact Trouvé",
     "no_contacts_message": "Ajoutez des contacts pour commencer à diviser les factures."
+  },
+  "profile": {
+    "title": "Profil",
+    "edit_profile": "Modifier le Profil",
+    "help": "Aide",
+    "help_subtitle": "Obtenez de l'aide et trouvez des réponses",
+    "stats": "Statistiques",
+    "stats_subtitle": "Consultez vos analyses de dépenses",
+    "wallet": "Portefeuille",
+    "activity": "Activité",
+    "privacy_checkup": "Vérification de la confidentialité",
+    "privacy_subtitle": "Faites une visite interactive de vos paramètres de confidentialité",
+    "settings": "Paramètres",
+    "messages": "Messages",
+    "business_profile": "Configurez votre profil d'entreprise",
+    "business_subtitle": "Automatisez les frais de voyage et de repas professionnels",
+    "manage_account": "Gérer le compte",
+    "legal": "Légal",
+    "logout": "Déconnexion",
+    "logout_message": "Êtes-vous sûr de vouloir vous déconnecter?",
+    "total_bills": "Total des Factures",
+    "total_spent": "Total Dépensé",
+    "this_month": "Ce mois",
+    "member_since": "Membre depuis",
+    "favorites": "Favoris",
+    "language": "Langue",
+    "currency": "Devise"
   }
 }

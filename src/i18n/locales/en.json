@@ -46,5 +46,32 @@
     "searching": "Searching...",
     "no_contacts_title": "No Contacts Found",
     "no_contacts_message": "Add some contacts to get started with bill splitting."
+  },
+  "profile": {
+    "title": "Profile",
+    "edit_profile": "Edit Profile",
+    "help": "Help",
+    "help_subtitle": "Get support and find answers",
+    "stats": "Stats",
+    "stats_subtitle": "View your spending insights",
+    "wallet": "Wallet",
+    "activity": "Activity",
+    "privacy_checkup": "Privacy checkup",
+    "privacy_subtitle": "Take an interactive tour of your privacy settings",
+    "settings": "Settings",
+    "messages": "Messages",
+    "business_profile": "Setup your business profile",
+    "business_subtitle": "Automate work travel & meal expenses",
+    "manage_account": "Manage account",
+    "legal": "Legal",
+    "logout": "Logout",
+    "logout_message": "Are you sure you want to logout?",
+    "total_bills": "Total Bills",
+    "total_spent": "Total Spent",
+    "this_month": "This month",
+    "member_since": "Member since",
+    "favorites": "Favorites",
+    "language": "Language",
+    "currency": "Currency"
   }
 }
