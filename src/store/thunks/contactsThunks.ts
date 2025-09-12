@@ -75,3 +75,57 @@ export const searchContacts = createAsyncThunk(
     }
   }
 );
+
+// Toggle favorite status
+export const toggleContactFavorite = createAsyncThunk(
+  'contacts/toggleFavorite',
+  async (contactId: string, { rejectWithValue }) => {
+    try {
+      const updatedContact = await ContactsService.toggleFavorite(contactId);
+      if (!updatedContact) {
+        return rejectWithValue('Contact not found');
+      }
+      return updatedContact;
+    } catch (error) {
+      return rejectWithValue('Failed to toggle favorite');
+    }
+  }
+);
+
+// Update contact group
+export const updateContactGroup = createAsyncThunk(
+  'contacts/updateGroup',
+  async (
+    { contactId, group }: { contactId: string; group: Contact['group'] },
+    { rejectWithValue }
+  ) => {
+    try {
+      const updatedContact = await ContactsService.updateContactGroup(contactId, group);
+      if (!updatedContact) {
+        return rejectWithValue('Contact not found');
+      }
+      return updatedContact;
+    } catch (error) {
+      return rejectWithValue('Failed to update contact group');
+    }
+  }
+);
+
+// Add contact notes
+export const addContactNotes = createAsyncThunk(
+  'contacts/addNotes',
+  async (
+    { contactId, notes }: { contactId: string; notes: string },
+    { rejectWithValue }
+  ) => {
+    try {
+      const updatedContact = await ContactsService.addContactNotes(contactId, notes);
+      if (!updatedContact) {
+        return rejectWithValue('Contact not found');
+      }
+      return updatedContact;
+    } catch (error) {
+      return rejectWithValue('Failed to add contact notes');
+    }
+  }
+);

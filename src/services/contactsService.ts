@@ -226,4 +226,100 @@ export class ContactsService {
       return null;
     }
   }
+
+  // Toggle favorite status of a contact
+  static async toggleFavorite(contactId: string): Promise<Contact | null> {
+    try {
+      const contacts = await this.loadLocalContacts();
+      const contactIndex = contacts.findIndex(c => c.id === contactId);
+      
+      if (contactIndex === -1) {
+        return null;
+      }
+
+      const updatedContact = ContactUtils.toggleFavorite(contacts[contactIndex]);
+      contacts[contactIndex] = updatedContact;
+      
+      await this.saveLocalContacts(contacts);
+      return updatedContact;
+    } catch (error) {
+      console.error('Error toggling favorite:', error);
+      return null;
+    }
+  }
+
+  // Update contact group
+  static async updateContactGroup(
+    contactId: string, 
+    group: Contact['group']
+  ): Promise<Contact | null> {
+    try {
+      const contacts = await this.loadLocalContacts();
+      const contactIndex = contacts.findIndex(c => c.id === contactId);
+      
+      if (contactIndex === -1) {
+        return null;
+      }
+
+      const updatedContact = {
+        ...contacts[contactIndex],
+        group,
+        lastActivityAt: new Date().toISOString(),
+      };
+      
+      contacts[contactIndex] = updatedContact;
+      await this.saveLocalContacts(contacts);
+      return updatedContact;
+    } catch (error) {
+      console.error('Error updating contact group:', error);
+      return null;
+    }
+  }
+
+  // Get contacts by group
+  static async getContactsByGroup(group: Contact['group']): Promise<Contact[]> {
+    try {
+      const contacts = await this.loadLocalContacts();
+      return contacts.filter(contact => contact.group === group);
+    } catch (error) {
+      console.error('Error getting contacts by group:', error);
+      return [];
+    }
+  }
+
+  // Get favorite contacts
+  static async getFavoriteContacts(): Promise<Contact[]> {
+    try {
+      const contacts = await this.loadLocalContacts();
+      return contacts.filter(contact => contact.isFavorite === true);
+    } catch (error) {
+      console.error('Error getting favorite contacts:', error);
+      return [];
+    }
+  }
+
+  // Add notes to a contact
+  static async addContactNotes(contactId: string, notes: string): Promise<Contact | null> {
+    try {
+      const contacts = await this.loadLocalContacts();
+      const contactIndex = contacts.findIndex(c => c.id === contactId);
+      
+      if (contactIndex === -1) {
+        return null;
+      }
+
+      const updatedContact = {
+        ...contacts[contactIndex],
+        notes,
+        lastActivityAt: new Date().toISOString(),
+      };
+      
+      contacts[contactIndex] = updatedContact;
+      await this.saveLocalContacts(contacts);
+      return updatedContact;
+    } catch (error) {
+      console.error('Error adding contact notes:', error);
+      return null;
+    }
+  }
 }

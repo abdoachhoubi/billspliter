@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import { View, Text, FlatList, StyleSheet, Alert, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, StyleSheet, Alert, TouchableOpacity, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
 import { Archive, Refresh, Add, CloseCircle, Sort, Filter } from 'iconsax-react-nativejs';
@@ -26,6 +26,9 @@ import {
   createContact,
   deleteContact,
   searchContacts,
+  toggleContactFavorite,
+  updateContactGroup,
+  addContactNotes,
 } from '../store/thunks/contactsThunks';
 import {
   clearSearchResults,
@@ -65,6 +68,7 @@ export default function ContactsScreen() {
   const [showStats, setShowStats] = useState(true);
   const [sortBy, setSortBy] = useState<'name' | 'balance' | 'activity' | 'bills-count' | 'recent'>('name');
   const [filterBy, setFilterBy] = useState<'owes-you' | 'you-owe' | 'settled' | 'active' | 'all'>('all');
+  const [groupFilter, setGroupFilter] = useState<'all' | 'family' | 'friends' | 'work' | 'other' | 'favorites'>('all');
   const [newContact, setNewContact] = useState<CreateContact>({
     firstName: '',
     lastName: '',
@@ -179,6 +183,21 @@ export default function ContactsScreen() {
       }
     }
 
+    // Apply group filtering
+    if (groupFilter !== 'all') {
+      switch (groupFilter) {
+        case 'favorites':
+          result = result.filter(c => c.isFavorite === true);
+          break;
+        case 'family':
+        case 'friends':
+        case 'work':
+        case 'other':
+          result = result.filter(c => c.group === groupFilter);
+          break;
+      }
+    }
+
     // Apply sorting
     result.sort((a, b) => {
       switch (sortBy) {
@@ -204,7 +223,7 @@ export default function ContactsScreen() {
     });
 
     return result;
-  }, [contactsWithStats, searchResults, searchQuery, filterBy, sortBy]);
+  }, [contactsWithStats, searchResults, searchQuery, filterBy, sortBy, groupFilter]);
 
   const displayContacts: ContactWithDisplay[] = filteredAndSortedContacts;
 
@@ -225,8 +244,7 @@ export default function ContactsScreen() {
         console.log('Contact pressed:', contactId);
       }}
       onToggleFavorite={(contactId) => {
-        // TODO: Implement favorite toggle
-        console.log('Toggle favorite:', contactId);
+        dispatch(toggleContactFavorite(contactId));
       }}
     />
   );
@@ -291,9 +309,11 @@ export default function ContactsScreen() {
       />
 
       {/* Filter and Sort Status Bar */}
-      {(filterBy !== 'all' || sortBy !== 'name') && (
+      {(filterBy !== 'all' || sortBy !== 'name' || groupFilter !== 'all') && (
         <View style={styles.statusBar}>
           <Text style={styles.statusText}>
+            {groupFilter !== 'all' && `Group: ${groupFilter}`}
+            {groupFilter !== 'all' && (filterBy !== 'all' || sortBy !== 'name') && ' • '}
             {filterBy !== 'all' && `Filter: ${filterBy.replace('-', ' ')}`}
             {filterBy !== 'all' && sortBy !== 'name' && ' • '}
             {sortBy !== 'name' && `Sort: ${sortBy.replace('-', ' ')}`}
@@ -302,6 +322,7 @@ export default function ContactsScreen() {
             onPress={() => {
               setFilterBy('all');
               setSortBy('name');
+              setGroupFilter('all');
             }}
             style={styles.clearFilters}
           >
@@ -309,6 +330,40 @@ export default function ContactsScreen() {
           </TouchableOpacity>
         </View>
       )}
+
+      {/* Group Filter Pills */}
+      <ScrollView 
+        horizontal 
+        showsHorizontalScrollIndicator={false}
+        style={styles.groupFilters}
+        contentContainerStyle={styles.groupFiltersContent}
+      >
+        {[
+          { key: 'all', label: 'All', icon: '👥' },
+          { key: 'favorites', label: 'Favorites', icon: '⭐' },
+          { key: 'family', label: 'Family', icon: '👨‍👩‍👧‍👦' },
+          { key: 'friends', label: 'Friends', icon: '👯' },
+          { key: 'work', label: 'Work', icon: '💼' },
+          { key: 'other', label: 'Other', icon: '📝' },
+        ].map(({ key, label, icon }) => (
+          <TouchableOpacity
+            key={key}
+            onPress={() => setGroupFilter(key as typeof groupFilter)}
+            style={[
+              styles.groupFilterPill,
+              groupFilter === key && styles.groupFilterPillActive
+            ]}
+          >
+            <Text style={styles.groupFilterIcon}>{icon}</Text>
+            <Text style={[
+              styles.groupFilterText,
+              groupFilter === key && styles.groupFilterTextActive
+            ]}>
+              {label}
+            </Text>
+          </TouchableOpacity>
+        ))}
+      </ScrollView>
 
       {showAddForm && (
         <ContactForm
@@ -424,6 +479,41 @@ const styles = StyleSheet.create({
   },
   clearFiltersText: {
     fontSize: 12,
+    color: '#ffffff',
+    fontWeight: '600',
+  },
+  groupFilters: {
+    marginHorizontal: 24,
+    marginBottom: 16,
+  },
+  groupFiltersContent: {
+    paddingRight: 24,
+  },
+  groupFilterPill: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    backgroundColor: '#1a1a1a',
+    borderRadius: 20,
+    marginRight: 12,
+    borderWidth: 1,
+    borderColor: 'transparent',
+  },
+  groupFilterPillActive: {
+    backgroundColor: '#333333',
+    borderColor: '#ffffff',
+  },
+  groupFilterIcon: {
+    fontSize: 14,
+    marginRight: 6,
+  },
+  groupFilterText: {
+    fontSize: 14,
+    color: '#888888',
+    fontWeight: '500',
+  },
+  groupFilterTextActive: {
     color: '#ffffff',
     fontWeight: '600',
   },

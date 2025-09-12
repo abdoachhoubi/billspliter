@@ -11,6 +11,9 @@ import {
   updateContact,
   deleteContact,
   searchContacts,
+  toggleContactFavorite,
+  updateContactGroup,
+  addContactNotes,
 } from '../thunks/contactsThunks';
 
 interface ContactsState {
@@ -181,6 +184,48 @@ const contactsSlice = createSlice({
       })
       .addCase(searchContacts.rejected, (state, action) => {
         state.isSearching = false;
+        state.error = action.payload as string;
+      });
+
+    // Toggle favorite
+    builder
+      .addCase(toggleContactFavorite.fulfilled, (state, action) => {
+        const index = state.contacts.findIndex(
+          contact => contact.id === action.payload.id
+        );
+        if (index !== -1) {
+          state.contacts[index] = action.payload;
+        }
+      })
+      .addCase(toggleContactFavorite.rejected, (state, action) => {
+        state.error = action.payload as string;
+      });
+
+    // Update group
+    builder
+      .addCase(updateContactGroup.fulfilled, (state, action) => {
+        const index = state.contacts.findIndex(
+          contact => contact.id === action.payload.id
+        );
+        if (index !== -1) {
+          state.contacts[index] = action.payload;
+        }
+      })
+      .addCase(updateContactGroup.rejected, (state, action) => {
+        state.error = action.payload as string;
+      });
+
+    // Add notes
+    builder
+      .addCase(addContactNotes.fulfilled, (state, action) => {
+        const index = state.contacts.findIndex(
+          contact => contact.id === action.payload.id
+        );
+        if (index !== -1) {
+          state.contacts[index] = action.payload;
+        }
+      })
+      .addCase(addContactNotes.rejected, (state, action) => {
         state.error = action.payload as string;
       });
   },

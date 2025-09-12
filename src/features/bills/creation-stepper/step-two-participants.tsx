@@ -25,8 +25,9 @@ import {
 import CustomInput from '../../../common/components/custom-input';
 
 // Types
-import { Contact } from '../../../common/entities/contact.entity';
-import { SplitType } from '../../../common/entities/bill.entity';
+import { Contact, ContactWithStats } from '../../../common/entities/contact.entity';
+import { SplitType, Bill } from '../../../common/entities/bill.entity';
+import { ContactBillUtils } from '../../../common/utils/contact-bill-utils';
 
 // Local interface for the stepper (more convenient than the main BillParticipant)
 interface StepperParticipant {
@@ -44,6 +45,8 @@ interface StepTwoParticipantsProps {
   availableContacts: Contact[];
   setAvailableContacts?: (contacts: Contact[]) => void; // Make optional since contacts come from Redux
   currentUser: Contact; // Add current user to show as owner
+  bills?: Bill[]; // Optional bills data for suggestions
+  currentUserId?: string; // For calculating contact statistics
 }
 
 // Contact Selection Modal Component
@@ -54,6 +57,8 @@ const ContactSelectionModal: React.FC<{
   onCreateNew: (contactData: Omit<Contact, 'id'>) => void;
   existingContacts: Contact[];
   selectedContactIds: string[];
+  frequentContacts?: Contact[];
+  recentContacts?: Contact[];
 }> = ({
   visible,
   onClose,
@@ -61,6 +66,8 @@ const ContactSelectionModal: React.FC<{
   onCreateNew,
   existingContacts,
   selectedContactIds,
+  frequentContacts = [],
+  recentContacts = [],
 }) => {
   const { t } = useTranslation();
   const [newContactName, setNewContactName] = useState('');
@@ -144,7 +151,161 @@ const ContactSelectionModal: React.FC<{
         </View>
 
         <ScrollView style={{ flex: 1, padding: SPACING.md }}>
-          {/* Existing Contacts */}
+          {/* Frequent Contacts Suggestions */}
+          {frequentContacts.filter(
+            contact => !selectedContactIds.includes(contact.id)
+          ).length > 0 && (
+            <View style={{ marginBottom: SPACING.lg }}>
+              <Text
+                style={{
+                  fontSize: FONT_SIZES.md,
+                  fontWeight: FONT_WEIGHTS.semibold,
+                  color: COLORS.text,
+                  marginBottom: SPACING.md,
+                }}
+              >
+                💰 Frequent Contacts
+              </Text>
+              <ScrollView 
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                style={{ marginBottom: SPACING.md }}
+              >
+                {frequentContacts
+                  .filter(contact => !selectedContactIds.includes(contact.id))
+                  .slice(0, 5)
+                  .map(contact => (
+                    <TouchableOpacity
+                      key={`frequent-${contact.id}`}
+                      onPress={() => onSelectContact(contact)}
+                      style={{
+                        alignItems: 'center',
+                        marginRight: SPACING.md,
+                        padding: SPACING.sm,
+                        borderRadius: BORDER_RADIUS.md,
+                        backgroundColor: COLORS.cardBackground,
+                        borderWidth: 1,
+                        borderColor: COLORS.premium,
+                        minWidth: 80,
+                      }}
+                    >
+                      <View
+                        style={{
+                          width: 48,
+                          height: 48,
+                          borderRadius: 24,
+                          backgroundColor: COLORS.premium,
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          marginBottom: SPACING.xs,
+                        }}
+                      >
+                        <Text
+                          style={{
+                            fontSize: FONT_SIZES.sm,
+                            fontWeight: FONT_WEIGHTS.bold,
+                            color: COLORS.background,
+                          }}
+                        >
+                          {contact.firstName.charAt(0)}
+                          {contact.lastName.charAt(0)}
+                        </Text>
+                      </View>
+                      <Text
+                        style={{
+                          fontSize: FONT_SIZES.xs,
+                          color: COLORS.text,
+                          textAlign: 'center',
+                        }}
+                        numberOfLines={2}
+                      >
+                        {contact.firstName}
+                      </Text>
+                    </TouchableOpacity>
+                  ))}
+              </ScrollView>
+            </View>
+          )}
+
+          {/* Recent Contacts Suggestions */}
+          {recentContacts.filter(
+            contact => !selectedContactIds.includes(contact.id) &&
+            !frequentContacts.some(fc => fc.id === contact.id)
+          ).length > 0 && (
+            <View style={{ marginBottom: SPACING.lg }}>
+              <Text
+                style={{
+                  fontSize: FONT_SIZES.md,
+                  fontWeight: FONT_WEIGHTS.semibold,
+                  color: COLORS.text,
+                  marginBottom: SPACING.md,
+                }}
+              >
+                🕒 Recent Contacts
+              </Text>
+              <ScrollView 
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                style={{ marginBottom: SPACING.md }}
+              >
+                {recentContacts
+                  .filter(contact => !selectedContactIds.includes(contact.id) &&
+                    !frequentContacts.some(fc => fc.id === contact.id))
+                  .slice(0, 5)
+                  .map(contact => (
+                    <TouchableOpacity
+                      key={`recent-${contact.id}`}
+                      onPress={() => onSelectContact(contact)}
+                      style={{
+                        alignItems: 'center',
+                        marginRight: SPACING.md,
+                        padding: SPACING.sm,
+                        borderRadius: BORDER_RADIUS.md,
+                        backgroundColor: COLORS.cardBackground,
+                        borderWidth: 1,
+                        borderColor: COLORS.border,
+                        minWidth: 80,
+                      }}
+                    >
+                      <View
+                        style={{
+                          width: 48,
+                          height: 48,
+                          borderRadius: 24,
+                          backgroundColor: COLORS.textSecondary,
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          marginBottom: SPACING.xs,
+                        }}
+                      >
+                        <Text
+                          style={{
+                            fontSize: FONT_SIZES.sm,
+                            fontWeight: FONT_WEIGHTS.bold,
+                            color: COLORS.background,
+                          }}
+                        >
+                          {contact.firstName.charAt(0)}
+                          {contact.lastName.charAt(0)}
+                        </Text>
+                      </View>
+                      <Text
+                        style={{
+                          fontSize: FONT_SIZES.xs,
+                          color: COLORS.text,
+                          textAlign: 'center',
+                        }}
+                        numberOfLines={2}
+                      >
+                        {contact.firstName}
+                      </Text>
+                    </TouchableOpacity>
+                  ))}
+              </ScrollView>
+            </View>
+          )}
+
+          {/* All Contacts */}
           {existingContacts.filter(
             contact => !selectedContactIds.includes(contact.id)
           ).length > 0 && (
@@ -356,6 +517,8 @@ export const StepTwoParticipants: React.FC<StepTwoParticipantsProps> = ({
   availableContacts,
   setAvailableContacts,
   currentUser,
+  bills = [],
+  currentUserId = 'current-user',
 }) => {
   const { t } = useTranslation();
   const [showContactModal, setShowContactModal] = useState(false);
@@ -365,6 +528,27 @@ export const StepTwoParticipants: React.FC<StepTwoParticipantsProps> = ({
 
   // Create a current user participant to always include them
   const [currentUserAmount, setCurrentUserAmount] = useState(0);
+
+  // Calculate contact suggestions
+  const contactSuggestions = React.useMemo(() => {
+    if (bills.length === 0 || availableContacts.length === 0) {
+      return { frequent: [], recent: [] };
+    }
+
+    const contactsWithStats = ContactBillUtils.getContactsWithStats(
+      availableContacts,
+      bills,
+      currentUserId
+    );
+
+    const frequent = ContactBillUtils.getFrequentContacts(contactsWithStats, 5);
+    const recent = ContactBillUtils.getRecentContacts(contactsWithStats, 5);
+
+    return {
+      frequent: frequent.map(c => ({ ...c })), // Convert ContactWithStats to Contact
+      recent: recent.map(c => ({ ...c })), // Convert ContactWithStats to Contact
+    };
+  }, [availableContacts, bills, currentUserId]);
 
   const currentUserParticipant: StepperParticipant = React.useMemo(() => {
     // Check if current user is already in participants
@@ -995,6 +1179,8 @@ export const StepTwoParticipants: React.FC<StepTwoParticipantsProps> = ({
         onCreateNew={handleCreateContact}
         existingContacts={availableContacts}
         selectedContactIds={participants.map(p => p.contact.id)}
+        frequentContacts={contactSuggestions.frequent}
+        recentContacts={contactSuggestions.recent}
       />
     </ScrollView>
   );
