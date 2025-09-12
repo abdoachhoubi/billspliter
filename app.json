@@ -6,14 +6,17 @@
     "orientation": "portrait",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.billsplitter.app",
       "buildNumber": "1",
       "infoPlist": {
         "CFBundleDevelopmentRegion": "en",
-        "CFBundleAllowMixedLocalizations": true
+        "CFBundleAllowMixedLocalizations": true,
+        "ITSAppUsesNonExemptEncryption": false
       }
     },
     "android": {
