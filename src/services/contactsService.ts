@@ -1,5 +1,9 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Contact, CreateContact, ContactUtils } from '../common/entities/contact.entity';
+import {
+  Contact,
+  CreateContact,
+  ContactUtils,
+} from '../common/entities/contact.entity';
 
 // Storage keys
 const CONTACTS_STORAGE_KEY = 'contacts_data';
@@ -9,7 +13,8 @@ const LAST_SYNC_KEY = 'contacts_last_sync';
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 // Generate unique ID
-const generateId = () => `contact_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+const generateId = () =>
+  `contact_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 
 // Default contacts for new installations
 const defaultContacts: Contact[] = [
@@ -39,7 +44,7 @@ export class ContactsService {
       if (storedContacts) {
         return JSON.parse(storedContacts);
       }
-      
+
       // If no contacts stored, use defaults and save them
       await this.saveLocalContacts(defaultContacts);
       return defaultContacts;
@@ -52,7 +57,10 @@ export class ContactsService {
   // Save contacts to local storage
   static async saveLocalContacts(contacts: Contact[]): Promise<void> {
     try {
-      await AsyncStorage.setItem(CONTACTS_STORAGE_KEY, JSON.stringify(contacts));
+      await AsyncStorage.setItem(
+        CONTACTS_STORAGE_KEY,
+        JSON.stringify(contacts)
+      );
       await AsyncStorage.setItem(LAST_SYNC_KEY, new Date().toISOString());
     } catch (error) {
       console.error('Error saving local contacts:', error);
@@ -64,10 +72,10 @@ export class ContactsService {
     try {
       // First try to load from local storage
       const localContacts = await this.loadLocalContacts();
-      
+
       // Simulate API call delay for realism
       await delay(300);
-      
+
       return localContacts;
     } catch (error) {
       console.error('Error fetching contacts:', error);
@@ -94,25 +102,25 @@ export class ContactsService {
       if (validationErrors.length > 0) {
         throw new Error(`Validation failed: ${validationErrors.join(', ')}`);
       }
-      
+
       // Load existing contacts
       const contacts = await this.loadLocalContacts();
-      
+
       // Create new contact
       const newContact: Contact = {
         ...contactData,
         id: generateId(),
       };
-      
+
       // Add to contacts array
       const updatedContacts = [...contacts, newContact];
-      
+
       // Save to local storage
       await this.saveLocalContacts(updatedContacts);
-      
+
       // Simulate API delay
       await delay(300);
-      
+
       return newContact;
     } catch (error) {
       console.error('Error creating contact:', error);
@@ -121,32 +129,35 @@ export class ContactsService {
   }
 
   // Update contact
-  static async updateContact(id: string, updates: Partial<CreateContact>): Promise<Contact | null> {
+  static async updateContact(
+    id: string,
+    updates: Partial<CreateContact>
+  ): Promise<Contact | null> {
     try {
       const contacts = await this.loadLocalContacts();
       const contactIndex = contacts.findIndex(contact => contact.id === id);
-      
+
       if (contactIndex === -1) {
         throw new Error('Contact not found');
       }
-      
+
       const updatedContact = { ...contacts[contactIndex], ...updates };
-      
+
       // Validate updated contact data
       const validationErrors = ContactUtils.validateContact(updatedContact);
       if (validationErrors.length > 0) {
         throw new Error(`Validation failed: ${validationErrors.join(', ')}`);
       }
-      
+
       // Update contacts array
       contacts[contactIndex] = updatedContact;
-      
+
       // Save to local storage
       await this.saveLocalContacts(contacts);
-      
+
       // Simulate API delay
       await delay(300);
-      
+
       return updatedContact;
     } catch (error) {
       console.error('Error updating contact:', error);
@@ -159,17 +170,17 @@ export class ContactsService {
     try {
       const contacts = await this.loadLocalContacts();
       const filteredContacts = contacts.filter(contact => contact.id !== id);
-      
+
       if (filteredContacts.length === contacts.length) {
         throw new Error('Contact not found');
       }
-      
+
       // Save updated contacts
       await this.saveLocalContacts(filteredContacts);
-      
+
       // Simulate API delay
       await delay(300);
-      
+
       return true;
     } catch (error) {
       console.error('Error deleting contact:', error);
@@ -181,11 +192,13 @@ export class ContactsService {
   static async searchContacts(query: string): Promise<Contact[]> {
     try {
       const contacts = await this.loadLocalContacts();
-      const results = contacts.filter(contact => ContactUtils.matchesSearch(contact, query));
-      
+      const results = contacts.filter(contact =>
+        ContactUtils.matchesSearch(contact, query)
+      );
+
       // Simulate API delay
       await delay(200);
-      
+
       return results;
     } catch (error) {
       console.error('Error searching contacts:', error);

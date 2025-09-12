@@ -12,10 +12,7 @@ interface MainTabContainerProps {
   onLogout?: () => void;
 }
 
-export const MainTabContainer: React.FC<MainTabContainerProps> = ({
-  onLanguageSettings,
-  onLogout,
-}) => {
+export const MainTabContainer: React.FC<MainTabContainerProps> = ({}) => {
   const [activeTab, setActiveTab] = useState<TabName>('home');
 
   const handleTabPress = (tab: TabName) => {
@@ -34,12 +31,7 @@ export const MainTabContainer: React.FC<MainTabContainerProps> = ({
         return <ContactsScreen />;
 
       case 'profile':
-        return (
-          <ProfileScreen
-            onLanguageSettings={onLanguageSettings}
-            onLogout={onLogout}
-          />
-        );
+        return <ProfileScreen />;
 
       default:
         return <HomeScreen />;
@@ -57,7 +49,7 @@ export const MainTabContainer: React.FC<MainTabContainerProps> = ({
 
 const styles = StyleSheet.create({
   container: {
-	backgroundColor: "rgba(0, 0, 0, 0)",
+    backgroundColor: 'rgba(0, 0, 0, 0)',
     flex: 1,
   },
   screenContainer: {

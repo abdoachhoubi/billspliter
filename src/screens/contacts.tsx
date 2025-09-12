@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import {
-  View,
-  Text,
-  FlatList,
-  StyleSheet,
-  Alert,
-} from 'react-native';
+import { View, Text, FlatList, StyleSheet, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
 import { HardDrive, RefreshCw, Plus, X } from 'lucide-react-native';
-import { Contact, CreateContact, ContactUtils } from '../common/entities/contact.entity';
+import {
+  Contact,
+  CreateContact,
+  ContactUtils,
+} from '../common/entities/contact.entity';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import {
   selectContactsWithFullName,
@@ -26,7 +24,10 @@ import {
   deleteContact,
   searchContacts,
 } from '../store/thunks/contactsThunks';
-import { clearSearchResults, clearContacts } from '../store/slices/contactsSlice';
+import {
+  clearSearchResults,
+  clearContacts,
+} from '../store/slices/contactsSlice';
 import { ContactsService } from '../services/contactsService';
 import {
   ContactItem,
@@ -131,7 +132,9 @@ export default function ContactsScreen() {
     );
   };
 
-  const displayContacts: ContactWithDisplay[] = searchQuery.trim() ? searchResults : contacts;
+  const displayContacts: ContactWithDisplay[] = searchQuery.trim()
+    ? searchResults
+    : contacts;
 
   const renderContact = ({ item }: { item: ContactWithDisplay }) => (
     <ContactItem
@@ -156,7 +159,9 @@ export default function ContactsScreen() {
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <View style={styles.titleContainer}>
-          <Text style={styles.title}>{t('contacts.title')} ({contacts.length})</Text>
+          <Text style={styles.title}>
+            {t('contacts.title')} ({contacts.length})
+          </Text>
           {hasLocalData && (
             <View style={styles.persistedIndicator}>
               <HardDrive size={12} color="#888888" />
@@ -165,10 +170,7 @@ export default function ContactsScreen() {
           )}
         </View>
         <View style={styles.headerButtons}>
-          <CircularIconButton
-            Icon={RefreshCw}
-            onPress={handleRefresh}
-          />
+          <CircularIconButton Icon={RefreshCw} onPress={handleRefresh} />
           <CircularIconButton
             Icon={showAddForm ? X : Plus}
             backgroundColor="#ffffff"
@@ -203,17 +205,19 @@ export default function ContactsScreen() {
       <FlatList
         data={displayContacts}
         renderItem={renderContact}
-        keyExtractor={(item) => item.id}
+        keyExtractor={item => item.id}
         style={styles.list}
         showsVerticalScrollIndicator={false}
         ListEmptyComponent={
           !isSearching ? (
-            <EmptyState 
-              message={searchQuery ? "No Contacts Found" : "No Contacts Yet"}
-              subtitle={searchQuery 
-                ? "Try adjusting your search terms or add a new contact" 
-                : "Add your first contact to start splitting bills"}
-              actionText={!searchQuery ? "Add Contact" : undefined}
+            <EmptyState
+              message={searchQuery ? 'No Contacts Found' : 'No Contacts Yet'}
+              subtitle={
+                searchQuery
+                  ? 'Try adjusting your search terms or add a new contact'
+                  : 'Add your first contact to start splitting bills'
+              }
+              actionText={!searchQuery ? 'Add Contact' : undefined}
               onAction={!searchQuery ? () => setShowAddForm(true) : undefined}
             />
           ) : null

@@ -30,7 +30,10 @@ import { useDispatch, useSelector } from 'react-redux';
 
 // Redux
 import { AppDispatch } from '../store';
-import { deleteBillById, updateBillStatusById } from '../store/thunks/billsThunks';
+import {
+  deleteBillById,
+  updateBillStatusById,
+} from '../store/thunks/billsThunks';
 import { selectBillById } from '../store/selectors/billsSelectors';
 
 // Theme
@@ -59,23 +62,28 @@ interface BillDetailScreenProps {
   billId?: string; // Alternative way to pass bill ID
 }
 
-export default function BillDetailScreen({ navigation, route, bill: propBill, billId }: BillDetailScreenProps) {
+export default function BillDetailScreen({
+  navigation,
+  route,
+  bill: propBill,
+  billId,
+}: BillDetailScreenProps) {
   const { t } = useTranslation();
   const dispatch = useDispatch<AppDispatch>();
-  
+
   // Get bill ID from various sources
   const currentBillId = billId || route?.params?.bill?.id || propBill?.id;
-  
+
   // Subscribe to Redux state for real-time updates
-  const billFromStore = useSelector((state: any) => 
+  const billFromStore = useSelector((state: any) =>
     currentBillId ? selectBillById(state, currentBillId) : null
   );
-  
+
   // Always prefer the bill from Redux store for real-time updates
   const bill = billFromStore || route?.params?.bill || propBill;
-  
+
   const [showActionsModal, setShowActionsModal] = useState(false);
-  
+
   // Debug logging to track state changes
   React.useEffect(() => {
     console.log('Bill Detail Debug:');
@@ -84,24 +92,29 @@ export default function BillDetailScreen({ navigation, route, bill: propBill, bi
     console.log('bill status:', bill?.status);
     console.log('showActionsModal:', showActionsModal);
   }, [currentBillId, billFromStore?.status, bill?.status, showActionsModal]);
-  
+
   // Track previous status to detect actual changes
   const prevStatusRef = React.useRef(billFromStore?.status);
-  
+
   // Close modal only when bill status actually changes (not just when it exists)
   React.useEffect(() => {
     const currentStatus = billFromStore?.status;
     const previousStatus = prevStatusRef.current;
-    
+
     if (currentStatus && previousStatus && currentStatus !== previousStatus) {
-      console.log('Bill status changed from', previousStatus, 'to', currentStatus);
+      console.log(
+        'Bill status changed from',
+        previousStatus,
+        'to',
+        currentStatus
+      );
       // Force modal to close when status changes
       if (showActionsModal) {
         console.log('Closing modal due to status change');
         setShowActionsModal(false);
       }
     }
-    
+
     // Update the ref for next comparison
     prevStatusRef.current = currentStatus;
   }, [billFromStore?.status, showActionsModal]);
@@ -111,8 +124,8 @@ export default function BillDetailScreen({ navigation, route, bill: propBill, bi
       <SafeAreaView style={styles.container}>
         <View style={styles.errorContainer}>
           <Text style={styles.errorText}>{t('bills.bill_not_found')}</Text>
-          <TouchableOpacity 
-            style={styles.backButton} 
+          <TouchableOpacity
+            style={styles.backButton}
             onPress={() => navigation?.goBack()}
           >
             <Text style={styles.backButtonText}>{t('bills.go_back')}</Text>
@@ -144,7 +157,9 @@ export default function BillDetailScreen({ navigation, route, bill: propBill, bi
     console.log('Marking bill as paid:', bill.id);
     setShowActionsModal(false); // Close modal immediately
     try {
-      await dispatch(updateBillStatusById({ billId: bill.id, status: 'paid' })).unwrap();
+      await dispatch(
+        updateBillStatusById({ billId: bill.id, status: 'paid' })
+      ).unwrap();
       console.log('Bill status updated successfully to paid');
     } catch (error) {
       console.error('Failed to update bill status:', error);
@@ -156,7 +171,9 @@ export default function BillDetailScreen({ navigation, route, bill: propBill, bi
     console.log('Marking bill as pending:', bill.id);
     setShowActionsModal(false); // Close modal immediately
     try {
-      await dispatch(updateBillStatusById({ billId: bill.id, status: 'pending' })).unwrap();
+      await dispatch(
+        updateBillStatusById({ billId: bill.id, status: 'pending' })
+      ).unwrap();
       console.log('Bill status updated successfully to pending');
     } catch (error) {
       console.error('Failed to update bill status:', error);
@@ -176,11 +193,16 @@ export default function BillDetailScreen({ navigation, route, bill: propBill, bi
           onPress: async () => {
             setShowActionsModal(false); // Close modal immediately
             try {
-              await dispatch(updateBillStatusById({ billId: bill.id, status: 'cancelled' })).unwrap();
+              await dispatch(
+                updateBillStatusById({ billId: bill.id, status: 'cancelled' })
+              ).unwrap();
               console.log('Bill cancelled successfully');
             } catch (error) {
               console.error('Failed to cancel bill:', error);
-              Alert.alert(t('bill_detail.error'), t('bill_detail.error_cancel_bill'));
+              Alert.alert(
+                t('bill_detail.error'),
+                t('bill_detail.error_cancel_bill')
+              );
             }
           },
         },
@@ -214,7 +236,9 @@ export default function BillDetailScreen({ navigation, route, bill: propBill, bi
     }
   };
 
-  const ownerShare = bill.totalAmount - bill.participants.reduce((sum, p) => sum + p.splitValue, 0);
+  const ownerShare =
+    bill.totalAmount -
+    bill.participants.reduce((sum, p) => sum + p.splitValue, 0);
   const totalParticipants = bill.participants.length + 1; // +1 for owner
 
   const renderParticipant = (participant: any, index: number) => (
@@ -222,7 +246,8 @@ export default function BillDetailScreen({ navigation, route, bill: propBill, bi
       <View style={styles.participantHeader}>
         <View style={styles.participantAvatar}>
           <Text style={styles.participantInitials}>
-            {participant.user.firstName.charAt(0)}{participant.user.lastName.charAt(0)}
+            {participant.user.firstName.charAt(0)}
+            {participant.user.lastName.charAt(0)}
           </Text>
         </View>
         <View style={styles.participantInfo}>
@@ -248,7 +273,8 @@ export default function BillDetailScreen({ navigation, route, bill: propBill, bi
       <View style={styles.participantHeader}>
         <View style={[styles.participantAvatar, styles.ownerAvatar]}>
           <Text style={styles.participantInitials}>
-            {bill.owner.user.firstName.charAt(0)}{bill.owner.user.lastName.charAt(0)}
+            {bill.owner.user.firstName.charAt(0)}
+            {bill.owner.user.lastName.charAt(0)}
           </Text>
         </View>
         <View style={styles.participantInfo}>
@@ -289,42 +315,63 @@ export default function BillDetailScreen({ navigation, route, bill: propBill, bi
 
         <View style={styles.modalContent}>
           {bill.status !== 'paid' && (
-            <TouchableOpacity style={styles.actionButton} onPress={handleMarkAsPaid}>
+            <TouchableOpacity
+              style={styles.actionButton}
+              onPress={handleMarkAsPaid}
+            >
               <CheckCircle size={24} color="#10B981" />
-              <Text style={styles.actionButtonText}>{t('bill_detail.mark_as_paid')}</Text>
+              <Text style={styles.actionButtonText}>
+                {t('bill_detail.mark_as_paid')}
+              </Text>
             </TouchableOpacity>
           )}
 
           {bill.status === 'paid' && (
-            <TouchableOpacity style={styles.actionButton} onPress={handleMarkAsPending}>
+            <TouchableOpacity
+              style={styles.actionButton}
+              onPress={handleMarkAsPending}
+            >
               <Clock size={24} color="#F59E0B" />
-              <Text style={styles.actionButtonText}>{t('bill_detail.mark_as_pending')}</Text>
+              <Text style={styles.actionButtonText}>
+                {t('bill_detail.mark_as_pending')}
+              </Text>
             </TouchableOpacity>
           )}
 
           {bill.status !== 'cancelled' && (
-            <TouchableOpacity style={styles.actionButton} onPress={handleCancelBill}>
+            <TouchableOpacity
+              style={styles.actionButton}
+              onPress={handleCancelBill}
+            >
               <XCircle size={24} color="#EF4444" />
-              <Text style={styles.actionButtonText}>{t('bill_detail.cancel_bill')}</Text>
+              <Text style={styles.actionButtonText}>
+                {t('bill_detail.cancel_bill')}
+              </Text>
             </TouchableOpacity>
           )}
 
           <TouchableOpacity style={styles.actionButton}>
             <Share size={24} color={COLORS.premium} />
-            <Text style={styles.actionButtonText}>{t('bill_detail.share_bill')}</Text>
+            <Text style={styles.actionButtonText}>
+              {t('bill_detail.share_bill')}
+            </Text>
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.actionButton}>
             <Download size={24} color={COLORS.premium} />
-            <Text style={styles.actionButtonText}>{t('bill_detail.export_pdf')}</Text>
+            <Text style={styles.actionButtonText}>
+              {t('bill_detail.export_pdf')}
+            </Text>
           </TouchableOpacity>
 
-          <TouchableOpacity 
-            style={[styles.actionButton, styles.destructiveAction]} 
+          <TouchableOpacity
+            style={[styles.actionButton, styles.destructiveAction]}
             onPress={handleDeleteBill}
           >
             <Trash2 size={24} color="#EF4444" />
-            <Text style={[styles.actionButtonText, styles.destructiveText]}>{t('bill_detail.delete_bill')}</Text>
+            <Text style={[styles.actionButtonText, styles.destructiveText]}>
+              {t('bill_detail.delete_bill')}
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -355,28 +402,42 @@ export default function BillDetailScreen({ navigation, route, bill: propBill, bi
         <View style={styles.billHeader}>
           <View style={styles.billTitleContainer}>
             <Text style={styles.billTitle}>{bill.title}</Text>
-            <View style={[styles.statusBadge, { backgroundColor: getStatusBackgroundColor(bill.status) }]}>
-              <Text style={[styles.statusText, { color: getStatusColor(bill.status) }]}>
+            <View
+              style={[
+                styles.statusBadge,
+                { backgroundColor: getStatusBackgroundColor(bill.status) },
+              ]}
+            >
+              <Text
+                style={[
+                  styles.statusText,
+                  { color: getStatusColor(bill.status) },
+                ]}
+              >
                 {t(`bill_detail.status_${bill.status}`)}
               </Text>
             </View>
           </View>
-          
+
           {bill.description && (
             <Text style={styles.billDescription}>{bill.description}</Text>
           )}
-          
+
           <View style={styles.billMeta}>
             <View style={styles.metaItem}>
               <Calendar size={16} color={COLORS.textSecondary} />
               <Text style={styles.metaText}>
-                {t('bills.created')} {new Date(bill.creationDate).toLocaleDateString()}
+                {t('bills.created')}{' '}
+                {new Date(bill.creationDate).toLocaleDateString()}
               </Text>
             </View>
             <View style={styles.metaItem}>
               <Users size={16} color={COLORS.textSecondary} />
               <Text style={styles.metaText}>
-                {totalParticipants} {totalParticipants !== 1 ? t('bills.participants') : t('bills.participant')}
+                {totalParticipants}{' '}
+                {totalParticipants !== 1
+                  ? t('bills.participants')
+                  : t('bills.participant')}
               </Text>
             </View>
           </View>
@@ -387,7 +448,9 @@ export default function BillDetailScreen({ navigation, route, bill: propBill, bi
           <View style={styles.totalAmountCard}>
             <DollarSign size={32} color={COLORS.premium} />
             <View style={styles.totalAmountInfo}>
-              <Text style={styles.totalAmountLabel}>{t('bills.total_amount')}</Text>
+              <Text style={styles.totalAmountLabel}>
+                {t('bills.total_amount')}
+              </Text>
               <Text style={styles.totalAmountValue}>
                 {BillUtils.formatAmount(bill.totalAmount)}
               </Text>
@@ -407,7 +470,12 @@ export default function BillDetailScreen({ navigation, route, bill: propBill, bi
           <View style={styles.statCard}>
             <TrendingUp size={24} color={COLORS.premium} />
             <Text style={styles.statValue}>
-              {BillUtils.formatAmount(Math.max(...bill.participants.map(p => p.amountToPay), bill.owner.amountToPay))}
+              {BillUtils.formatAmount(
+                Math.max(
+                  ...bill.participants.map(p => p.amountToPay),
+                  bill.owner.amountToPay
+                )
+              )}
             </Text>
             <Text style={styles.statLabel}>Highest share</Text>
           </View>
@@ -432,12 +500,14 @@ export default function BillDetailScreen({ navigation, route, bill: propBill, bi
         {/* Participants List */}
         <View style={styles.participantsContainer}>
           <Text style={styles.sectionTitle}>Participants</Text>
-          
+
           {/* Owner */}
           {renderOwnerCard()}
-          
+
           {/* Other Participants */}
-          {bill.participants.map((participant, index) => renderParticipant(participant, index))}
+          {bill.participants.map((participant, index) =>
+            renderParticipant(participant, index)
+          )}
         </View>
       </ScrollView>
 

@@ -11,14 +11,14 @@ interface CustomInputProps {
   numberOfLines?: number;
 }
 
-export default function CustomInput({ 
-  value, 
-  onChangeText, 
-  placeholder, 
+export default function CustomInput({
+  value,
+  onChangeText,
+  placeholder,
   keyboardType = 'default',
   style,
   multiline = false,
-  numberOfLines = 1
+  numberOfLines = 1,
 }: CustomInputProps) {
   return (
     <TextInput

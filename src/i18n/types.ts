@@ -9,7 +9,17 @@ export interface CurrentLanguageInfo extends LanguageInfo {
   code: string;
 }
 
-export type SupportedLanguage = 'en' | 'fr' | 'ar' | 'de' | 'ru' | 'zh' | 'ja' | 'el' | 'es' | 'hi';
+export type SupportedLanguage =
+  | 'en'
+  | 'fr'
+  | 'ar'
+  | 'de'
+  | 'ru'
+  | 'zh'
+  | 'ja'
+  | 'el'
+  | 'es'
+  | 'hi';
 
 export interface TranslationKeys {
   common: {

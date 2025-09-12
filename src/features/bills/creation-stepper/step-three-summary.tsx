@@ -60,19 +60,19 @@ const generateColors = (count: number): string[] => {
     '#F7DC6F', // Light Yellow
     '#BB8FCE', // Light Purple
   ];
-  
+
   // If we need more colors than available, generate additional ones
   if (count <= baseColors.length) {
     return baseColors.slice(0, count);
   }
-  
+
   const colors = [...baseColors];
   for (let i = baseColors.length; i < count; i++) {
     // Generate additional colors using HSL
     const hue = (i * 137.508) % 360; // Golden angle approximation
     colors.push(`hsl(${hue}, 70%, 65%)`);
   }
-  
+
   return colors;
 };
 
@@ -88,20 +88,30 @@ export const StepThreeSummary: React.FC<StepThreeSummaryProps> = ({
   const totalBillAmount = parseFloat(totalAmount || '0');
 
   // Get current user's amount if they're in participants, or calculate remaining
-  const currentUserAsParticipant = participants.find(p => p.contact.id === currentUser.id);
-  
+  const currentUserAsParticipant = participants.find(
+    p => p.contact.id === currentUser.id
+  );
+
   // Calculate remaining amount for current user if not explicitly set
-  const otherParticipants = participants.filter(p => p.contact.id !== currentUser.id);
+  const otherParticipants = participants.filter(
+    p => p.contact.id !== currentUser.id
+  );
   const otherParticipantsTotal = otherParticipants.reduce((sum, p) => {
-    return sum + (splitType === 'percentage' ? (p.amount / 100) * totalBillAmount : p.amount);
+    return (
+      sum +
+      (splitType === 'percentage'
+        ? (p.amount / 100) * totalBillAmount
+        : p.amount)
+    );
   }, 0);
-  
+
   let currentUserAmount = 0;
   if (currentUserAsParticipant) {
     // Current user has manually set amount
-    currentUserAmount = splitType === 'percentage' 
-      ? (currentUserAsParticipant.amount / 100) * totalBillAmount 
-      : currentUserAsParticipant.amount;
+    currentUserAmount =
+      splitType === 'percentage'
+        ? (currentUserAsParticipant.amount / 100) * totalBillAmount
+        : currentUserAsParticipant.amount;
   } else {
     // Calculate remaining amount for current user
     currentUserAmount = Math.max(0, totalBillAmount - otherParticipantsTotal);
@@ -113,11 +123,20 @@ export const StepThreeSummary: React.FC<StepThreeSummaryProps> = ({
   } else {
     // Calculate remaining percentage/amount for display
     if (splitType === 'percentage') {
-      const otherParticipantsPercentage = otherParticipants.reduce((sum, p) => sum + p.amount, 0);
+      const otherParticipantsPercentage = otherParticipants.reduce(
+        (sum, p) => sum + p.amount,
+        0
+      );
       currentUserSplitValue = Math.max(0, 100 - otherParticipantsPercentage);
     } else {
-      const otherParticipantsAmount = otherParticipants.reduce((sum, p) => sum + p.amount, 0);
-      currentUserSplitValue = Math.max(0, totalBillAmount - otherParticipantsAmount);
+      const otherParticipantsAmount = otherParticipants.reduce(
+        (sum, p) => sum + p.amount,
+        0
+      );
+      currentUserSplitValue = Math.max(
+        0,
+        totalBillAmount - otherParticipantsAmount
+      );
     }
   }
 
@@ -134,18 +153,21 @@ export const StepThreeSummary: React.FC<StepThreeSummaryProps> = ({
     ...otherParticipants.map(p => ({
       contact: p.contact,
       amount: p.amount,
-      actualAmount: splitType === 'percentage' ? (p.amount / 100) * totalBillAmount : p.amount,
+      actualAmount:
+        splitType === 'percentage'
+          ? (p.amount / 100) * totalBillAmount
+          : p.amount,
       isCurrentUser: false,
-    }))
+    })),
   ];
 
   // Prepare data for pie chart using all participants
   const chartData = allParticipants.map((participant, index) => {
     const colors = generateColors(allParticipants.length);
-    
+
     return {
-      name: participant.isCurrentUser 
-        ? 'YOU' 
+      name: participant.isCurrentUser
+        ? 'YOU'
         : `${participant.contact.firstName} ${participant.contact.lastName}`,
       population: participant.actualAmount,
       color: colors[index],
@@ -155,115 +177,140 @@ export const StepThreeSummary: React.FC<StepThreeSummaryProps> = ({
   });
 
   // Calculate totals using all participants
-  const totalAllocated = allParticipants.reduce((sum, p) => sum + p.actualAmount, 0);
+  const totalAllocated = allParticipants.reduce(
+    (sum, p) => sum + p.actualAmount,
+    0
+  );
 
   const remainingAmount = totalBillAmount - totalAllocated;
 
   return (
-    <ScrollView 
+    <ScrollView
       style={{ flex: 1 }}
       contentContainerStyle={{ padding: SPACING.md }}
       showsVerticalScrollIndicator={false}
     >
       {/* Bill Overview */}
-      <View style={{
-        backgroundColor: COLORS.background,
-        borderRadius: BORDER_RADIUS.lg,
-        padding: SPACING.lg,
-        marginBottom: SPACING.lg,
-        borderLeftWidth: 4,
-        borderLeftColor: COLORS.premium,
-      }}>
-        <View style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          marginBottom: SPACING.md,
-        }}>
+      <View
+        style={{
+          backgroundColor: COLORS.background,
+          borderRadius: BORDER_RADIUS.lg,
+          padding: SPACING.lg,
+          marginBottom: SPACING.lg,
+          borderLeftWidth: 4,
+          borderLeftColor: COLORS.premium,
+        }}
+      >
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            marginBottom: SPACING.md,
+          }}
+        >
           <FileText size={24} color={COLORS.premium} />
-          <Text style={{
-            fontSize: FONT_SIZES.xl,
-            fontWeight: FONT_WEIGHTS.bold,
-            color: COLORS.text,
-            marginLeft: SPACING.sm,
-          }}>
+          <Text
+            style={{
+              fontSize: FONT_SIZES.xl,
+              fontWeight: FONT_WEIGHTS.bold,
+              color: COLORS.text,
+              marginLeft: SPACING.sm,
+            }}
+          >
             Bill Summary
           </Text>
         </View>
 
         <View style={{ marginBottom: SPACING.md }}>
-          <Text style={{
-            fontSize: FONT_SIZES.lg,
-            fontWeight: FONT_WEIGHTS.bold,
-            color: COLORS.text,
-            marginBottom: SPACING.xs,
-          }}>
+          <Text
+            style={{
+              fontSize: FONT_SIZES.lg,
+              fontWeight: FONT_WEIGHTS.bold,
+              color: COLORS.text,
+              marginBottom: SPACING.xs,
+            }}
+          >
             {title}
           </Text>
           {description ? (
-            <Text style={{
-              fontSize: FONT_SIZES.md,
-              color: COLORS.textSecondary,
-              lineHeight: 20,
-            }}>
+            <Text
+              style={{
+                fontSize: FONT_SIZES.md,
+                color: COLORS.textSecondary,
+                lineHeight: 20,
+              }}
+            >
               {description}
             </Text>
           ) : null}
         </View>
 
-        <View style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          backgroundColor: COLORS.cardBackground,
-          padding: SPACING.md,
-          borderRadius: BORDER_RADIUS.md,
-        }}>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            backgroundColor: COLORS.cardBackground,
+            padding: SPACING.md,
+            borderRadius: BORDER_RADIUS.md,
+          }}
+        >
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <DollarSign size={20} color={COLORS.premium} />
-            <Text style={{
-              fontSize: FONT_SIZES.md,
-              fontWeight: FONT_WEIGHTS.semibold,
-              color: COLORS.text,
-              marginLeft: SPACING.xs,
-            }}>
+            <Text
+              style={{
+                fontSize: FONT_SIZES.md,
+                fontWeight: FONT_WEIGHTS.semibold,
+                color: COLORS.text,
+                marginLeft: SPACING.xs,
+              }}
+            >
               Total Amount
             </Text>
           </View>
-          <Text style={{
-            fontSize: FONT_SIZES.xl,
-            fontWeight: FONT_WEIGHTS.bold,
-            color: COLORS.premium,
-          }}>
+          <Text
+            style={{
+              fontSize: FONT_SIZES.xl,
+              fontWeight: FONT_WEIGHTS.bold,
+              color: COLORS.premium,
+            }}
+          >
             ${totalBillAmount.toFixed(2)}
           </Text>
         </View>
 
-        <View style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          backgroundColor: COLORS.cardBackground,
-          padding: SPACING.md,
-          borderRadius: BORDER_RADIUS.md,
-          marginTop: SPACING.sm,
-        }}>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            backgroundColor: COLORS.cardBackground,
+            padding: SPACING.md,
+            borderRadius: BORDER_RADIUS.md,
+            marginTop: SPACING.sm,
+          }}
+        >
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <Percent size={20} color={COLORS.premium} />
-            <Text style={{
-              fontSize: FONT_SIZES.md,
-              fontWeight: FONT_WEIGHTS.semibold,
-              color: COLORS.text,
-              marginLeft: SPACING.xs,
-            }}>
+            <Text
+              style={{
+                fontSize: FONT_SIZES.md,
+                fontWeight: FONT_WEIGHTS.semibold,
+                color: COLORS.text,
+                marginLeft: SPACING.xs,
+              }}
+            >
               Split Type
             </Text>
           </View>
-          <Text style={{
-            fontSize: FONT_SIZES.md,
-            fontWeight: FONT_WEIGHTS.semibold,
-            color: COLORS.text,
-            textTransform: 'capitalize',
-          }}>
+          <Text
+            style={{
+              fontSize: FONT_SIZES.md,
+              fontWeight: FONT_WEIGHTS.semibold,
+              color: COLORS.text,
+              textTransform: 'capitalize',
+            }}
+          >
             {splitType}
           </Text>
         </View>
@@ -271,19 +318,23 @@ export const StepThreeSummary: React.FC<StepThreeSummaryProps> = ({
 
       {/* Pie Chart */}
       {allParticipants.length > 0 && (
-        <View style={{
-          backgroundColor: COLORS.background,
-          borderRadius: BORDER_RADIUS.lg,
-          padding: SPACING.lg,
-          marginBottom: SPACING.lg,
-          alignItems: 'center',
-        }}>
-          <Text style={{
-            fontSize: FONT_SIZES.lg,
-            fontWeight: FONT_WEIGHTS.bold,
-            color: COLORS.text,
+        <View
+          style={{
+            backgroundColor: COLORS.background,
+            borderRadius: BORDER_RADIUS.lg,
+            padding: SPACING.lg,
             marginBottom: SPACING.lg,
-          }}>
+            alignItems: 'center',
+          }}
+        >
+          <Text
+            style={{
+              fontSize: FONT_SIZES.lg,
+              fontWeight: FONT_WEIGHTS.bold,
+              color: COLORS.text,
+              marginBottom: SPACING.lg,
+            }}
+          >
             Split Visualization
           </Text>
 
@@ -306,24 +357,30 @@ export const StepThreeSummary: React.FC<StepThreeSummaryProps> = ({
       )}
 
       {/* Participants Grid */}
-      <View style={{
-        backgroundColor: COLORS.background,
-        borderRadius: BORDER_RADIUS.lg,
-        padding: SPACING.lg,
-        marginBottom: SPACING.lg,
-      }}>
-        <View style={{
-          flexDirection: 'row',
-          alignItems: 'center',
+      <View
+        style={{
+          backgroundColor: COLORS.background,
+          borderRadius: BORDER_RADIUS.lg,
+          padding: SPACING.lg,
           marginBottom: SPACING.lg,
-        }}>
+        }}
+      >
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            marginBottom: SPACING.lg,
+          }}
+        >
           <Users size={24} color={COLORS.premium} />
-          <Text style={{
-            fontSize: FONT_SIZES.lg,
-            fontWeight: FONT_WEIGHTS.bold,
-            color: COLORS.text,
-            marginLeft: SPACING.sm,
-          }}>
+          <Text
+            style={{
+              fontSize: FONT_SIZES.lg,
+              fontWeight: FONT_WEIGHTS.bold,
+              color: COLORS.text,
+              marginLeft: SPACING.sm,
+            }}
+          >
             Participants ({allParticipants.length})
           </Text>
         </View>
@@ -339,81 +396,110 @@ export const StepThreeSummary: React.FC<StepThreeSummaryProps> = ({
                 alignItems: 'center',
                 paddingVertical: SPACING.md,
                 paddingHorizontal: SPACING.md,
-                backgroundColor: participant.isCurrentUser ? COLORS.premium + '10' : COLORS.cardBackground,
+                backgroundColor: participant.isCurrentUser
+                  ? COLORS.premium + '10'
+                  : COLORS.cardBackground,
                 borderRadius: BORDER_RADIUS.md,
-                marginBottom: index < allParticipants.length - 1 ? SPACING.sm : 0,
+                marginBottom:
+                  index < allParticipants.length - 1 ? SPACING.sm : 0,
                 borderLeftWidth: 4,
                 borderLeftColor: colors[index],
                 borderWidth: participant.isCurrentUser ? 2 : 0,
-                borderColor: participant.isCurrentUser ? COLORS.premium : 'transparent',
+                borderColor: participant.isCurrentUser
+                  ? COLORS.premium
+                  : 'transparent',
               }}
             >
-              <View style={{
-                width: 48,
-                height: 48,
-                borderRadius: 24,
-                backgroundColor: colors[index],
-                alignItems: 'center',
-                justifyContent: 'center',
-                marginRight: SPACING.md,
-              }}>
-                <Text style={{
-                  fontSize: FONT_SIZES.md,
-                  fontWeight: FONT_WEIGHTS.bold,
-                  color: COLORS.background,
-                }}>
-                  {participant.contact.firstName.charAt(0)}{participant.contact.lastName.charAt(0)}
+              <View
+                style={{
+                  width: 48,
+                  height: 48,
+                  borderRadius: 24,
+                  backgroundColor: colors[index],
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  marginRight: SPACING.md,
+                }}
+              >
+                <Text
+                  style={{
+                    fontSize: FONT_SIZES.md,
+                    fontWeight: FONT_WEIGHTS.bold,
+                    color: COLORS.background,
+                  }}
+                >
+                  {participant.contact.firstName.charAt(0)}
+                  {participant.contact.lastName.charAt(0)}
                 </Text>
               </View>
 
               <View style={{ flex: 1 }}>
-                <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: SPACING.xs }}>
-                  <Text style={{
-                    fontSize: FONT_SIZES.md,
-                    fontWeight: FONT_WEIGHTS.semibold,
-                    color: COLORS.text,
-                    marginRight: SPACING.xs,
-                  }}>
-                    {participant.contact.firstName} {participant.contact.lastName}
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    marginBottom: SPACING.xs,
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontSize: FONT_SIZES.md,
+                      fontWeight: FONT_WEIGHTS.semibold,
+                      color: COLORS.text,
+                      marginRight: SPACING.xs,
+                    }}
+                  >
+                    {participant.contact.firstName}{' '}
+                    {participant.contact.lastName}
                   </Text>
                   {participant.isCurrentUser && (
-                    <View style={{
-                      backgroundColor: COLORS.premium,
-                      paddingHorizontal: SPACING.xs,
-                      paddingVertical: 2,
-                      borderRadius: BORDER_RADIUS.sm,
-                    }}>
-                      <Text style={{
-                        fontSize: FONT_SIZES.xs,
-                        fontWeight: FONT_WEIGHTS.bold,
-                        color: COLORS.background,
-                      }}>
+                    <View
+                      style={{
+                        backgroundColor: COLORS.premium,
+                        paddingHorizontal: SPACING.xs,
+                        paddingVertical: 2,
+                        borderRadius: BORDER_RADIUS.sm,
+                      }}
+                    >
+                      <Text
+                        style={{
+                          fontSize: FONT_SIZES.xs,
+                          fontWeight: FONT_WEIGHTS.bold,
+                          color: COLORS.background,
+                        }}
+                      >
                         YOU
                       </Text>
                     </View>
                   )}
                 </View>
-                <Text style={{
-                  fontSize: FONT_SIZES.sm,
-                  color: COLORS.textSecondary,
-                }}>
+                <Text
+                  style={{
+                    fontSize: FONT_SIZES.sm,
+                    color: COLORS.textSecondary,
+                  }}
+                >
                   {participant.contact.email}
                 </Text>
               </View>
 
               <View style={{ alignItems: 'flex-end' }}>
-                <Text style={{
-                  fontSize: FONT_SIZES.lg,
-                  fontWeight: FONT_WEIGHTS.bold,
-                  color: COLORS.text,
-                }}>
+                <Text
+                  style={{
+                    fontSize: FONT_SIZES.lg,
+                    fontWeight: FONT_WEIGHTS.bold,
+                    color: COLORS.text,
+                  }}
+                >
                   ${participant.actualAmount.toFixed(2)}
                 </Text>
                 {splitType === 'percentage' && (
-                  <Text style={{
-                    fontSize: FONT_SIZES.sm,
-                    color: COLORS.textSecondary,
-                  }}>
+                  <Text
+                    style={{
+                      fontSize: FONT_SIZES.sm,
+                      color: COLORS.textSecondary,
+                    }}
+                  >
                     {participant.amount.toFixed(1)}%
                   </Text>
                 )}
@@ -424,89 +510,136 @@ export const StepThreeSummary: React.FC<StepThreeSummaryProps> = ({
       </View>
 
       {/* Allocation Summary */}
-      <View style={{
-        backgroundColor: COLORS.background,
-        borderRadius: BORDER_RADIUS.lg,
-        padding: SPACING.lg,
-        marginBottom: SPACING.xxl,
-        borderLeftWidth: 4,
-        borderLeftColor: remainingAmount === 0 ? COLORS.success : COLORS.warning,
-      }}>
-        <Text style={{
-          fontSize: FONT_SIZES.lg,
-          fontWeight: FONT_WEIGHTS.bold,
-          color: COLORS.text,
-          marginBottom: SPACING.md,
-        }}>
+      <View
+        style={{
+          backgroundColor: COLORS.background,
+          borderRadius: BORDER_RADIUS.lg,
+          padding: SPACING.lg,
+          marginBottom: SPACING.xxl,
+          borderLeftWidth: 4,
+          borderLeftColor:
+            remainingAmount === 0 ? COLORS.success : COLORS.warning,
+        }}
+      >
+        <Text
+          style={{
+            fontSize: FONT_SIZES.lg,
+            fontWeight: FONT_WEIGHTS.bold,
+            color: COLORS.text,
+            marginBottom: SPACING.md,
+          }}
+        >
           Allocation Summary
         </Text>
 
-        <View style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          marginBottom: SPACING.sm,
-        }}>
-          <Text style={{ fontSize: FONT_SIZES.md, color: COLORS.textSecondary }}>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            marginBottom: SPACING.sm,
+          }}
+        >
+          <Text
+            style={{ fontSize: FONT_SIZES.md, color: COLORS.textSecondary }}
+          >
             Total Bill:
           </Text>
-          <Text style={{ fontSize: FONT_SIZES.md, fontWeight: FONT_WEIGHTS.semibold, color: COLORS.text }}>
+          <Text
+            style={{
+              fontSize: FONT_SIZES.md,
+              fontWeight: FONT_WEIGHTS.semibold,
+              color: COLORS.text,
+            }}
+          >
             ${totalBillAmount.toFixed(2)}
           </Text>
         </View>
 
-        <View style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          marginBottom: SPACING.sm,
-        }}>
-          <Text style={{ fontSize: FONT_SIZES.md, color: COLORS.textSecondary }}>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            marginBottom: SPACING.sm,
+          }}
+        >
+          <Text
+            style={{ fontSize: FONT_SIZES.md, color: COLORS.textSecondary }}
+          >
             Allocated:
           </Text>
-          <Text style={{ fontSize: FONT_SIZES.md, fontWeight: FONT_WEIGHTS.semibold, color: COLORS.premium }}>
+          <Text
+            style={{
+              fontSize: FONT_SIZES.md,
+              fontWeight: FONT_WEIGHTS.semibold,
+              color: COLORS.premium,
+            }}
+          >
             ${totalAllocated.toFixed(2)}
             {splitType === 'percentage' && (
               <Text style={{ color: COLORS.textSecondary }}>
-                {' '}({allParticipants.reduce((sum, p) => sum + p.amount, 0).toFixed(1)}%)
+                {' '}
+                (
+                {allParticipants
+                  .reduce((sum, p) => sum + p.amount, 0)
+                  .toFixed(1)}
+                %)
               </Text>
             )}
           </Text>
         </View>
 
-        <View style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          paddingTop: SPACING.sm,
-          borderTopWidth: 1,
-          borderTopColor: COLORS.border,
-        }}>
-          <Text style={{ fontSize: FONT_SIZES.md, color: COLORS.textSecondary }}>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            paddingTop: SPACING.sm,
+            borderTopWidth: 1,
+            borderTopColor: COLORS.border,
+          }}
+        >
+          <Text
+            style={{ fontSize: FONT_SIZES.md, color: COLORS.textSecondary }}
+          >
             Remaining:
           </Text>
-          <Text style={{ 
-            fontSize: FONT_SIZES.md, 
-            fontWeight: FONT_WEIGHTS.bold, 
-            color: remainingAmount === 0 ? COLORS.success : remainingAmount > 0 ? COLORS.warning : COLORS.error 
-          }}>
+          <Text
+            style={{
+              fontSize: FONT_SIZES.md,
+              fontWeight: FONT_WEIGHTS.bold,
+              color:
+                remainingAmount === 0
+                  ? COLORS.success
+                  : remainingAmount > 0
+                    ? COLORS.warning
+                    : COLORS.error,
+            }}
+          >
             ${remainingAmount.toFixed(2)}
           </Text>
         </View>
 
         {remainingAmount !== 0 && (
-          <View style={{
-            backgroundColor: remainingAmount > 0 ? COLORS.warning + '20' : COLORS.error + '20',
-            padding: SPACING.sm,
-            borderRadius: BORDER_RADIUS.sm,
-            marginTop: SPACING.md,
-          }}>
-            <Text style={{
-              fontSize: FONT_SIZES.sm,
-              color: remainingAmount > 0 ? COLORS.warning : COLORS.error,
-              textAlign: 'center',
-            }}>
-              {remainingAmount > 0 
+          <View
+            style={{
+              backgroundColor:
+                remainingAmount > 0
+                  ? COLORS.warning + '20'
+                  : COLORS.error + '20',
+              padding: SPACING.sm,
+              borderRadius: BORDER_RADIUS.sm,
+              marginTop: SPACING.md,
+            }}
+          >
+            <Text
+              style={{
+                fontSize: FONT_SIZES.sm,
+                color: remainingAmount > 0 ? COLORS.warning : COLORS.error,
+                textAlign: 'center',
+              }}
+            >
+              {remainingAmount > 0
                 ? 'Some amount remains unallocated. You can still create the bill.'
-                : 'Total allocation exceeds bill amount. Please adjust participant amounts.'
-              }
+                : 'Total allocation exceeds bill amount. Please adjust participant amounts.'}
             </Text>
           </View>
         )}
@@ -525,11 +658,14 @@ export const StepThreeSummary: React.FC<StepThreeSummaryProps> = ({
           marginBottom: SPACING.xl,
         }}
       >
-        <Text style={{
-          fontSize: FONT_SIZES.lg,
-          fontWeight: FONT_WEIGHTS.bold,
-          color: remainingAmount < 0 ? COLORS.textSecondary : COLORS.background,
-        }}>
+        <Text
+          style={{
+            fontSize: FONT_SIZES.lg,
+            fontWeight: FONT_WEIGHTS.bold,
+            color:
+              remainingAmount < 0 ? COLORS.textSecondary : COLORS.background,
+          }}
+        >
           Create Bill
         </Text>
       </TouchableOpacity>

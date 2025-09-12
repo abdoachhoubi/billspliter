@@ -135,8 +135,8 @@ function AppContent() {
 }
 
 export default function App() {
-	 const [showLanguageSettings, setShowLanguageSettings] = useState(false);
- const handleLanguageSettings = () => {
+  const [showLanguageSettings, setShowLanguageSettings] = useState(false);
+  const handleLanguageSettings = () => {
     setShowLanguageSettings(true);
   };
   return (
@@ -152,9 +152,7 @@ export default function App() {
           persistor={persistor}
         >
           <LanguageProvider>
-            <MainTabContainer
-        onLanguageSettings={handleLanguageSettings}
-      />
+            <MainTabContainer />
           </LanguageProvider>
         </PersistGate>
       </Provider>

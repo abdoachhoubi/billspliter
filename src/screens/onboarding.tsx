@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  Dimensions,
-  Image,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import { Dimensions, Image, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
 import PrimaryButton from '../common/components/primary-button';
@@ -34,14 +28,11 @@ export default function OnboardingScreen({
       <SafeAreaView style={styles.safeContent}>
         <View style={styles.content}>
           <View style={styles.textContainer}>
-
             {/* Main Title */}
             <Text style={styles.title}>{t('onboarding.title')}</Text>
 
             {/* Subtitle */}
-            <Text style={styles.subtitle}>
-              {t('onboarding.subtitle')}
-            </Text>
+            <Text style={styles.subtitle}>{t('onboarding.subtitle')}</Text>
           </View>
 
           {/* Get Started Button */}
@@ -71,16 +62,16 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     paddingHorizontal: 24,
-	paddingBottom: 24,
-	gap: 24,
+    paddingBottom: 24,
+    gap: 24,
     justifyContent: 'flex-end',
   },
   mainImage: {
-    width: "100%",
-    height: "60%",
+    width: '100%',
+    height: '60%',
   },
   textContainer: {
-	gap: 12,
+    gap: 12,
     justifyContent: 'center',
     alignItems: 'center',
   },

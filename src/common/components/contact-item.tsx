@@ -11,13 +11,13 @@ interface ContactItemProps {
   onDelete: (id: string, name: string) => void;
 }
 
-export default function ContactItem({ 
-  id, 
-  fullName, 
-  email, 
-  phone, 
-  initials, 
-  onDelete 
+export default function ContactItem({
+  id,
+  fullName,
+  email,
+  phone,
+  initials,
+  onDelete,
 }: ContactItemProps) {
   return (
     <View style={styles.contactItem}>

@@ -37,7 +37,10 @@ import {
   selectBillsSortedByAmount,
   selectBillsBySearch,
 } from '../store/selectors/billsSelectors';
-import { deleteBillById, updateBillStatusById } from '../store/thunks/billsThunks';
+import {
+  deleteBillById,
+  updateBillStatusById,
+} from '../store/thunks/billsThunks';
 
 // Theme
 import {
@@ -65,7 +68,10 @@ interface BillsScreenProps {
 type FilterType = 'all' | 'pending' | 'paid' | 'cancelled';
 type SortType = 'date' | 'amount' | 'title';
 
-export default function BillsScreen({ navigation, onCreateBill }: BillsScreenProps) {
+export default function BillsScreen({
+  navigation,
+  onCreateBill,
+}: BillsScreenProps) {
   const { t } = useTranslation();
   const dispatch = useDispatch<AppDispatch>();
 
@@ -80,9 +86,15 @@ export default function BillsScreen({ navigation, onCreateBill }: BillsScreenPro
   // Redux selectors
   const allBills = useSelector(selectAllBills);
   const billsStats = useSelector(selectBillsStats);
-  const pendingBills = useSelector((state: RootState) => selectBillsByStatus(state, 'pending'));
-  const paidBills = useSelector((state: RootState) => selectBillsByStatus(state, 'paid'));
-  const cancelledBills = useSelector((state: RootState) => selectBillsByStatus(state, 'cancelled'));
+  const pendingBills = useSelector((state: RootState) =>
+    selectBillsByStatus(state, 'pending')
+  );
+  const paidBills = useSelector((state: RootState) =>
+    selectBillsByStatus(state, 'paid')
+  );
+  const cancelledBills = useSelector((state: RootState) =>
+    selectBillsByStatus(state, 'cancelled')
+  );
   const billsSortedByDate = useSelector(selectBillsSortedByDate);
   const billsSortedByAmount = useSelector(selectBillsSortedByAmount);
 
@@ -107,9 +119,11 @@ export default function BillsScreen({ navigation, onCreateBill }: BillsScreenPro
 
     // Apply search
     if (searchQuery.trim()) {
-      bills = bills.filter(bill =>
-        bill.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        (bill.description && bill.description.toLowerCase().includes(searchQuery.toLowerCase()))
+      bills = bills.filter(
+        bill =>
+          bill.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          (bill.description &&
+            bill.description.toLowerCase().includes(searchQuery.toLowerCase()))
       );
     }
 
@@ -122,13 +136,23 @@ export default function BillsScreen({ navigation, onCreateBill }: BillsScreenPro
         bills = [...bills].sort((a, b) => a.title.localeCompare(b.title));
         break;
       default: // date
-        bills = [...bills].sort((a, b) =>
-          new Date(b.creationDate).getTime() - new Date(a.creationDate).getTime()
+        bills = [...bills].sort(
+          (a, b) =>
+            new Date(b.creationDate).getTime() -
+            new Date(a.creationDate).getTime()
         );
     }
 
     return bills;
-  }, [allBills, pendingBills, paidBills, cancelledBills, filterType, searchQuery, sortType]);
+  }, [
+    allBills,
+    pendingBills,
+    paidBills,
+    cancelledBills,
+    filterType,
+    searchQuery,
+    sortType,
+  ]);
 
   const handleDeleteBill = async (billId: string) => {
     Alert.alert(
@@ -153,7 +177,10 @@ export default function BillsScreen({ navigation, onCreateBill }: BillsScreenPro
     );
   };
 
-  const handleUpdateBillStatus = async (billId: string, status: 'pending' | 'paid' | 'cancelled') => {
+  const handleUpdateBillStatus = async (
+    billId: string,
+    status: 'pending' | 'paid' | 'cancelled'
+  ) => {
     try {
       await dispatch(updateBillStatusById({ billId, status })).unwrap();
       setShowBillActions(false);
@@ -201,14 +228,19 @@ export default function BillsScreen({ navigation, onCreateBill }: BillsScreenPro
           </Text>
           <View style={styles.statusContainer}>
             {getStatusIcon(bill.status)}
-            <Text style={[styles.statusText, { color: getStatusColor(bill.status) }]}>
+            <Text
+              style={[
+                styles.statusText,
+                { color: getStatusColor(bill.status) },
+              ]}
+            >
               {bill.status.toUpperCase()}
             </Text>
           </View>
         </View>
         <TouchableOpacity
           style={styles.moreButton}
-          onPress={(e) => {
+          onPress={e => {
             e.stopPropagation();
             setSelectedBill(bill);
             setShowBillActions(true);
@@ -247,14 +279,16 @@ export default function BillsScreen({ navigation, onCreateBill }: BillsScreenPro
         <Text style={styles.ownerText}>
           Created by {BillUtils.getParticipantDisplayName(bill.owner)}
         </Text>
-        <Text style={styles.splitTypeText}>
-          Split by {bill.splitType}
-        </Text>
+        <Text style={styles.splitTypeText}>Split by {bill.splitType}</Text>
       </View>
     </TouchableOpacity>
   );
 
-  const renderFilterChip = (label: string, value: FilterType, count?: number) => (
+  const renderFilterChip = (
+    label: string,
+    value: FilterType,
+    count?: number
+  ) => (
     <TouchableOpacity
       style={[
         styles.filterChip,
@@ -285,9 +319,14 @@ export default function BillsScreen({ navigation, onCreateBill }: BillsScreenPro
           : `You don't have any ${filterType} bills at the moment`}
       </Text>
       {filterType === 'all' && (
-        <TouchableOpacity style={styles.emptyCreateButton} onPress={onCreateBill}>
+        <TouchableOpacity
+          style={styles.emptyCreateButton}
+          onPress={onCreateBill}
+        >
           <Plus size={20} color={COLORS.background} />
-          <Text style={styles.emptyCreateButtonText}>Create Your First Bill</Text>
+          <Text style={styles.emptyCreateButtonText}>
+            Create Your First Bill
+          </Text>
         </TouchableOpacity>
       )}
     </View>
@@ -361,7 +400,11 @@ export default function BillsScreen({ navigation, onCreateBill }: BillsScreenPro
           {renderFilterChip('All', 'all', billsStats.totalBills)}
           {renderFilterChip('Pending', 'pending', billsStats.pendingBills)}
           {renderFilterChip('Paid', 'paid', billsStats.paidBills)}
-          {renderFilterChip('Cancelled', 'cancelled', billsStats.cancelledBills)}
+          {renderFilterChip(
+            'Cancelled',
+            'cancelled',
+            billsStats.cancelledBills
+          )}
         </View>
       )}
 
@@ -373,7 +416,7 @@ export default function BillsScreen({ navigation, onCreateBill }: BillsScreenPro
           <FlatList
             data={filteredAndSortedBills}
             renderItem={renderBillItem}
-            keyExtractor={(item) => item.id}
+            keyExtractor={item => item.id}
             showsVerticalScrollIndicator={false}
             contentContainerStyle={styles.listContent}
           />
@@ -390,8 +433,8 @@ export default function BillsScreen({ navigation, onCreateBill }: BillsScreenPro
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
             <Text style={styles.modalTitle}>Sort By</Text>
-            
-            {(['date', 'amount', 'title'] as SortType[]).map((sort) => (
+
+            {(['date', 'amount', 'title'] as SortType[]).map(sort => (
               <TouchableOpacity
                 key={sort}
                 style={[
@@ -409,7 +452,11 @@ export default function BillsScreen({ navigation, onCreateBill }: BillsScreenPro
                     sortType === sort && styles.modalOptionTextActive,
                   ]}
                 >
-                  {sort === 'date' ? 'Date Created' : sort === 'amount' ? 'Amount' : 'Title'}
+                  {sort === 'date'
+                    ? 'Date Created'
+                    : sort === 'amount'
+                      ? 'Amount'
+                      : 'Title'}
                 </Text>
               </TouchableOpacity>
             ))}
@@ -433,9 +480,7 @@ export default function BillsScreen({ navigation, onCreateBill }: BillsScreenPro
       >
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>
-              {selectedBill?.title}
-            </Text>
+            <Text style={styles.modalTitle}>{selectedBill?.title}</Text>
 
             <TouchableOpacity
               style={styles.actionButton}
@@ -448,7 +493,9 @@ export default function BillsScreen({ navigation, onCreateBill }: BillsScreenPro
 
             <TouchableOpacity
               style={styles.actionButton}
-              onPress={() => handleUpdateBillStatus(selectedBill!.id, 'pending')}
+              onPress={() =>
+                handleUpdateBillStatus(selectedBill!.id, 'pending')
+              }
               disabled={selectedBill?.status === 'pending'}
             >
               <Clock size={20} color="#F59E0B" />
@@ -457,7 +504,9 @@ export default function BillsScreen({ navigation, onCreateBill }: BillsScreenPro
 
             <TouchableOpacity
               style={styles.actionButton}
-              onPress={() => handleUpdateBillStatus(selectedBill!.id, 'cancelled')}
+              onPress={() =>
+                handleUpdateBillStatus(selectedBill!.id, 'cancelled')
+              }
               disabled={selectedBill?.status === 'cancelled'}
             >
               <XCircle size={20} color="#EF4444" />

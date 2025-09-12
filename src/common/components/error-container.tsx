@@ -6,7 +6,10 @@ interface ErrorContainerProps {
   style?: any;
 }
 
-export default function ErrorContainer({ message, style }: ErrorContainerProps) {
+export default function ErrorContainer({
+  message,
+  style,
+}: ErrorContainerProps) {
   return (
     <View style={[styles.container, style]}>
       <Text style={styles.text}>{message}</Text>

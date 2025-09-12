@@ -11,21 +11,19 @@ interface EmptyStateProps {
   style?: any;
 }
 
-export default function EmptyState({ 
-  message, 
+export default function EmptyState({
+  message,
   subtitle,
   icon: IconComponent = Users,
   actionText,
   onAction,
-  style 
+  style,
 }: EmptyStateProps) {
   return (
     <View style={[styles.container, style]}>
       <IconComponent size={48} color="#666666" />
       <Text style={styles.title}>{message}</Text>
-      {subtitle && (
-        <Text style={styles.subtitle}>{subtitle}</Text>
-      )}
+      {subtitle && <Text style={styles.subtitle}>{subtitle}</Text>}
       {actionText && onAction && (
         <TouchableOpacity style={styles.actionButton} onPress={onAction}>
           <Plus size={20} color="#000000" />

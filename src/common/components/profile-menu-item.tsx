@@ -22,17 +22,20 @@ export default function ProfileMenuItem({
   backgroundColor = '#1a1a1a',
 }: ProfileMenuItemProps) {
   return (
-    <TouchableOpacity style={[styles.container, { backgroundColor }]} onPress={onPress}>
+    <TouchableOpacity
+      style={[styles.container, { backgroundColor }]}
+      onPress={onPress}
+    >
       <View style={styles.content}>
         <View style={styles.iconContainer}>
           <Icon size={20} color={iconColor} />
         </View>
-        
+
         <View style={styles.textContainer}>
           <Text style={styles.title}>{title}</Text>
           {subtitle && <Text style={styles.subtitle}>{subtitle}</Text>}
         </View>
-        
+
         {showChevron && (
           <View style={styles.chevronContainer}>
             <Text style={styles.chevron}>›</Text>

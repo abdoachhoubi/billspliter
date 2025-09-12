@@ -41,7 +41,7 @@ export const isRTL = (languageCode: string): boolean => {
 const getDeviceLanguage = (): string => {
   try {
     const deviceLocales = Localization.getLocales();
-    
+
     // Try to find exact match first
     for (const locale of deviceLocales) {
       const languageCode = locale.languageCode?.toLowerCase();
@@ -50,7 +50,7 @@ const getDeviceLanguage = (): string => {
         return languageCode;
       }
     }
-    
+
     // Fallback to English if no supported language found
     console.log('No supported device language found, defaulting to English');
     return 'en';
@@ -103,17 +103,19 @@ export const setFirstLaunchCompleted = async (): Promise<void> => {
 const initI18n = async () => {
   const storedLanguage = await getStoredLanguage();
   const firstLaunch = await isFirstLaunch();
-  
+
   let initialLanguage: string;
-  
+
   if (firstLaunch) {
     // First time user - use device language
     initialLanguage = getDeviceLanguage();
-    console.log(`First launch detected, setting device language: ${initialLanguage}`);
-    
+    console.log(
+      `First launch detected, setting device language: ${initialLanguage}`
+    );
+
     // Save the device language as user preference
     await saveLanguage(initialLanguage);
-    
+
     // Mark first launch as completed
     await setFirstLaunchCompleted();
   } else {
@@ -122,35 +124,33 @@ const initI18n = async () => {
     console.log(`Returning user, using language: ${initialLanguage}`);
   }
 
-  await i18n
-    .use(initReactI18next)
-    .init({
-      compatibilityJSON: 'v4',
-      resources: {
-        en: { translation: en },
-        fr: { translation: fr },
-        ar: { translation: ar },
-        de: { translation: de },
-        ru: { translation: ru },
-        zh: { translation: zh },
-        ja: { translation: ja },
-        el: { translation: el },
-        es: { translation: es },
-        hi: { translation: hi },
-      },
-      lng: initialLanguage,
-      fallbackLng: 'en',
-      interpolation: {
-        escapeValue: false,
-      },
-    });
+  await i18n.use(initReactI18next).init({
+    compatibilityJSON: 'v4',
+    resources: {
+      en: { translation: en },
+      fr: { translation: fr },
+      ar: { translation: ar },
+      de: { translation: de },
+      ru: { translation: ru },
+      zh: { translation: zh },
+      ja: { translation: ja },
+      el: { translation: el },
+      es: { translation: es },
+      hi: { translation: hi },
+    },
+    lng: initialLanguage,
+    fallbackLng: 'en',
+    interpolation: {
+      escapeValue: false,
+    },
+  });
 };
 
 // Change language function
 export const changeLanguage = async (languageCode: string): Promise<void> => {
   await i18n.changeLanguage(languageCode);
   await saveLanguage(languageCode);
-  
+
   // Don't force RTL here - we'll handle it dynamically in components
   // I18nManager.forceRTL(isRTL(languageCode));
 };

@@ -8,11 +8,11 @@ interface PrimaryButtonProps {
   textStyle?: any;
 }
 
-export default function PrimaryButton({ 
-  title, 
-  onPress, 
-  style, 
-  textStyle 
+export default function PrimaryButton({
+  title,
+  onPress,
+  style,
+  textStyle,
 }: PrimaryButtonProps) {
   return (
     <TouchableOpacity style={[styles.button, style]} onPress={onPress}>

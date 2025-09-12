@@ -92,8 +92,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   textContainer: {
-	flexDirection: 'column',
-	gap: 4,
+    flexDirection: 'column',
+    gap: 4,
   },
   label: {
     fontSize: 22,

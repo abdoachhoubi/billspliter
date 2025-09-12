@@ -11,34 +11,34 @@ interface ContactFormProps {
   saveButtonTitle?: string;
 }
 
-export default function ContactForm({ 
-  contact, 
-  onContactChange, 
-  onSave, 
-  saveButtonTitle = 'Save Contact' 
+export default function ContactForm({
+  contact,
+  onContactChange,
+  onSave,
+  saveButtonTitle = 'Save Contact',
 }: ContactFormProps) {
   return (
     <View style={styles.form}>
       <CustomInput
         placeholder="First Name *"
         value={contact.firstName}
-        onChangeText={(text) => onContactChange({ ...contact, firstName: text })}
+        onChangeText={text => onContactChange({ ...contact, firstName: text })}
       />
       <CustomInput
         placeholder="Last Name *"
         value={contact.lastName}
-        onChangeText={(text) => onContactChange({ ...contact, lastName: text })}
+        onChangeText={text => onContactChange({ ...contact, lastName: text })}
       />
       <CustomInput
         placeholder="Email *"
         value={contact.email}
-        onChangeText={(text) => onContactChange({ ...contact, email: text })}
+        onChangeText={text => onContactChange({ ...contact, email: text })}
         keyboardType="email-address"
       />
       <CustomInput
         placeholder="Phone"
         value={contact.phone}
-        onChangeText={(text) => onContactChange({ ...contact, phone: text })}
+        onChangeText={text => onContactChange({ ...contact, phone: text })}
         keyboardType="phone-pad"
       />
       <PrimaryButton title={saveButtonTitle} onPress={onSave} />

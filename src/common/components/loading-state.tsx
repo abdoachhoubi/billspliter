@@ -7,10 +7,10 @@ interface LoadingStateProps {
   color?: string;
 }
 
-export default function LoadingState({ 
-  message = 'Loading...', 
-  size = 'large', 
-  color = '#ffffff' 
+export default function LoadingState({
+  message = 'Loading...',
+  size = 'large',
+  color = '#ffffff',
 }: LoadingStateProps) {
   return (
     <View style={styles.container}>

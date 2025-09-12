@@ -1,4 +1,14 @@
-import { Globe, Heart, LogOut, Wallet, Grid3x3, Users, CreditCard, Shield, Trash2 } from 'lucide-react-native';
+import {
+  CreditCard,
+  Globe,
+  Grid3x3,
+  Heart,
+  LogOut,
+  Shield,
+  Trash2,
+  Users,
+  Wallet,
+} from 'lucide-react-native';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -10,16 +20,18 @@ import {
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { ProfileHeader, ProfileMenuItem } from '../common/components';
 import {
-  ProfileHeader,
-  ProfileMenuItem,
-} from '../common/components';
-import { COLORS, SPACING, BORDER_RADIUS, FONT_SIZES, FONT_WEIGHTS } from '../common/constants/theme';
+  BORDER_RADIUS,
+  COLORS,
+  FONT_SIZES,
+  FONT_WEIGHTS,
+  SPACING,
+} from '../common/constants/theme';
 import { User as UserType } from '../common/entities/user.entity';
-import { createNavigationHandler, createConditionalHandler } from '../common/utils/navigation';
+import { createNavigationHandler } from '../common/utils/navigation';
 
 interface ProfileScreenProps {
-  onLanguageSettings?: () => void;
   onLogout?: () => void;
 }
 
@@ -60,18 +72,9 @@ const MOCK_USER: UserType = {
   },
 };
 
-export default function ProfileScreen({
-  onLanguageSettings,
-  onLogout,
-}: ProfileScreenProps) {
+export default function ProfileScreen() {
   const { t } = useTranslation();
   const [user] = useState<UserType>(MOCK_USER);
-
-  // Action handlers using utility functions
-  const handleLanguageSettings = createConditionalHandler(
-    onLanguageSettings, 
-    'Language settings'
-  );
 
   const handleLogout = () => {
     Alert.alert(t('profile.logout'), t('profile.logout_message'), [
@@ -80,11 +83,7 @@ export default function ProfileScreen({
         text: t('profile.logout'),
         style: 'destructive',
         onPress: () => {
-          if (onLogout) {
-            onLogout();
-          } else {
-            console.log('Logout confirmed');
-          }
+          console.log('Logout confirmed');
         },
       },
     ]);
@@ -102,7 +101,9 @@ export default function ProfileScreen({
       key: 'language',
       translationKey: 'profile.language',
       icon: Globe,
-      onPress: handleLanguageSettings,
+      onPress: () => {
+        //TODO: Implement language settings navigation
+      },
     },
     {
       key: 'currency',
@@ -151,17 +152,17 @@ export default function ProfileScreen({
         {/* Top Content */}
         <View style={styles.topContent}>
           {/* Profile Header */}
-          <ProfileHeader 
-            user={user} 
-            onEditProfile={createNavigationHandler('Edit profile')} 
+          <ProfileHeader
+            user={user}
+            onEditProfile={createNavigationHandler('Edit profile')}
           />
 
           {/* Actions Section */}
           <View style={styles.rowSection}>
-            {actionCards.slice(0 ,3).map(renderActionCard)}
+            {actionCards.slice(0, 3).map(renderActionCard)}
           </View>
           <View style={styles.rowSection}>
-            {actionCards.slice(3 ,6).map(renderActionCard)}
+            {actionCards.slice(3, 6).map(renderActionCard)}
           </View>
         </View>
 

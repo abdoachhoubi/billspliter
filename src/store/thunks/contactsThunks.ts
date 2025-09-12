@@ -31,7 +31,10 @@ export const createContact = createAsyncThunk(
 // Update a contact
 export const updateContact = createAsyncThunk(
   'contacts/updateContact',
-  async ({ id, updates }: { id: string; updates: Partial<CreateContact> }, { rejectWithValue }) => {
+  async (
+    { id, updates }: { id: string; updates: Partial<CreateContact> },
+    { rejectWithValue }
+  ) => {
     try {
       const updatedContact = await ContactsService.updateContact(id, updates);
       if (!updatedContact) {

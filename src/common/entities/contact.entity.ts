@@ -47,21 +47,21 @@ export const ContactUtils = {
   // Validate contact data
   validateContact: (contact: CreateContact): string[] => {
     const errors: string[] = [];
-    
+
     if (!contact.firstName.trim()) {
       errors.push('First name is required');
     }
-    
+
     if (!contact.lastName.trim()) {
       errors.push('Last name is required');
     }
-    
+
     if (!contact.email.trim()) {
       errors.push('Email is required');
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact.email)) {
       errors.push('Email format is invalid');
     }
-    
+
     return errors;
   },
 

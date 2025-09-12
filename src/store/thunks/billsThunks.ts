@@ -1,7 +1,20 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { Bill, CreateBillRequest, BillUtils, BillParticipant, BillOwner } from '../../common/entities/bill.entity';
+import {
+  Bill,
+  CreateBillRequest,
+  BillUtils,
+  BillParticipant,
+  BillOwner,
+} from '../../common/entities/bill.entity';
 import { Contact } from '../../common/entities/contact.entity';
-import { setLoading, setError, addBill, updateBill, deleteBill, updateBillStatus } from '../slices/billsSlice';
+import {
+  setLoading,
+  setError,
+  addBill,
+  updateBill,
+  deleteBill,
+  updateBillStatus,
+} from '../slices/billsSlice';
 
 // Generate unique ID (in a real app, you might want to use a more robust solution)
 const generateId = (): string => {
@@ -47,11 +60,20 @@ export const createBill = createAsyncThunk(
       } else {
         // Calculate based on remaining amount/percentage
         if (billData.splitType === 'percentage') {
-          const participantsTotalPercentage = billData.participants.reduce((sum, p) => sum + p.amount, 0);
+          const participantsTotalPercentage = billData.participants.reduce(
+            (sum, p) => sum + p.amount,
+            0
+          );
           ownerSplitValue = Math.max(0, 100 - participantsTotalPercentage); // Remaining percentage
         } else {
-          const participantsTotalAmount = billData.participants.reduce((sum, p) => sum + p.amount, 0);
-          ownerSplitValue = Math.max(0, billData.totalAmount - participantsTotalAmount); // Remaining amount
+          const participantsTotalAmount = billData.participants.reduce(
+            (sum, p) => sum + p.amount,
+            0
+          );
+          ownerSplitValue = Math.max(
+            0,
+            billData.totalAmount - participantsTotalAmount
+          ); // Remaining amount
         }
       }
 
@@ -70,12 +92,13 @@ export const createBill = createAsyncThunk(
       }));
 
       // Calculate amounts to pay
-      const { updatedParticipants, updatedOwner } = BillUtils.calculateAmountsToPay(
-        participants,
-        owner,
-        billData.totalAmount,
-        billData.splitType
-      );
+      const { updatedParticipants, updatedOwner } =
+        BillUtils.calculateAmountsToPay(
+          participants,
+          owner,
+          billData.totalAmount,
+          billData.splitType
+        );
 
       // Create the bill
       const newBill: Bill = {
@@ -94,15 +117,18 @@ export const createBill = createAsyncThunk(
       // Validate the bill
       const validationErrors = BillUtils.validateBill(newBill);
       if (validationErrors.length > 0) {
-        throw new Error(`Bill validation failed: ${validationErrors.join(', ')}`);
+        throw new Error(
+          `Bill validation failed: ${validationErrors.join(', ')}`
+        );
       }
 
       // Add to store
       dispatch(addBill(newBill));
-      
+
       return newBill;
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Failed to create bill';
+      const errorMessage =
+        error instanceof Error ? error.message : 'Failed to create bill';
       dispatch(setError(errorMessage));
       throw error;
     } finally {
@@ -130,8 +156,10 @@ export const updateExistingBill = createAsyncThunk(
       dispatch(setError(null));
 
       const state = getState() as any;
-      const existingBill = state.bills.bills.find((bill: Bill) => bill.id === updates.id);
-      
+      const existingBill = state.bills.bills.find(
+        (bill: Bill) => bill.id === updates.id
+      );
+
       if (!existingBill) {
         throw new Error('Bill not found');
       }
@@ -140,9 +168,12 @@ export const updateExistingBill = createAsyncThunk(
       let updatedBill = { ...existingBill };
 
       if (updates.title !== undefined) updatedBill.title = updates.title;
-      if (updates.description !== undefined) updatedBill.description = updates.description;
-      if (updates.totalAmount !== undefined) updatedBill.totalAmount = updates.totalAmount;
-      if (updates.splitType !== undefined) updatedBill.splitType = updates.splitType;
+      if (updates.description !== undefined)
+        updatedBill.description = updates.description;
+      if (updates.totalAmount !== undefined)
+        updatedBill.totalAmount = updates.totalAmount;
+      if (updates.splitType !== undefined)
+        updatedBill.splitType = updates.splitType;
 
       if (updates.participants) {
         const participants: BillParticipant[] = updates.participants.map(p => ({
@@ -151,12 +182,13 @@ export const updateExistingBill = createAsyncThunk(
           amountToPay: 0,
         }));
 
-        const { updatedParticipants, updatedOwner } = BillUtils.calculateAmountsToPay(
-          participants,
-          updatedBill.owner,
-          updatedBill.totalAmount,
-          updatedBill.splitType
-        );
+        const { updatedParticipants, updatedOwner } =
+          BillUtils.calculateAmountsToPay(
+            participants,
+            updatedBill.owner,
+            updatedBill.totalAmount,
+            updatedBill.splitType
+          );
 
         updatedBill.participants = updatedParticipants;
         updatedBill.owner = updatedOwner;
@@ -167,14 +199,17 @@ export const updateExistingBill = createAsyncThunk(
       // Validate the updated bill
       const validationErrors = BillUtils.validateBill(updatedBill);
       if (validationErrors.length > 0) {
-        throw new Error(`Bill validation failed: ${validationErrors.join(', ')}`);
+        throw new Error(
+          `Bill validation failed: ${validationErrors.join(', ')}`
+        );
       }
 
       dispatch(updateBill(updatedBill));
-      
+
       return updatedBill;
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Failed to update bill';
+      const errorMessage =
+        error instanceof Error ? error.message : 'Failed to update bill';
       dispatch(setError(errorMessage));
       throw error;
     } finally {
@@ -192,10 +227,11 @@ export const deleteBillById = createAsyncThunk(
       dispatch(setError(null));
 
       dispatch(deleteBill(billId));
-      
+
       return billId;
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Failed to delete bill';
+      const errorMessage =
+        error instanceof Error ? error.message : 'Failed to delete bill';
       dispatch(setError(errorMessage));
       throw error;
     } finally {
@@ -208,7 +244,10 @@ export const deleteBillById = createAsyncThunk(
 export const updateBillStatusById = createAsyncThunk(
   'bills/updateStatus',
   async (
-    { billId, status }: { billId: string; status: 'pending' | 'paid' | 'cancelled' },
+    {
+      billId,
+      status,
+    }: { billId: string; status: 'pending' | 'paid' | 'cancelled' },
     { dispatch }
   ) => {
     try {
@@ -216,10 +255,11 @@ export const updateBillStatusById = createAsyncThunk(
       dispatch(setError(null));
 
       dispatch(updateBillStatus({ id: billId, status }));
-      
+
       return { billId, status };
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Failed to update bill status';
+      const errorMessage =
+        error instanceof Error ? error.message : 'Failed to update bill status';
       dispatch(setError(errorMessage));
       throw error;
     } finally {

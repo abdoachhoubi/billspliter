@@ -1,7 +1,17 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { REHYDRATE } from 'redux-persist';
-import { Contact, CreateContact, UpdateContact } from '../../common/entities/contact.entity';
-import { fetchContacts, createContact, updateContact, deleteContact, searchContacts } from '../thunks/contactsThunks';
+import {
+  Contact,
+  CreateContact,
+  UpdateContact,
+} from '../../common/entities/contact.entity';
+import {
+  fetchContacts,
+  createContact,
+  updateContact,
+  deleteContact,
+  searchContacts,
+} from '../thunks/contactsThunks';
 
 interface ContactsState {
   contacts: Contact[];
@@ -29,31 +39,33 @@ const contactsSlice = createSlice({
     setContacts: (state, action: PayloadAction<Contact[]>) => {
       state.contacts = action.payload;
     },
-    
+
     // Set error state
     setError: (state, action: PayloadAction<string | null>) => {
       state.error = action.payload;
     },
-    
+
     // Clear search results
-    clearSearchResults: (state) => {
+    clearSearchResults: state => {
       state.searchResults = [];
       state.isSearching = false;
     },
-    
+
     // Clear all contacts
-    clearContacts: (state) => {
+    clearContacts: state => {
       state.contacts = [];
     },
-    
+
     // Add contact directly (for immediate UI updates)
     addContactLocal: (state, action: PayloadAction<Contact>) => {
-      const existingIndex = state.contacts.findIndex(c => c.id === action.payload.id);
+      const existingIndex = state.contacts.findIndex(
+        c => c.id === action.payload.id
+      );
       if (existingIndex === -1) {
         state.contacts.push(action.payload);
       }
     },
-    
+
     // Update contact directly (for immediate UI updates)
     updateContactLocal: (state, action: PayloadAction<Contact>) => {
       const index = state.contacts.findIndex(c => c.id === action.payload.id);
@@ -61,13 +73,13 @@ const contactsSlice = createSlice({
         state.contacts[index] = action.payload;
       }
     },
-    
+
     // Delete contact directly (for immediate UI updates)
     deleteContactLocal: (state, action: PayloadAction<string>) => {
       state.contacts = state.contacts.filter(c => c.id !== action.payload);
     },
   },
-  extraReducers: (builder) => {
+  extraReducers: builder => {
     // Handle rehydration
     builder.addCase(REHYDRATE, (state, action: any) => {
       if (action.payload?.contacts) {
@@ -79,7 +91,7 @@ const contactsSlice = createSlice({
 
     // Fetch contacts
     builder
-      .addCase(fetchContacts.pending, (state) => {
+      .addCase(fetchContacts.pending, state => {
         // Only show loading if we don't have hydrated data
         if (!state.isHydrated || state.contacts.length === 0) {
           state.loading = true;
@@ -101,14 +113,16 @@ const contactsSlice = createSlice({
 
     // Create contact
     builder
-      .addCase(createContact.pending, (state) => {
+      .addCase(createContact.pending, state => {
         state.loading = true;
         state.error = null;
       })
       .addCase(createContact.fulfilled, (state, action) => {
         state.loading = false;
         // Add to local state immediately
-        const existingIndex = state.contacts.findIndex(c => c.id === action.payload.id);
+        const existingIndex = state.contacts.findIndex(
+          c => c.id === action.payload.id
+        );
         if (existingIndex === -1) {
           state.contacts.push(action.payload);
         }
@@ -120,13 +134,15 @@ const contactsSlice = createSlice({
 
     // Update contact
     builder
-      .addCase(updateContact.pending, (state) => {
+      .addCase(updateContact.pending, state => {
         state.loading = true;
         state.error = null;
       })
       .addCase(updateContact.fulfilled, (state, action) => {
         state.loading = false;
-        const index = state.contacts.findIndex(contact => contact.id === action.payload.id);
+        const index = state.contacts.findIndex(
+          contact => contact.id === action.payload.id
+        );
         if (index !== -1) {
           state.contacts[index] = action.payload;
         }
@@ -138,13 +154,15 @@ const contactsSlice = createSlice({
 
     // Delete contact
     builder
-      .addCase(deleteContact.pending, (state) => {
+      .addCase(deleteContact.pending, state => {
         state.loading = true;
         state.error = null;
       })
       .addCase(deleteContact.fulfilled, (state, action) => {
         state.loading = false;
-        state.contacts = state.contacts.filter(contact => contact.id !== action.payload);
+        state.contacts = state.contacts.filter(
+          contact => contact.id !== action.payload
+        );
       })
       .addCase(deleteContact.rejected, (state, action) => {
         state.loading = false;
@@ -153,7 +171,7 @@ const contactsSlice = createSlice({
 
     // Search contacts
     builder
-      .addCase(searchContacts.pending, (state) => {
+      .addCase(searchContacts.pending, state => {
         state.isSearching = true;
         state.error = null;
       })

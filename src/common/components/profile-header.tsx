@@ -1,7 +1,13 @@
 import { Crown, User as UserIcon } from 'lucide-react-native';
 import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { COLORS, SPACING, BORDER_RADIUS, FONT_SIZES, FONT_WEIGHTS } from '../constants/theme';
+import {
+  COLORS,
+  SPACING,
+  BORDER_RADIUS,
+  FONT_SIZES,
+  FONT_WEIGHTS,
+} from '../constants/theme';
 import { User, UserUtils } from '../entities/user.entity';
 
 interface ProfileHeaderProps {

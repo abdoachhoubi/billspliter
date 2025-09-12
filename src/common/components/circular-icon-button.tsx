@@ -11,17 +11,17 @@ interface CircularIconButtonProps {
   style?: any;
 }
 
-export default function CircularIconButton({ 
-  Icon, 
-  size = 20, 
-  iconColor = '#ffffff', 
+export default function CircularIconButton({
+  Icon,
+  size = 20,
+  iconColor = '#ffffff',
   backgroundColor = '#1a1a1a',
-  onPress, 
-  style 
+  onPress,
+  style,
 }: CircularIconButtonProps) {
   return (
-    <TouchableOpacity 
-      style={[styles.button, { backgroundColor }, style]} 
+    <TouchableOpacity
+      style={[styles.button, { backgroundColor }, style]}
       onPress={onPress}
     >
       <Icon size={size} color={iconColor} />

@@ -13,7 +13,10 @@ import { Languages, Plus, Clock, Users, DollarSign } from 'lucide-react-native';
 import { useSelector } from 'react-redux';
 
 // Redux
-import { selectAllBills, selectBillsStats } from '../store/selectors/billsSelectors';
+import {
+  selectAllBills,
+  selectBillsStats,
+} from '../store/selectors/billsSelectors';
 import { Bill, BillUtils } from '../common/entities/bill.entity';
 
 interface HomeScreenProps {
@@ -23,13 +26,18 @@ interface HomeScreenProps {
   onViewBillDetail?: (bill: Bill) => void;
 }
 
-export default function HomeScreen({ onLanguageSettings, onCreateBill, onViewBills, onViewBillDetail }: HomeScreenProps) {
+export default function HomeScreen({
+  onLanguageSettings,
+  onCreateBill,
+  onViewBills,
+  onViewBillDetail,
+}: HomeScreenProps) {
   const { t } = useTranslation();
   const bills = useSelector(selectAllBills);
   const billsStats = useSelector(selectBillsStats);
 
   const renderBillItem = ({ item: bill }: { item: Bill }) => (
-    <TouchableOpacity 
+    <TouchableOpacity
       style={styles.billCard}
       onPress={() => onViewBillDetail?.(bill)}
     >
@@ -41,11 +49,11 @@ export default function HomeScreen({ onLanguageSettings, onCreateBill, onViewBil
           </Text>
         </View>
       </View>
-      
+
       <Text style={styles.billAmount}>
         {BillUtils.formatAmount(bill.totalAmount)}
       </Text>
-      
+
       <View style={styles.billDetails}>
         <View style={styles.billDetailItem}>
           <Users size={16} color="#888888" />
@@ -60,7 +68,7 @@ export default function HomeScreen({ onLanguageSettings, onCreateBill, onViewBil
           </Text>
         </View>
       </View>
-      
+
       {bill.description && (
         <Text style={styles.billDescription} numberOfLines={2}>
           {bill.description}
@@ -162,14 +170,16 @@ export default function HomeScreen({ onLanguageSettings, onCreateBill, onViewBil
               onPress={onCreateBill}
             >
               <Plus size={20} color="#000000" />
-              <Text style={styles.emptyCreateButtonText}>Create Your First Bill</Text>
+              <Text style={styles.emptyCreateButtonText}>
+                Create Your First Bill
+              </Text>
             </TouchableOpacity>
           </View>
         ) : (
           <FlatList
             data={bills.slice(0, 3)} // Show only first 3 bills on home screen
             renderItem={renderBillItem}
-            keyExtractor={(item) => item.id}
+            keyExtractor={item => item.id}
             showsVerticalScrollIndicator={false}
             contentContainerStyle={styles.billsList}
             ListFooterComponent={

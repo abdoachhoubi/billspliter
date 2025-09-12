@@ -58,7 +58,9 @@ export class UserUtils {
     return rating.toFixed(1);
   }
 
-  static getSubscriptionDisplayText(subscriptionType: 'basic' | 'premium'): string {
+  static getSubscriptionDisplayText(
+    subscriptionType: 'basic' | 'premium'
+  ): string {
     return subscriptionType.charAt(0).toUpperCase() + subscriptionType.slice(1);
   }
 
@@ -68,25 +70,25 @@ export class UserUtils {
 
   static validateUser(user: CreateUser): string[] {
     const errors: string[] = [];
-    
+
     if (!user.firstName.trim()) {
       errors.push('First name is required');
     }
-    
+
     if (!user.lastName.trim()) {
       errors.push('Last name is required');
     }
-    
+
     if (!user.email.trim()) {
       errors.push('Email is required');
     } else if (!this.isValidEmail(user.email)) {
       errors.push('Please enter a valid email address');
     }
-    
+
     if (user.phone && !this.isValidPhone(user.phone)) {
       errors.push('Please enter a valid phone number');
     }
-    
+
     return errors;
   }
 

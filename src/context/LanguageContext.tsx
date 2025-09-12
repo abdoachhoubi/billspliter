@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from 'react';
 import { useTranslation } from 'react-i18next';
 import { getCurrentLanguageInfo, isRTL } from '../i18n';
 
@@ -8,12 +14,20 @@ interface LanguageContextType {
   refreshLanguage: () => void;
 }
 
-const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
+const LanguageContext = createContext<LanguageContextType | undefined>(
+  undefined
+);
 
-export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+export const LanguageProvider: React.FC<{ children: ReactNode }> = ({
+  children,
+}) => {
   const { i18n } = useTranslation();
-  const [currentLanguage, setCurrentLanguage] = useState(getCurrentLanguageInfo());
-  const [isCurrentRTL, setIsCurrentRTL] = useState(isRTL(getCurrentLanguageInfo().code));
+  const [currentLanguage, setCurrentLanguage] = useState(
+    getCurrentLanguageInfo()
+  );
+  const [isCurrentRTL, setIsCurrentRTL] = useState(
+    isRTL(getCurrentLanguageInfo().code)
+  );
 
   const refreshLanguage = () => {
     const newLanguage = getCurrentLanguageInfo();
@@ -35,7 +49,9 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
   }, [i18n]);
 
   return (
-    <LanguageContext.Provider value={{ currentLanguage, isCurrentRTL, refreshLanguage }}>
+    <LanguageContext.Provider
+      value={{ currentLanguage, isCurrentRTL, refreshLanguage }}
+    >
       {children}
     </LanguageContext.Provider>
   );

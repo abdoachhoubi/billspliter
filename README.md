@@ -39,22 +39,26 @@ src/
 ### Installation
 
 1. Clone the repository:
+
 ```bash
 git clone <repository-url>
 cd bill-splitter
 ```
 
 2. Install dependencies:
+
 ```bash
 npm install
 ```
 
 3. Create environment file:
+
 ```bash
 cp .env.example .env
 ```
 
 4. Start the development server:
+
 ```bash
 npm start
 ```
@@ -87,25 +91,33 @@ npm start
 ## Key Features
 
 ### Theme Support
+
 The app includes a comprehensive theme system with:
+
 - Light/Dark mode toggle
 - System preference detection
 - Persistent theme storage
 
 ### Authentication
+
 Mock authentication system with:
+
 - Context-based state management
 - Secure token storage
 - Automatic token injection in API calls
 
 ### Navigation
+
 Type-safe navigation with:
+
 - Stack navigator
 - Screen parameter typing
 - Deep linking support
 
 ### API Integration
+
 Configured Axios instance with:
+
 - Request/response interceptors
 - Automatic token injection
 - Error handling
@@ -113,18 +125,21 @@ Configured Axios instance with:
 ## Development Guidelines
 
 ### Code Style
+
 - Use TypeScript for all new files
 - Follow the configured ESLint rules
 - Use Prettier for code formatting
 - Write tests for new components and utilities
 
 ### Component Structure
+
 - Use functional components with hooks
 - Implement proper TypeScript interfaces
 - Follow the established folder structure
 - Export components through index files
 
 ### Testing
+
 - Write unit tests for components
 - Mock external dependencies
 - Use React Native Testing Library

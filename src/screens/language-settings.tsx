@@ -36,16 +36,14 @@ const LanguageSettingsScreen: React.FC = () => {
         <View style={styles.languageInfo}>
           <Text style={styles.flag}>{langInfo.flag}</Text>
           <View style={styles.languageTexts}>
-            <Text style={[
-              styles.languageName, 
-              isSelected && styles.selectedText
-            ]}>
+            <Text
+              style={[styles.languageName, isSelected && styles.selectedText]}
+            >
               {langInfo.name}
             </Text>
-            <Text style={[
-              styles.nativeName, 
-              isSelected && styles.selectedText
-            ]}>
+            <Text
+              style={[styles.nativeName, isSelected && styles.selectedText]}
+            >
               {langInfo.nativeName}
             </Text>
           </View>
@@ -64,27 +62,32 @@ const LanguageSettingsScreen: React.FC = () => {
       <Text style={[styles.title, isCurrentRTL && { textAlign: 'right' }]}>
         {t('language_settings.title')}
       </Text>
-      
+
       <View style={styles.currentLanguageSection}>
-        <Text style={[styles.sectionTitle, isCurrentRTL && { textAlign: 'right' }]}>
+        <Text
+          style={[styles.sectionTitle, isCurrentRTL && { textAlign: 'right' }]}
+        >
           {t('language_settings.current_language')}
         </Text>
         <View style={styles.currentLanguageCard}>
           <Text style={styles.currentLanguageFlag}>{currentLanguage.flag}</Text>
-          <Text style={styles.currentLanguageName}>
-            {currentLanguage.name}
-          </Text>
+          <Text style={styles.currentLanguageName}>{currentLanguage.name}</Text>
           <Text style={styles.currentLanguageNative}>
             ({currentLanguage.nativeName})
           </Text>
         </View>
       </View>
 
-      <Text style={[styles.sectionTitle, isCurrentRTL && { textAlign: 'right' }]}>
+      <Text
+        style={[styles.sectionTitle, isCurrentRTL && { textAlign: 'right' }]}
+      >
         {t('language_settings.select_language')}
       </Text>
-      
-      <ScrollView style={styles.languageList} showsVerticalScrollIndicator={false}>
+
+      <ScrollView
+        style={styles.languageList}
+        showsVerticalScrollIndicator={false}
+      >
         {Object.keys(languages).map(renderLanguageOption)}
       </ScrollView>
     </View>

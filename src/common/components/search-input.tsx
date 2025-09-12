@@ -8,11 +8,11 @@ interface SearchInputProps {
   containerStyle?: TextStyle;
 }
 
-export default function SearchInput({ 
-  value, 
-  onChangeText, 
-  placeholder = "Search...",
-  containerStyle
+export default function SearchInput({
+  value,
+  onChangeText,
+  placeholder = 'Search...',
+  containerStyle,
 }: SearchInputProps) {
   return (
     <TextInput

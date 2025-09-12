@@ -48,10 +48,14 @@ export class BillUtils {
   /**
    * Validates that percentage splits add up to 100%
    */
-  static validatePercentageSplits(participants: BillParticipant[], owner: BillOwner): boolean {
+  static validatePercentageSplits(
+    participants: BillParticipant[],
+    owner: BillOwner
+  ): boolean {
     if (participants.length === 0) return owner.splitValue === 100;
-    
-    const totalPercentage = participants.reduce((sum, p) => sum + p.splitValue, 0) + owner.splitValue;
+
+    const totalPercentage =
+      participants.reduce((sum, p) => sum + p.splitValue, 0) + owner.splitValue;
     return Math.abs(totalPercentage - 100) < 0.01; // Allow for small floating point errors
   }
 
@@ -59,11 +63,12 @@ export class BillUtils {
    * Validates that amount splits don't exceed total bill amount
    */
   static validateAmountSplits(
-    participants: BillParticipant[], 
-    owner: BillOwner, 
+    participants: BillParticipant[],
+    owner: BillOwner,
     totalAmount: number
   ): boolean {
-    const totalSplitAmount = participants.reduce((sum, p) => sum + p.splitValue, 0) + owner.splitValue;
+    const totalSplitAmount =
+      participants.reduce((sum, p) => sum + p.splitValue, 0) + owner.splitValue;
     return totalSplitAmount <= totalAmount;
   }
 
@@ -79,12 +84,12 @@ export class BillUtils {
     if (splitType === 'percentage') {
       const updatedParticipants = participants.map(p => ({
         ...p,
-        amountToPay: (p.splitValue / 100) * totalAmount
+        amountToPay: (p.splitValue / 100) * totalAmount,
       }));
-      
+
       const updatedOwner = {
         ...owner,
-        amountToPay: (owner.splitValue / 100) * totalAmount
+        amountToPay: (owner.splitValue / 100) * totalAmount,
       };
 
       return { updatedParticipants, updatedOwner };
@@ -92,12 +97,12 @@ export class BillUtils {
       // For amount splits, splitValue is already the amount to pay
       const updatedParticipants = participants.map(p => ({
         ...p,
-        amountToPay: p.splitValue
+        amountToPay: p.splitValue,
       }));
-      
+
       const updatedOwner = {
         ...owner,
-        amountToPay: owner.splitValue
+        amountToPay: owner.splitValue,
       };
 
       return { updatedParticipants, updatedOwner };
@@ -119,7 +124,8 @@ export class BillUtils {
     owner: BillOwner,
     totalAmount: number
   ): number {
-    const allocatedAmount = participants.reduce((sum, p) => sum + p.splitValue, 0) + owner.splitValue;
+    const allocatedAmount =
+      participants.reduce((sum, p) => sum + p.splitValue, 0) + owner.splitValue;
     return totalAmount - allocatedAmount;
   }
 
@@ -172,8 +178,19 @@ export class BillUtils {
       }
     }
 
-    if (bill.splitType === 'amount' && bill.owner && bill.participants && bill.totalAmount) {
-      if (!this.validateAmountSplits(bill.participants, bill.owner, bill.totalAmount)) {
+    if (
+      bill.splitType === 'amount' &&
+      bill.owner &&
+      bill.participants &&
+      bill.totalAmount
+    ) {
+      if (
+        !this.validateAmountSplits(
+          bill.participants,
+          bill.owner,
+          bill.totalAmount
+        )
+      ) {
         errors.push('Amount splits cannot exceed total bill amount');
       }
     }
