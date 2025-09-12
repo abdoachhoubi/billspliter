@@ -1,14 +1,14 @@
 import {
-  CreditCard,
-  Globe,
-  Grid3x3,
+  Card,
+  Global,
+  Category,
   Heart,
-  LogOut,
-  Shield,
-  Trash2,
-  Users,
+  Logout,
+  SecuritySafe,
+  Trash,
+  People,
   Wallet,
-} from 'lucide-react-native';
+} from 'iconsax-react-nativejs';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -100,7 +100,7 @@ export default function ProfileScreen() {
     {
       key: 'language',
       translationKey: 'profile.language',
-      icon: Globe,
+      icon: Global,
       onPress: () => {
         //TODO: Implement language settings navigation
       },
@@ -114,19 +114,19 @@ export default function ProfileScreen() {
     {
       key: 'categories',
       translationKey: 'profile.categories',
-      icon: Grid3x3,
+      icon: Category,
       onPress: createNavigationHandler('Categories'),
     },
     {
       key: 'contacts',
       translationKey: 'profile.contacts',
-      icon: Users,
+      icon: People,
       onPress: createNavigationHandler('Contacts'),
     },
     {
       key: 'plan',
       translationKey: 'profile.plan',
-      icon: CreditCard,
+      icon: Card,
       onPress: createNavigationHandler('Plan'),
     },
   ];
@@ -171,13 +171,13 @@ export default function ProfileScreen() {
           {/* Menu Items */}
           <View style={styles.section}>
             <ProfileMenuItem
-              icon={Shield}
+              icon={SecuritySafe}
               title={t('profile.privacy_policy')}
               onPress={createNavigationHandler('Privacy Policy')}
               showChevron={true}
             />
             <ProfileMenuItem
-              icon={Trash2}
+              icon={Trash}
               title={t('profile.delete_account')}
               onPress={createNavigationHandler('Delete Account')}
               showChevron={true}
@@ -188,7 +188,7 @@ export default function ProfileScreen() {
           {/* Logout */}
           <View style={styles.section}>
             <ProfileMenuItem
-              icon={LogOut}
+              icon={Logout}
               title={t('profile.logout')}
               onPress={handleLogout}
               showChevron={false}

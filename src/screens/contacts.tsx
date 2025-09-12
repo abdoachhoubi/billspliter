@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, StyleSheet, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
-import { HardDrive, RefreshCw, Plus, X } from 'lucide-react-native';
+import { Archive, Refresh, Add, CloseCircle } from 'iconsax-react-nativejs';
 import {
   Contact,
   CreateContact,
@@ -164,15 +164,15 @@ export default function ContactsScreen() {
           </Text>
           {hasLocalData && (
             <View style={styles.persistedIndicator}>
-              <HardDrive size={12} color="#888888" />
+              <Archive size={12} color="#888888" />
               <Text style={styles.persistedText}>Saved Locally</Text>
             </View>
           )}
         </View>
         <View style={styles.headerButtons}>
-          <CircularIconButton Icon={RefreshCw} onPress={handleRefresh} />
+          <CircularIconButton Icon={Refresh} onPress={handleRefresh} />
           <CircularIconButton
-            Icon={showAddForm ? X : Plus}
+            Icon={showAddForm ? CloseCircle : Add}
             backgroundColor="#ffffff"
             iconColor="#000000"
             onPress={() => setShowAddForm(!showAddForm)}

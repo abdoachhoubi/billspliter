@@ -1,4 +1,4 @@
-import { FileText, Home, User, Users } from 'lucide-react-native';
+import { Document, Home, Profile, People } from 'iconsax-react-nativejs';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -66,17 +66,21 @@ const BottomNavigation = ({
     },
     {
       id: 'bills',
-      icon: <FileText color={currentTab === 'bills' ? '#FFFFFF' : '#000000'} />,
+      icon: <Document color={currentTab === 'bills' ? '#FFFFFF' : '#000000'} />,
       name: t('bills'),
     },
     {
       id: 'contacts',
-      icon: <Users color={currentTab === 'contacts' ? '#FFFFFF' : '#000000'} />,
+      icon: (
+        <People color={currentTab === 'contacts' ? '#FFFFFF' : '#000000'} />
+      ),
       name: t('contacts'),
     },
     {
       id: 'profile',
-      icon: <User color={currentTab === 'profile' ? '#FFFFFF' : '#000000'} />,
+      icon: (
+        <Profile color={currentTab === 'profile' ? '#FFFFFF' : '#000000'} />
+      ),
       name: t('profile'),
     },
   ];

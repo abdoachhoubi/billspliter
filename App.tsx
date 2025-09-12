@@ -1,5 +1,5 @@
 import { CreateBillScreen } from '@/screens/create-bill';
-import { ChevronLeft, ChevronRight } from 'lucide-react-native';
+import { ArrowLeft, ArrowRight } from 'iconsax-react-nativejs';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -65,11 +65,11 @@ function AppContent() {
           {isCurrentRTL ? (
             <View style={styles.rtlBackButton}>
               <Text style={styles.backButtonText}>{t('common.back')}</Text>
-              <ChevronRight size={20} color="#ffffff" />
+              <ArrowRight size={20} color="#ffffff" />
             </View>
           ) : (
             <View style={styles.ltrBackButton}>
-              <ChevronLeft size={20} color="#ffffff" />
+              <ArrowLeft size={20} color="#ffffff" />
               <Text style={styles.backButtonText}>{t('common.back')}</Text>
             </View>
           )}

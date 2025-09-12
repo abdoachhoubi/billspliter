@@ -1,11 +1,11 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { LucideIcon, Plus, Users } from 'lucide-react-native';
+import { Add, People } from 'iconsax-react-nativejs';
 
 interface EmptyStateProps {
   message: string;
   subtitle?: string;
-  icon?: LucideIcon;
+  icon?: React.ComponentType<any>;
   actionText?: string;
   onAction?: () => void;
   style?: any;
@@ -14,7 +14,7 @@ interface EmptyStateProps {
 export default function EmptyState({
   message,
   subtitle,
-  icon: IconComponent = Users,
+  icon: IconComponent = People,
   actionText,
   onAction,
   style,
@@ -26,7 +26,7 @@ export default function EmptyState({
       {subtitle && <Text style={styles.subtitle}>{subtitle}</Text>}
       {actionText && onAction && (
         <TouchableOpacity style={styles.actionButton} onPress={onAction}>
-          <Plus size={20} color="#000000" />
+          <Add size={20} color="#000000" />
           <Text style={styles.actionButtonText}>{actionText}</Text>
         </TouchableOpacity>
       )}

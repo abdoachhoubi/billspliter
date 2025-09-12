@@ -1,4 +1,4 @@
-import { Crown, User as UserIcon } from 'lucide-react-native';
+import { Crown, Profile } from 'iconsax-react-nativejs';
 import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import {
@@ -60,7 +60,7 @@ export default function ProfileHeader({
             <Image source={{ uri: user.avatar }} style={styles.avatar} />
           ) : (
             <View style={styles.avatarPlaceholder}>
-              <UserIcon size={32} color="#666666" />
+              <Profile size={32} color="#666666" />
             </View>
           )}
         </TouchableOpacity>

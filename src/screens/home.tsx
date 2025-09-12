@@ -9,7 +9,13 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
-import { Languages, Plus, Clock, Users, DollarSign } from 'lucide-react-native';
+import {
+  Global,
+  Add,
+  Clock,
+  People,
+  MoneyRecive,
+} from 'iconsax-react-nativejs';
 import { useSelector } from 'react-redux';
 
 // Redux
@@ -56,7 +62,7 @@ export default function HomeScreen({
 
       <View style={styles.billDetails}>
         <View style={styles.billDetailItem}>
-          <Users size={16} color="#888888" />
+          <People size={16} color="#888888" />
           <Text style={styles.billDetailText}>
             {bill.participants.length + 1} participants
           </Text>
@@ -111,7 +117,7 @@ export default function HomeScreen({
           style={styles.languageButton}
           onPress={onLanguageSettings}
         >
-          <Languages size={20} color="#ffffff" />
+          <Global size={20} color="#ffffff" />
         </TouchableOpacity>
       </View>
 
@@ -152,7 +158,7 @@ export default function HomeScreen({
               style={styles.createButton}
               onPress={onCreateBill}
             >
-              <Plus size={20} color="#ffffff" />
+              <Add size={20} color="#ffffff" />
               <Text style={styles.createButtonText}>Create Bill</Text>
             </TouchableOpacity>
           </View>
@@ -160,7 +166,7 @@ export default function HomeScreen({
 
         {bills.length === 0 ? (
           <View style={styles.emptyState}>
-            <DollarSign size={48} color="#666666" />
+            <MoneyRecive size={48} color="#666666" />
             <Text style={styles.emptyTitle}>No Bills Yet</Text>
             <Text style={styles.emptySubtitle}>
               Create your first bill to start splitting expenses
@@ -169,10 +175,8 @@ export default function HomeScreen({
               style={styles.emptyCreateButton}
               onPress={onCreateBill}
             >
-              <Plus size={20} color="#000000" />
-              <Text style={styles.emptyCreateButtonText}>
-                Create Your First Bill
-              </Text>
+              <Add size={20} color="#ffffff" />
+              <Text style={styles.createButtonText}>Create Bill</Text>
             </TouchableOpacity>
           </View>
         ) : (

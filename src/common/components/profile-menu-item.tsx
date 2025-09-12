@@ -1,9 +1,8 @@
 import React from 'react';
 import { TouchableOpacity, Text, View, StyleSheet } from 'react-native';
-import { LucideIcon } from 'lucide-react-native';
 
 interface ProfileMenuItemProps {
-  icon: LucideIcon;
+  icon: React.ComponentType<any>;
   title: string;
   subtitle?: string;
   onPress: () => void;

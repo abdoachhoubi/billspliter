@@ -1,9 +1,8 @@
 import React from 'react';
 import { TouchableOpacity, StyleSheet } from 'react-native';
-import { LucideIcon } from 'lucide-react-native';
 
 interface CircularIconButtonProps {
-  Icon: LucideIcon;
+  Icon: React.ComponentType<any>;
   size?: number;
   iconColor?: string;
   backgroundColor?: string;

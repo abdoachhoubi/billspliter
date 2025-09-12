@@ -1,4 +1,4 @@
-import { Plus } from 'lucide-react-native';
+import { Add } from 'iconsax-react-nativejs';
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
@@ -31,7 +31,7 @@ export default function ProfileStats({ stats }: ProfileStatsProps) {
             </View>
             {stat.showAddButton && (
               <TouchableOpacity style={styles.addButton}>
-                <Plus size={16} color="#888888" />
+                <Add size={16} color="#888888" />
               </TouchableOpacity>
             )}
           </View>

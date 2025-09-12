@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { X } from 'lucide-react-native';
+import { CloseCircle } from 'iconsax-react-nativejs';
 
 interface ContactItemProps {
   id: string;
@@ -33,7 +33,7 @@ export default function ContactItem({
         style={styles.deleteButton}
         onPress={() => onDelete(id, fullName)}
       >
-        <X size={16} color="#ffffff" />
+        <CloseCircle size={16} color="#ffffff" />
       </TouchableOpacity>
     </View>
   );
