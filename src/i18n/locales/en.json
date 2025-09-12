@@ -2,6 +2,7 @@
   "common": {
     "hello": "Hello World!",
     "welcome": "Welcome",
+    "home": "Home",
     "language": "Language",
     "settings": "Settings",
     "back": "Back",
@@ -80,6 +81,7 @@
     "delete_account": "Delete Account"
   },
   "bills": {
+    "title": "Bills",
     "create_title": "Create Bill",
     "bill_details": "Bill Details",
     "bill_not_found": "Bill not found",
@@ -92,7 +94,7 @@
     "you": "YOU",
     "total_amount": "Total Amount",
     "description": "Description",
-    "title": "Title"
+    "bill_title": "Title"
   },
   "bill_detail": {
     "title": "Bill Details",

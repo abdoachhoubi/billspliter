@@ -1,11 +1,12 @@
 {
   "common": {
-    "hello": "Bonjour le monde!",
+    "hello": "Bonjour le Monde!",
     "welcome": "Bienvenue",
+    "home": "Accueil",
     "language": "Langue",
     "settings": "Paramètres",
     "back": "Retour",
-    "save": "Sauvegarder",
+    "save": "Enregistrer",
     "cancel": "Annuler",
     "ok": "OK",
     "yes": "Oui",
@@ -80,6 +81,7 @@
     "delete_account": "Supprimer le Compte"
   },
   "bills": {
+    "title": "Factures",
     "create_title": "Créer une Facture",
     "bill_details": "Détails de la Facture",
     "bill_not_found": "Facture introuvable",
@@ -92,7 +94,7 @@
     "you": "VOUS",
     "total_amount": "Montant Total",
     "description": "Description",
-    "title": "Titre"
+    "bill_title": "Titre"
   },
   "bill_detail": {
     "title": "Détails de la Facture",

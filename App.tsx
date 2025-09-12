@@ -18,6 +18,7 @@ import BillsScreen from './src/screens/bills';
 import HomeScreen from './src/screens/home';
 import LanguageSettingsScreen from './src/screens/language-settings';
 import OnboardingScreen from './src/screens/onboarding';
+import { MainTabContainer } from './src/components';
 import { persistor, store } from './src/store';
 
 function AppContent() {
@@ -25,12 +26,12 @@ function AppContent() {
   const { currentLanguage, isCurrentRTL } = useLanguage();
   const [showLanguageSettings, setShowLanguageSettings] = useState(false);
   const [currentScreen, setCurrentScreen] = useState<
-    'onboarding' | 'home' | 'createBill' | 'bills' | 'billDetail'
-  >('home'); // Start with home for testing
+    'onboarding' | 'main' | 'createBill' | 'bills' | 'billDetail'
+  >('main'); // Start with main tab container
   const [selectedBillId, setSelectedBillId] = useState<string | null>(null);
 
   const handleGetStarted = () => {
-    setCurrentScreen('home');
+    setCurrentScreen('main');
   };
 
   const handleLanguageSettings = () => {
@@ -50,8 +51,8 @@ function AppContent() {
     setCurrentScreen('billDetail');
   };
 
-  const handleBackToHome = () => {
-    setCurrentScreen('home');
+  const handleBackToMain = () => {
+    setCurrentScreen('main');
   };
 
   if (showLanguageSettings) {
@@ -82,13 +83,11 @@ function AppContent() {
     return <OnboardingScreen onGetStarted={handleGetStarted} />;
   }
 
-  if (currentScreen === 'home') {
+  if (currentScreen === 'main') {
     return (
-      <HomeScreen
+      <MainTabContainer
         onLanguageSettings={handleLanguageSettings}
         onCreateBill={handleCreateBill}
-        onViewBills={handleViewBills}
-        onViewBillDetail={handleViewBillDetail}
       />
     );
   }
@@ -98,7 +97,7 @@ function AppContent() {
       <CreateBillScreen
         navigation={{
           navigate: () => {},
-          goBack: handleBackToHome,
+          goBack: handleBackToMain,
         }}
       />
     );
@@ -108,7 +107,7 @@ function AppContent() {
     return (
       <BillsScreen
         navigation={{
-          goBack: handleBackToHome,
+          goBack: handleBackToMain,
           navigate: (screen: string, params?: any) => {
             if (screen === 'BillDetail' && params?.bill) {
               handleViewBillDetail(params.bill);
@@ -136,6 +135,10 @@ function AppContent() {
 }
 
 export default function App() {
+	 const [showLanguageSettings, setShowLanguageSettings] = useState(false);
+ const handleLanguageSettings = () => {
+    setShowLanguageSettings(true);
+  };
   return (
     <SafeAreaProvider>
       <Provider store={store}>
@@ -149,7 +152,9 @@ export default function App() {
           persistor={persistor}
         >
           <LanguageProvider>
-            <AppContent />
+            <MainTabContainer
+        onLanguageSettings={handleLanguageSettings}
+      />
           </LanguageProvider>
         </PersistGate>
       </Provider>

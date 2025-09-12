@@ -2,6 +2,7 @@
   "common": {
     "hello": "¡Hola Mundo!",
     "welcome": "Bienvenido",
+    "home": "Inicio",
     "language": "Idioma",
     "settings": "Configuración",
     "back": "Atrás",
@@ -80,6 +81,7 @@
     "delete_account": "Eliminar Cuenta"
   },
   "bills": {
+    "title": "Cuentas",
     "create_title": "Crear Cuenta",
     "bill_details": "Detalles de la Cuenta",
     "bill_not_found": "Cuenta no encontrada",
@@ -92,7 +94,7 @@
     "you": "TÚ",
     "total_amount": "Monto Total",
     "description": "Descripción",
-    "title": "Título"
+    "bill_title": "Título"
   },
   "bill_detail": {
     "title": "Detalles de la Cuenta",
