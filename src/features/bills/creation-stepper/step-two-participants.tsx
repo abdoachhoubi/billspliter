@@ -47,7 +47,7 @@ interface StepTwoParticipantsProps {
   participants: StepperParticipant[];
   setParticipants: (participants: StepperParticipant[]) => void;
   availableContacts: Contact[];
-  setAvailableContacts: (contacts: Contact[]) => void;
+  setAvailableContacts?: (contacts: Contact[]) => void; // Make optional since contacts come from Redux
 }
 
 // Contact Selection Modal Component
@@ -369,7 +369,10 @@ export const StepTwoParticipants: React.FC<StepTwoParticipantsProps> = ({
       id: Date.now().toString(), // Simple ID generation
     };
     
-    setAvailableContacts([...availableContacts, newContact]);
+    // Only update available contacts if setter is provided
+    if (setAvailableContacts) {
+      setAvailableContacts([...availableContacts, newContact]);
+    }
     handleSelectContact(newContact);
   };
 

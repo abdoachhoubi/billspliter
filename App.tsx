@@ -18,7 +18,7 @@ function AppContent() {
   const { t } = useTranslation();
   const { currentLanguage, isCurrentRTL } = useLanguage();
   const [showLanguageSettings, setShowLanguageSettings] = useState(false);
-  const [currentScreen, setCurrentScreen] = useState<'onboarding' | 'home'>('onboarding');
+  const [currentScreen, setCurrentScreen] = useState<'onboarding' | 'home' | 'createBill'>('onboarding');
 
   const handleGetStarted = () => {
     setCurrentScreen('home');
@@ -26,6 +26,14 @@ function AppContent() {
 
   const handleLanguageSettings = () => {
     setShowLanguageSettings(true);
+  };
+
+  const handleCreateBill = () => {
+    setCurrentScreen('createBill');
+  };
+
+  const handleBackToHome = () => {
+    setCurrentScreen('home');
   };
 
   if (showLanguageSettings) {
@@ -57,7 +65,23 @@ function AppContent() {
   }
 
   if (currentScreen === 'home') {
-    return <HomeScreen onLanguageSettings={handleLanguageSettings} />;
+    return (
+      <HomeScreen 
+        onLanguageSettings={handleLanguageSettings}
+        onCreateBill={handleCreateBill}
+      />
+    );
+  }
+
+  if (currentScreen === 'createBill') {
+    return (
+      <CreateBillScreen 
+        navigation={{ 
+          navigate: () => {}, 
+          goBack: handleBackToHome 
+        }} 
+      />
+    );
   }
 
   return null;
@@ -77,7 +101,7 @@ export default function App() {
           persistor={persistor}
         >
           <LanguageProvider>
-            <CreateBillScreen navigation={{ navigate: () => {}, goBack: () => {} }} />
+            <AppContent />
           </LanguageProvider>
         </PersistGate>
       </Provider>

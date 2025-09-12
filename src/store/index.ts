@@ -3,17 +3,19 @@ import { persistStore, persistReducer } from 'redux-persist';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { combineReducers } from '@reduxjs/toolkit';
 import contactsReducer from './slices/contactsSlice';
+import billsReducer from './slices/billsSlice';
 
 // Persist configuration
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
-  whitelist: ['contacts'], // Only persist contacts slice
+  whitelist: ['contacts', 'bills'], // Persist both contacts and bills
 };
 
 // Combine reducers
 const rootReducer = combineReducers({
   contacts: contactsReducer,
+  bills: billsReducer,
 });
 
 // Create persisted reducer

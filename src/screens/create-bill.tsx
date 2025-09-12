@@ -15,6 +15,12 @@ import {
   Check,
 } from 'lucide-react-native';
 
+// Redux
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState, AppDispatch } from '../store';
+import { selectContacts } from '../store/selectors/contactsSelectors';
+import { createBill } from '../store/thunks/billsThunks';
+
 // Theme constants
 import { 
   COLORS, 
@@ -104,6 +110,10 @@ export const CreateBillScreen: React.FC<CreateBillScreenProps> = ({
   route 
 }) => {
   const { t } = useTranslation();
+  const dispatch = useDispatch<AppDispatch>();
+  
+  // Redux state
+  const availableContacts = useSelector(selectContacts);
   
   // Stepper state
   const [currentStep, setCurrentStep] = useState(0);
@@ -118,23 +128,14 @@ export const CreateBillScreen: React.FC<CreateBillScreenProps> = ({
   // Step 2: Participants
   const [participants, setParticipants] = useState<StepperParticipant[]>([]);
   
-  // Mock contacts (in real app, this would come from Redux or Context)
-  const [availableContacts, setAvailableContacts] = useState<Contact[]>([
-    {
-      id: '1',
-      firstName: 'John',
-      lastName: 'Doe',
-      email: 'john.doe@example.com',
-      phone: '+1234567890',
-    },
-    {
-      id: '2',
-      firstName: 'Jane',
-      lastName: 'Smith',
-      email: 'jane.smith@example.com',
-      phone: '+0987654321',
-    },
-  ]);
+  // Mock current user (in real app, this would come from Auth context or Redux)
+  const currentUser: Contact = {
+    id: 'current-user-id',
+    firstName: 'John',
+    lastName: 'Doe',
+    email: 'john.doe@example.com',
+    phone: '+1234567890',
+  };
 
   // Step navigation validation
   const canProceedToStep2 = title.trim() && totalAmount && parseFloat(totalAmount) > 0;
@@ -153,25 +154,35 @@ export const CreateBillScreen: React.FC<CreateBillScreenProps> = ({
     }
   }, [participants, splitType, totalAmount]);
 
-  const handleCreateBill = () => {
-    // Calculate final bill data
-    const finalParticipants = participants.map(p => ({
-      ...p,
-      actualAmount: splitType === 'percentage' 
-        ? (p.amount / 100) * parseFloat(totalAmount || '0')
-        : p.amount
-    }));
+  const handleCreateBill = async () => {
+    try {
+      // Dispatch the createBill action
+      const result = await dispatch(createBill({
+        title,
+        description,
+        totalAmount: parseFloat(totalAmount || '0'),
+        splitType,
+        participants,
+        owner: currentUser,
+      })).unwrap();
 
-    Alert.alert(
-      'Bill Created Successfully!',
-      `Bill "${title}" has been created with ${participants.length} participants.`,
-      [
-        {
-          text: 'OK',
-          onPress: () => navigation.goBack(),
-        },
-      ]
-    );
+      Alert.alert(
+        'Bill Created Successfully!',
+        `Bill "${title}" has been created with ${participants.length} participants.`,
+        [
+          {
+            text: 'OK',
+            onPress: () => navigation.goBack(),
+          },
+        ]
+      );
+    } catch (error) {
+      Alert.alert(
+        'Error Creating Bill',
+        error instanceof Error ? error.message : 'Failed to create bill. Please try again.',
+        [{ text: 'OK' }]
+      );
+    }
   };
 
   const handleNext = () => {
@@ -227,7 +238,6 @@ export const CreateBillScreen: React.FC<CreateBillScreenProps> = ({
             participants={participants}
             setParticipants={setParticipants}
             availableContacts={availableContacts}
-            setAvailableContacts={setAvailableContacts}
             totalAmount={totalAmount}
             splitType={splitType}
           />
