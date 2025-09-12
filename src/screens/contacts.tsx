@@ -1,22 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, StyleSheet, Alert } from 'react-native';
+import React, { useEffect, useState, useMemo } from 'react';
+import { View, Text, FlatList, StyleSheet, Alert, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
-import { Archive, Refresh, Add, CloseCircle } from 'iconsax-react-nativejs';
+import { Archive, Refresh, Add, CloseCircle, Sort, Filter } from 'iconsax-react-nativejs';
 import {
   Contact,
   CreateContact,
   ContactUtils,
+  ContactWithStats,
 } from '../common/entities/contact.entity';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import {
-  selectContactsWithFullName,
+  selectContactsWithStats,
   selectContactsLoading,
   selectContactsError,
   selectSearchResultsWithFullName,
   selectIsSearching,
   selectIsHydrated,
   selectHasLocalData,
+  selectContactsSorted,
+  selectContactsByBalance,
 } from '../store/selectors/contactsSelectors';
 import {
   fetchContacts,
@@ -40,7 +43,7 @@ import {
 } from '../common/components';
 
 // Extended type for display purposes
-interface ContactWithDisplay extends Contact {
+interface ContactWithDisplay extends ContactWithStats {
   fullName: string;
   initials: string;
 }
@@ -48,7 +51,7 @@ interface ContactWithDisplay extends Contact {
 export default function ContactsScreen() {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
-  const contacts = useAppSelector(selectContactsWithFullName);
+  const contactsWithStats = useAppSelector(selectContactsWithStats);
   const loading = useAppSelector(selectContactsLoading);
   const error = useAppSelector(selectContactsError);
   const searchResults = useAppSelector(selectSearchResultsWithFullName);
@@ -59,6 +62,9 @@ export default function ContactsScreen() {
   const [searchQuery, setSearchQuery] = useState('');
   const [showAddForm, setShowAddForm] = useState(false);
   const [showDebug, setShowDebug] = useState(false);
+  const [showStats, setShowStats] = useState(true);
+  const [sortBy, setSortBy] = useState<'name' | 'balance' | 'activity' | 'bills-count' | 'recent'>('name');
+  const [filterBy, setFilterBy] = useState<'owes-you' | 'you-owe' | 'settled' | 'active' | 'all'>('all');
   const [newContact, setNewContact] = useState<CreateContact>({
     firstName: '',
     lastName: '',
@@ -132,9 +138,75 @@ export default function ContactsScreen() {
     );
   };
 
-  const displayContacts: ContactWithDisplay[] = searchQuery.trim()
-    ? searchResults
-    : contacts;
+  // Get filtered and sorted contacts
+  const filteredAndSortedContacts = useMemo(() => {
+    let result = searchQuery.trim()
+      ? searchResults.map(contact => {
+          const withStats = contactsWithStats.find(c => c.id === contact.id);
+          return {
+            ...ContactUtils.withDisplayProperties(contact),
+            stats: withStats?.stats || {
+              totalBills: 0,
+              activeBills: 0,
+              totalAmountInvolved: 0,
+              balanceOwedToYou: 0,
+              balanceYouOwe: 0,
+              netBalance: 0,
+              averageBillAmount: 0,
+            }
+          };
+        })
+      : contactsWithStats.map(contact => ({
+          ...ContactUtils.withDisplayProperties(contact),
+          stats: contact.stats,
+        }));
+
+    // Apply filtering
+    if (filterBy !== 'all') {
+      switch (filterBy) {
+        case 'owes-you':
+          result = result.filter(c => c.stats.netBalance > 0);
+          break;
+        case 'you-owe':
+          result = result.filter(c => c.stats.netBalance < 0);
+          break;
+        case 'settled':
+          result = result.filter(c => c.stats.netBalance === 0 && c.stats.totalBills > 0);
+          break;
+        case 'active':
+          result = result.filter(c => c.stats.activeBills > 0);
+          break;
+      }
+    }
+
+    // Apply sorting
+    result.sort((a, b) => {
+      switch (sortBy) {
+        case 'name':
+          return a.firstName.localeCompare(b.firstName);
+        case 'balance':
+          return Math.abs(b.stats.netBalance) - Math.abs(a.stats.netBalance);
+        case 'activity':
+          if (!a.stats.lastBillDate && !b.stats.lastBillDate) return 0;
+          if (!a.stats.lastBillDate) return 1;
+          if (!b.stats.lastBillDate) return -1;
+          return new Date(b.stats.lastBillDate).getTime() - new Date(a.stats.lastBillDate).getTime();
+        case 'bills-count':
+          return b.stats.totalBills - a.stats.totalBills;
+        case 'recent':
+          if (!a.lastActivityAt && !b.lastActivityAt) return 0;
+          if (!a.lastActivityAt) return 1;
+          if (!b.lastActivityAt) return -1;
+          return new Date(b.lastActivityAt).getTime() - new Date(a.lastActivityAt).getTime();
+        default:
+          return 0;
+      }
+    });
+
+    return result;
+  }, [contactsWithStats, searchResults, searchQuery, filterBy, sortBy]);
+
+  const displayContacts: ContactWithDisplay[] = filteredAndSortedContacts;
 
   const renderContact = ({ item }: { item: ContactWithDisplay }) => (
     <ContactItem
@@ -143,7 +215,19 @@ export default function ContactsScreen() {
       email={item.email}
       phone={item.phone}
       initials={item.initials}
+      isFavorite={item.isFavorite}
+      group={item.group}
+      stats={item.stats}
+      showStats={showStats}
       onDelete={handleDeleteContact}
+      onPress={(contactId) => {
+        // TODO: Navigate to contact detail screen
+        console.log('Contact pressed:', contactId);
+      }}
+      onToggleFavorite={(contactId) => {
+        // TODO: Implement favorite toggle
+        console.log('Toggle favorite:', contactId);
+      }}
     />
   );
 
@@ -160,7 +244,7 @@ export default function ContactsScreen() {
       <View style={styles.header}>
         <View style={styles.titleContainer}>
           <Text style={styles.title}>
-            {t('contacts.title')} ({contacts.length})
+            {t('contacts.title')} ({displayContacts.length})
           </Text>
           {hasLocalData && (
             <View style={styles.persistedIndicator}>
@@ -170,6 +254,26 @@ export default function ContactsScreen() {
           )}
         </View>
         <View style={styles.headerButtons}>
+          <CircularIconButton 
+            Icon={Sort} 
+            onPress={() => {
+              // Cycle through sort options
+              const sortOptions: typeof sortBy[] = ['name', 'balance', 'activity', 'bills-count', 'recent'];
+              const currentIndex = sortOptions.indexOf(sortBy);
+              const nextIndex = (currentIndex + 1) % sortOptions.length;
+              setSortBy(sortOptions[nextIndex]);
+            }} 
+          />
+          <CircularIconButton 
+            Icon={Filter} 
+            onPress={() => {
+              // Cycle through filter options
+              const filterOptions: typeof filterBy[] = ['all', 'active', 'owes-you', 'you-owe', 'settled'];
+              const currentIndex = filterOptions.indexOf(filterBy);
+              const nextIndex = (currentIndex + 1) % filterOptions.length;
+              setFilterBy(filterOptions[nextIndex]);
+            }} 
+          />
           <CircularIconButton Icon={Refresh} onPress={handleRefresh} />
           <CircularIconButton
             Icon={showAddForm ? CloseCircle : Add}
@@ -185,6 +289,26 @@ export default function ContactsScreen() {
         onChangeText={setSearchQuery}
         placeholder={t('contacts.search_placeholder')}
       />
+
+      {/* Filter and Sort Status Bar */}
+      {(filterBy !== 'all' || sortBy !== 'name') && (
+        <View style={styles.statusBar}>
+          <Text style={styles.statusText}>
+            {filterBy !== 'all' && `Filter: ${filterBy.replace('-', ' ')}`}
+            {filterBy !== 'all' && sortBy !== 'name' && ' • '}
+            {sortBy !== 'name' && `Sort: ${sortBy.replace('-', ' ')}`}
+          </Text>
+          <TouchableOpacity 
+            onPress={() => {
+              setFilterBy('all');
+              setSortBy('name');
+            }}
+            style={styles.clearFilters}
+          >
+            <Text style={styles.clearFiltersText}>Clear</Text>
+          </TouchableOpacity>
+        </View>
+      )}
 
       {showAddForm && (
         <ContactForm
@@ -275,5 +399,32 @@ const styles = StyleSheet.create({
   list: {
     flex: 1,
     paddingHorizontal: 24,
+  },
+  statusBar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 24,
+    paddingVertical: 12,
+    backgroundColor: '#1a1a1a',
+    borderRadius: 12,
+    marginHorizontal: 24,
+    marginBottom: 16,
+  },
+  statusText: {
+    fontSize: 14,
+    color: '#ffffff',
+    fontWeight: '500',
+  },
+  clearFilters: {
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    backgroundColor: '#333333',
+    borderRadius: 8,
+  },
+  clearFiltersText: {
+    fontSize: 12,
+    color: '#ffffff',
+    fontWeight: '600',
   },
 });

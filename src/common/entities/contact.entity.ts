@@ -5,6 +5,28 @@ export interface Contact {
   phone: string;
   email: string;
   profileImage?: string;
+  isFavorite?: boolean;
+  group?: 'family' | 'friends' | 'work' | 'other';
+  notes?: string;
+  createdAt?: string;
+  lastActivityAt?: string;
+}
+
+// Contact statistics interface
+export interface ContactStats {
+  totalBills: number;
+  activeBills: number;
+  totalAmountInvolved: number;
+  balanceOwedToYou: number; // Positive if they owe you
+  balanceYouOwe: number; // Positive if you owe them
+  netBalance: number; // Calculated: balanceOwedToYou - balanceYouOwe
+  lastBillDate?: string;
+  averageBillAmount: number;
+}
+
+// Extended contact with statistics
+export interface ContactWithStats extends Contact {
+  stats: ContactStats;
 }
 
 // Type for creating new contacts (excludes id)
@@ -71,4 +93,27 @@ export const ContactUtils = {
     fullName: ContactUtils.getFullName(contact),
     initials: ContactUtils.getInitials(contact),
   }),
+
+  // Toggle favorite status
+  toggleFavorite: (contact: Contact): Contact => ({
+    ...contact,
+    isFavorite: !contact.isFavorite,
+  }),
+
+  // Update last activity
+  updateLastActivity: (contact: Contact): Contact => ({
+    ...contact,
+    lastActivityAt: new Date().toISOString(),
+  }),
+
+  // Get display group name
+  getGroupName: (group?: Contact['group']): string => {
+    switch (group) {
+      case 'family': return 'Family';
+      case 'friends': return 'Friends';
+      case 'work': return 'Work';
+      case 'other': return 'Other';
+      default: return 'Ungrouped';
+    }
+  },
 };
