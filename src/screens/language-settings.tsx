@@ -5,8 +5,10 @@ import {
   TouchableOpacity,
   ScrollView,
   StyleSheet,
+  Alert,
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
+import { OnboardingService } from '../services/onboardingService';
 import { languages, changeLanguage, isRTL } from '../i18n';
 import { useLanguage } from '../context/LanguageContext';
 
@@ -21,6 +23,28 @@ const LanguageSettingsScreen: React.FC = () => {
     } catch (error) {
       console.error('Error changing language:', error);
     }
+  };
+
+  const handleResetOnboarding = () => {
+    Alert.alert(
+      'Reset Onboarding',
+      'This will reset the onboarding state. The app will show onboarding again on next restart. This is for testing purposes only.',
+      [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'Reset',
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              await OnboardingService.resetOnboarding();
+              Alert.alert('Success', 'Onboarding has been reset. Restart the app to see the onboarding again.');
+            } catch (error) {
+              Alert.alert('Error', 'Failed to reset onboarding.');
+            }
+          },
+        },
+      ]
+    );
   };
 
   const renderLanguageOption = (langCode: string) => {
@@ -90,6 +114,19 @@ const LanguageSettingsScreen: React.FC = () => {
       >
         {Object.keys(languages).map(renderLanguageOption)}
       </ScrollView>
+      
+      {/* Debug Section - Only in development */}
+      {__DEV__ && (
+        <View style={styles.debugSection}>
+          <Text style={styles.debugTitle}>Debug Options</Text>
+          <TouchableOpacity
+            style={styles.debugButton}
+            onPress={handleResetOnboarding}
+          >
+            <Text style={styles.debugButtonText}>Reset Onboarding</Text>
+          </TouchableOpacity>
+        </View>
+      )}
     </View>
   );
 };
@@ -199,10 +236,36 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  checkmarkText: {
+    checkmarkText: {
+    color: '#000000',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  debugSection: {
+    marginTop: 30,
+    padding: 20,
+    backgroundColor: '#1a1a1a',
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#333333',
+  },
+  debugTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#ffffff',
+    marginBottom: 15,
+    textAlign: 'center',
+  },
+  debugButton: {
+    backgroundColor: '#ff4444',
+    padding: 12,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  debugButtonText: {
     color: '#ffffff',
     fontSize: 14,
-    fontWeight: 'bold',
+    fontWeight: '600',
   },
 });
 

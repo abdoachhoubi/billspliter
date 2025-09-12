@@ -1,6 +1,6 @@
 import { CreateBillScreen } from '@/screens/create-bill';
 import { ArrowLeft, ArrowRight } from 'iconsax-react-nativejs';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   ActivityIndicator,
@@ -20,18 +20,46 @@ import LanguageSettingsScreen from './src/screens/language-settings';
 import OnboardingScreen from './src/screens/onboarding';
 import { MainTabContainer } from './src/components';
 import { persistor, store } from './src/store';
+import { OnboardingService } from './src/services/onboardingService';
 
 function AppContent() {
   const { t } = useTranslation();
   const { currentLanguage, isCurrentRTL } = useLanguage();
   const [showLanguageSettings, setShowLanguageSettings] = useState(false);
   const [currentScreen, setCurrentScreen] = useState<
-    'onboarding' | 'main' | 'createBill' | 'bills' | 'billDetail'
-  >('main'); // Start with main tab container
+    'loading' | 'onboarding' | 'main' | 'createBill' | 'bills' | 'billDetail'
+  >('loading'); // Start with loading to check onboarding status
   const [selectedBillId, setSelectedBillId] = useState<string | null>(null);
 
-  const handleGetStarted = () => {
-    setCurrentScreen('main');
+  // Check onboarding status on app start
+  useEffect(() => {
+    const checkOnboardingStatus = async () => {
+      try {
+        const hasCompleted = await OnboardingService.hasCompletedOnboarding();
+        if (hasCompleted) {
+          setCurrentScreen('main');
+        } else {
+          setCurrentScreen('onboarding');
+        }
+      } catch (error) {
+        console.error('Error checking onboarding status:', error);
+        // Default to onboarding if there's an error
+        setCurrentScreen('onboarding');
+      }
+    };
+
+    checkOnboardingStatus();
+  }, []);
+
+  const handleGetStarted = async () => {
+    try {
+      await OnboardingService.completeOnboarding();
+      setCurrentScreen('main');
+    } catch (error) {
+      console.error('Error completing onboarding:', error);
+      // Still navigate to main even if saving fails
+      setCurrentScreen('main');
+    }
   };
 
   const handleLanguageSettings = () => {
@@ -54,6 +82,16 @@ function AppContent() {
   const handleBackToMain = () => {
     setCurrentScreen('main');
   };
+
+  // Show loading screen while checking onboarding status
+  if (currentScreen === 'loading') {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#ffffff" />
+        <Text style={styles.loadingText}>Loading...</Text>
+      </View>
+    );
+  }
 
   if (showLanguageSettings) {
     return (
