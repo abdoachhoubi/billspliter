@@ -189,7 +189,7 @@ export const CreateBillScreen: React.FC<CreateBillScreenProps> = ({
     } catch (error) {
       Alert.alert(
         'Error Creating Bill',
-        error instanceof Error ? error.message : 'Failed to create bill. Please try again.',
+        error instanceof Error ? error.message : t('create_bill.error_create_bill'),
         [{ text: 'OK' }]
       );
     }
@@ -272,9 +272,9 @@ export const CreateBillScreen: React.FC<CreateBillScreenProps> = ({
 
   const getStepTitle = () => {
     switch (currentStep) {
-      case 0: return 'Bill Details';
-      case 1: return 'Add Participants';
-      case 2: return 'Review & Create';
+      case 0: return t('create_bill.step_1_title');
+      case 1: return t('create_bill.step_2_title');
+      case 2: return t('create_bill.step_3_title');
       default: return '';
     }
   };
@@ -316,7 +316,7 @@ export const CreateBillScreen: React.FC<CreateBillScreenProps> = ({
             fontSize: FONT_SIZES.sm,
             color: COLORS.textSecondary,
           }}>
-            {currentStep + 1} of {totalSteps}
+            {t('create_bill.step_counter', { current: currentStep + 1, total: totalSteps })}
           </Text>
         </View>
 
@@ -358,7 +358,7 @@ export const CreateBillScreen: React.FC<CreateBillScreenProps> = ({
                 fontWeight: FONT_WEIGHTS.medium,
                 color: COLORS.text,
               }}>
-                Previous
+                {t('create_bill.previous')}
               </Text>
             </TouchableOpacity>
           )}
@@ -394,7 +394,7 @@ export const CreateBillScreen: React.FC<CreateBillScreenProps> = ({
                     : COLORS.background,
                 marginRight: SPACING.xs,
               }}>
-                Next
+                {currentStep === totalSteps - 1 ? t('create_bill.finish') : t('create_bill.next')}
               </Text>
               <ChevronRight 
                 size={20} 

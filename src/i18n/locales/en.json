@@ -78,5 +78,53 @@
     "plan": "Plan",
     "privacy_policy": "Privacy Policy",
     "delete_account": "Delete Account"
+  },
+  "bills": {
+    "create_title": "Create Bill",
+    "bill_details": "Bill Details",
+    "bill_not_found": "Bill not found",
+    "go_back": "Go Back",
+    "error": "Error",
+    "created": "Created",
+    "participants": "participants",
+    "participant": "participant",
+    "owner": "OWNER",
+    "you": "YOU",
+    "total_amount": "Total Amount",
+    "description": "Description",
+    "title": "Title"
+  },
+  "bill_detail": {
+    "title": "Bill Details",
+    "actions": "Bill Actions",
+    "mark_as_paid": "Mark as Paid",
+    "mark_as_pending": "Mark as Pending",
+    "cancel_bill": "Cancel Bill",
+    "share_bill": "Share Bill",
+    "export_pdf": "Export PDF",
+    "delete_bill": "Delete Bill",
+    "delete_confirmation_title": "Delete Bill",
+    "delete_confirmation_message": "Are you sure you want to delete this bill? This action cannot be undone.",
+    "cancel_confirmation_title": "Cancel Bill",
+    "cancel_confirmation_message": "Are you sure you want to cancel this bill?",
+    "error_update_status": "Failed to update bill status. Please try again.",
+    "error_cancel_bill": "Failed to cancel bill. Please try again.",
+    "status_paid": "PAID",
+    "status_pending": "PENDING",
+    "status_cancelled": "CANCELLED"
+  },
+  "create_bill": {
+    "step_1_title": "Bill Details",
+    "step_2_title": "Add Participants",
+    "step_3_title": "Review & Create",
+    "previous": "Previous",
+    "next": "Next",
+    "finish": "Finish",
+    "step_counter": "{{current}} of {{total}}",
+    "error_create_bill": "Failed to create bill. Please try again.",
+    "add_participants": "Add Participants",
+    "create_new_contact": "Create New Contact",
+    "no_contacts_help_first": "Tap \"Add\" to create your first contact\nand invite them to split the bill",
+    "no_contacts_help": "Tap \"Add\" to select from your contacts\nor create a new contact"
   }
 }

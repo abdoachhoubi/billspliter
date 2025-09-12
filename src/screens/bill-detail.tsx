@@ -110,12 +110,12 @@ export default function BillDetailScreen({ navigation, route, bill: propBill, bi
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.errorContainer}>
-          <Text style={styles.errorText}>Bill not found</Text>
+          <Text style={styles.errorText}>{t('bills.bill_not_found')}</Text>
           <TouchableOpacity 
             style={styles.backButton} 
             onPress={() => navigation?.goBack()}
           >
-            <Text style={styles.backButtonText}>Go Back</Text>
+            <Text style={styles.backButtonText}>{t('bills.go_back')}</Text>
           </TouchableOpacity>
         </View>
       </SafeAreaView>
@@ -124,12 +124,12 @@ export default function BillDetailScreen({ navigation, route, bill: propBill, bi
 
   const handleDeleteBill = () => {
     Alert.alert(
-      'Delete Bill',
-      'Are you sure you want to delete this bill? This action cannot be undone.',
+      t('bill_detail.delete_confirmation_title'),
+      t('bill_detail.delete_confirmation_message'),
       [
-        { text: 'Cancel', style: 'cancel' },
+        { text: t('common.cancel'), style: 'cancel' },
         {
-          text: 'Delete',
+          text: t('common.delete'),
           style: 'destructive',
           onPress: () => {
             dispatch(deleteBillById(bill.id));
@@ -148,7 +148,7 @@ export default function BillDetailScreen({ navigation, route, bill: propBill, bi
       console.log('Bill status updated successfully to paid');
     } catch (error) {
       console.error('Failed to update bill status:', error);
-      Alert.alert('Error', 'Failed to update bill status. Please try again.');
+      Alert.alert(t('bill_detail.error'), t('bill_detail.error_update_status'));
     }
   };
 
@@ -160,18 +160,18 @@ export default function BillDetailScreen({ navigation, route, bill: propBill, bi
       console.log('Bill status updated successfully to pending');
     } catch (error) {
       console.error('Failed to update bill status:', error);
-      Alert.alert('Error', 'Failed to update bill status. Please try again.');
+      Alert.alert(t('bill_detail.error'), t('bill_detail.error_update_status'));
     }
   };
 
   const handleCancelBill = () => {
     Alert.alert(
-      'Cancel Bill',
-      'Are you sure you want to cancel this bill?',
+      t('bill_detail.cancel_confirmation_title'),
+      t('bill_detail.cancel_confirmation_message'),
       [
-        { text: 'No', style: 'cancel' },
+        { text: t('common.no'), style: 'cancel' },
         {
-          text: 'Yes, Cancel',
+          text: t('common.yes') + ', ' + t('common.cancel'),
           style: 'destructive',
           onPress: async () => {
             setShowActionsModal(false); // Close modal immediately
@@ -180,7 +180,7 @@ export default function BillDetailScreen({ navigation, route, bill: propBill, bi
               console.log('Bill cancelled successfully');
             } catch (error) {
               console.error('Failed to cancel bill:', error);
-              Alert.alert('Error', 'Failed to cancel bill. Please try again.');
+              Alert.alert(t('bill_detail.error'), t('bill_detail.error_cancel_bill'));
             }
           },
         },
@@ -257,7 +257,7 @@ export default function BillDetailScreen({ navigation, route, bill: propBill, bi
           </Text>
           <Text style={styles.participantEmail}>{bill.owner.user.email}</Text>
           <View style={styles.ownerBadge}>
-            <Text style={styles.ownerBadgeText}>OWNER</Text>
+            <Text style={styles.ownerBadgeText}>{t('bills.owner')}</Text>
           </View>
         </View>
         <View style={styles.participantAmount}>
@@ -281,7 +281,7 @@ export default function BillDetailScreen({ navigation, route, bill: propBill, bi
     >
       <View style={styles.modalContainer}>
         <View style={styles.modalHeader}>
-          <Text style={styles.modalTitle}>Bill Actions</Text>
+          <Text style={styles.modalTitle}>{t('bill_detail.actions')}</Text>
           <TouchableOpacity onPress={() => setShowActionsModal(false)}>
             <XCircle size={24} color={COLORS.text} />
           </TouchableOpacity>
@@ -291,32 +291,32 @@ export default function BillDetailScreen({ navigation, route, bill: propBill, bi
           {bill.status !== 'paid' && (
             <TouchableOpacity style={styles.actionButton} onPress={handleMarkAsPaid}>
               <CheckCircle size={24} color="#10B981" />
-              <Text style={styles.actionButtonText}>Mark as Paid</Text>
+              <Text style={styles.actionButtonText}>{t('bill_detail.mark_as_paid')}</Text>
             </TouchableOpacity>
           )}
 
           {bill.status === 'paid' && (
             <TouchableOpacity style={styles.actionButton} onPress={handleMarkAsPending}>
               <Clock size={24} color="#F59E0B" />
-              <Text style={styles.actionButtonText}>Mark as Pending</Text>
+              <Text style={styles.actionButtonText}>{t('bill_detail.mark_as_pending')}</Text>
             </TouchableOpacity>
           )}
 
           {bill.status !== 'cancelled' && (
             <TouchableOpacity style={styles.actionButton} onPress={handleCancelBill}>
               <XCircle size={24} color="#EF4444" />
-              <Text style={styles.actionButtonText}>Cancel Bill</Text>
+              <Text style={styles.actionButtonText}>{t('bill_detail.cancel_bill')}</Text>
             </TouchableOpacity>
           )}
 
           <TouchableOpacity style={styles.actionButton}>
             <Share size={24} color={COLORS.premium} />
-            <Text style={styles.actionButtonText}>Share Bill</Text>
+            <Text style={styles.actionButtonText}>{t('bill_detail.share_bill')}</Text>
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.actionButton}>
             <Download size={24} color={COLORS.premium} />
-            <Text style={styles.actionButtonText}>Export PDF</Text>
+            <Text style={styles.actionButtonText}>{t('bill_detail.export_pdf')}</Text>
           </TouchableOpacity>
 
           <TouchableOpacity 
@@ -324,7 +324,7 @@ export default function BillDetailScreen({ navigation, route, bill: propBill, bi
             onPress={handleDeleteBill}
           >
             <Trash2 size={24} color="#EF4444" />
-            <Text style={[styles.actionButtonText, styles.destructiveText]}>Delete Bill</Text>
+            <Text style={[styles.actionButtonText, styles.destructiveText]}>{t('bill_detail.delete_bill')}</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -341,7 +341,7 @@ export default function BillDetailScreen({ navigation, route, bill: propBill, bi
         >
           <ArrowLeft size={24} color={COLORS.text} />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Bill Details</Text>
+        <Text style={styles.headerTitle}>{t('bill_detail.title')}</Text>
         <TouchableOpacity
           style={styles.headerButton}
           onPress={() => setShowActionsModal(true)}
@@ -357,7 +357,7 @@ export default function BillDetailScreen({ navigation, route, bill: propBill, bi
             <Text style={styles.billTitle}>{bill.title}</Text>
             <View style={[styles.statusBadge, { backgroundColor: getStatusBackgroundColor(bill.status) }]}>
               <Text style={[styles.statusText, { color: getStatusColor(bill.status) }]}>
-                {bill.status.toUpperCase()}
+                {t(`bill_detail.status_${bill.status}`)}
               </Text>
             </View>
           </View>
@@ -370,13 +370,13 @@ export default function BillDetailScreen({ navigation, route, bill: propBill, bi
             <View style={styles.metaItem}>
               <Calendar size={16} color={COLORS.textSecondary} />
               <Text style={styles.metaText}>
-                Created {new Date(bill.creationDate).toLocaleDateString()}
+                {t('bills.created')} {new Date(bill.creationDate).toLocaleDateString()}
               </Text>
             </View>
             <View style={styles.metaItem}>
               <Users size={16} color={COLORS.textSecondary} />
               <Text style={styles.metaText}>
-                {totalParticipants} participant{totalParticipants !== 1 ? 's' : ''}
+                {totalParticipants} {totalParticipants !== 1 ? t('bills.participants') : t('bills.participant')}
               </Text>
             </View>
           </View>
@@ -387,7 +387,7 @@ export default function BillDetailScreen({ navigation, route, bill: propBill, bi
           <View style={styles.totalAmountCard}>
             <DollarSign size={32} color={COLORS.premium} />
             <View style={styles.totalAmountInfo}>
-              <Text style={styles.totalAmountLabel}>Total Amount</Text>
+              <Text style={styles.totalAmountLabel}>{t('bills.total_amount')}</Text>
               <Text style={styles.totalAmountValue}>
                 {BillUtils.formatAmount(bill.totalAmount)}
               </Text>

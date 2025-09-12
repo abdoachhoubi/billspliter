@@ -8,6 +8,7 @@ import {
   Modal,
   Dimensions,
 } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import {
   Users,
   Plus,
@@ -67,6 +68,7 @@ const ContactSelectionModal: React.FC<{
   existingContacts,
   selectedContactIds,
 }) => {
+  const { t } = useTranslation();
   const [newContactName, setNewContactName] = useState('');
   const [newContactEmail, setNewContactEmail] = useState('');
   const [newContactPhone, setNewContactPhone] = useState('');
@@ -307,7 +309,7 @@ const ContactSelectionModal: React.FC<{
                   fontWeight: FONT_WEIGHTS.semibold,
                   color: COLORS.premium,
                 }}>
-                  Create New Contact
+                  {t('create_bill.create_new_contact')}
                 </Text>
               </TouchableOpacity>
             )}
@@ -327,6 +329,7 @@ export const StepTwoParticipants: React.FC<StepTwoParticipantsProps> = ({
   setAvailableContacts,
   currentUser,
 }) => {
+  const { t } = useTranslation();
   const [showContactModal, setShowContactModal] = useState(false);
   const [editingParticipant, setEditingParticipant] = useState<number | null>(null);
 
@@ -491,7 +494,7 @@ export const StepTwoParticipants: React.FC<StepTwoParticipantsProps> = ({
               color: COLORS.text,
               marginLeft: SPACING.sm,
             }}>
-              Add Participants
+              {t('create_bill.add_participants')}
             </Text>
           </View>
           <TouchableOpacity
@@ -792,8 +795,8 @@ export const StepTwoParticipants: React.FC<StepTwoParticipantsProps> = ({
               lineHeight: 20,
             }}>
               {availableContacts.length === 0 
-                ? "Tap \"Add\" to create your first contact\nand invite them to split the bill"
-                : "Tap \"Add\" to select from your contacts\nor create a new contact"
+                ? t('create_bill.no_contacts_help_first')
+                : t('create_bill.no_contacts_help')
               }
             </Text>
           </View>

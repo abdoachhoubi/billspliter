@@ -78,5 +78,53 @@
     "plan": "Plan",
     "privacy_policy": "Política de Privacidad",
     "delete_account": "Eliminar Cuenta"
+  },
+  "bills": {
+    "create_title": "Crear Cuenta",
+    "bill_details": "Detalles de la Cuenta",
+    "bill_not_found": "Cuenta no encontrada",
+    "go_back": "Volver",
+    "error": "Error",
+    "created": "Creado",
+    "participants": "participantes",
+    "participant": "participante",
+    "owner": "PROPIETARIO",
+    "you": "TÚ",
+    "total_amount": "Monto Total",
+    "description": "Descripción",
+    "title": "Título"
+  },
+  "bill_detail": {
+    "title": "Detalles de la Cuenta",
+    "actions": "Acciones de la Cuenta",
+    "mark_as_paid": "Marcar como Pagado",
+    "mark_as_pending": "Marcar como Pendiente",
+    "cancel_bill": "Cancelar Cuenta",
+    "share_bill": "Compartir Cuenta",
+    "export_pdf": "Exportar PDF",
+    "delete_bill": "Eliminar Cuenta",
+    "delete_confirmation_title": "Eliminar Cuenta",
+    "delete_confirmation_message": "¿Estás seguro de que quieres eliminar esta cuenta? Esta acción no se puede deshacer.",
+    "cancel_confirmation_title": "Cancelar Cuenta",
+    "cancel_confirmation_message": "¿Estás seguro de que quieres cancelar esta cuenta?",
+    "error_update_status": "Error al actualizar el estado de la cuenta. Por favor, inténtalo de nuevo.",
+    "error_cancel_bill": "Error al cancelar la cuenta. Por favor, inténtalo de nuevo.",
+    "status_paid": "PAGADO",
+    "status_pending": "PENDIENTE",
+    "status_cancelled": "CANCELADO"
+  },
+  "create_bill": {
+    "step_1_title": "Detalles de la Cuenta",
+    "step_2_title": "Agregar Participantes",
+    "step_3_title": "Revisar y Crear",
+    "previous": "Anterior",
+    "next": "Siguiente",
+    "finish": "Finalizar",
+    "step_counter": "{{current}} de {{total}}",
+    "error_create_bill": "Error al crear la cuenta. Por favor, inténtalo de nuevo.",
+    "add_participants": "Agregar Participantes",
+    "create_new_contact": "Crear Nuevo Contacto",
+    "no_contacts_help_first": "Toca \"Agregar\" para crear tu primer contacto\ne invítalo a dividir la cuenta",
+    "no_contacts_help": "Toca \"Agregar\" para seleccionar de tus contactos\no crear un nuevo contacto"
   }
 }

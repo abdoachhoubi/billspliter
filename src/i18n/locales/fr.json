@@ -78,5 +78,53 @@
     "plan": "Plan",
     "privacy_policy": "Politique de Confidentialité",
     "delete_account": "Supprimer le Compte"
+  },
+  "bills": {
+    "create_title": "Créer une Facture",
+    "bill_details": "Détails de la Facture",
+    "bill_not_found": "Facture introuvable",
+    "go_back": "Retour",
+    "error": "Erreur",
+    "created": "Créé",
+    "participants": "participants",
+    "participant": "participant",
+    "owner": "PROPRIÉTAIRE",
+    "you": "VOUS",
+    "total_amount": "Montant Total",
+    "description": "Description",
+    "title": "Titre"
+  },
+  "bill_detail": {
+    "title": "Détails de la Facture",
+    "actions": "Actions de la Facture",
+    "mark_as_paid": "Marquer comme Payé",
+    "mark_as_pending": "Marquer comme En Attente",
+    "cancel_bill": "Annuler la Facture",
+    "share_bill": "Partager la Facture",
+    "export_pdf": "Exporter en PDF",
+    "delete_bill": "Supprimer la Facture",
+    "delete_confirmation_title": "Supprimer la Facture",
+    "delete_confirmation_message": "Êtes-vous sûr de vouloir supprimer cette facture? Cette action ne peut pas être annulée.",
+    "cancel_confirmation_title": "Annuler la Facture",
+    "cancel_confirmation_message": "Êtes-vous sûr de vouloir annuler cette facture?",
+    "error_update_status": "Échec de la mise à jour du statut de la facture. Veuillez réessayer.",
+    "error_cancel_bill": "Échec de l'annulation de la facture. Veuillez réessayer.",
+    "status_paid": "PAYÉ",
+    "status_pending": "EN ATTENTE",
+    "status_cancelled": "ANNULÉ"
+  },
+  "create_bill": {
+    "step_1_title": "Détails de la Facture",
+    "step_2_title": "Ajouter des Participants",
+    "step_3_title": "Réviser et Créer",
+    "previous": "Précédent",
+    "next": "Suivant",
+    "finish": "Terminer",
+    "step_counter": "{{current}} sur {{total}}",
+    "error_create_bill": "Échec de la création de la facture. Veuillez réessayer.",
+    "add_participants": "Ajouter des Participants",
+    "create_new_contact": "Créer un Nouveau Contact",
+    "no_contacts_help_first": "Appuyez sur \"Ajouter\" pour créer votre premier contact\net l'inviter à partager la facture",
+    "no_contacts_help": "Appuyez sur \"Ajouter\" pour sélectionner parmi vos contacts\nou créer un nouveau contact"
   }
 }
