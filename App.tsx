@@ -1,31 +1,33 @@
+import { CreateBillScreen } from '@/screens/create-bill';
+import { ChevronLeft, ChevronRight } from 'lucide-react-native';
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
-import { ChevronLeft, ChevronRight, Languages } from 'lucide-react-native';
+import {
+  ActivityIndicator,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
-import { store, persistor } from './src/store';
 import { LanguageProvider, useLanguage } from './src/context/LanguageContext';
-// import { useSampleData } from './src/common/hooks/useSampleData'; // Removed for production
-import LanguageSettingsScreen from './src/screens/language-settings';
-import WelcomeScreen from './src/screens/auth';
-import OnboardingScreen from './src/screens/onboarding';
-import HomeScreen from './src/screens/home';
-import ProfileScreen from './src/screens/profile';
-import BillsScreen from './src/screens/bills';
 import BillDetailScreen from './src/screens/bill-detail';
-import { CreateBillScreen } from '@/screens/create-bill';
+import BillsScreen from './src/screens/bills';
+import HomeScreen from './src/screens/home';
+import LanguageSettingsScreen from './src/screens/language-settings';
+import OnboardingScreen from './src/screens/onboarding';
+import { persistor, store } from './src/store';
 
 function AppContent() {
   const { t } = useTranslation();
   const { currentLanguage, isCurrentRTL } = useLanguage();
   const [showLanguageSettings, setShowLanguageSettings] = useState(false);
-  const [currentScreen, setCurrentScreen] = useState<'onboarding' | 'home' | 'createBill' | 'bills' | 'billDetail'>('home'); // Start with home for testing
+  const [currentScreen, setCurrentScreen] = useState<
+    'onboarding' | 'home' | 'createBill' | 'bills' | 'billDetail'
+  >('home'); // Start with home for testing
   const [selectedBillId, setSelectedBillId] = useState<string | null>(null);
-  
-  // Remove sample data loading
-  // useSampleData();
 
   const handleGetStarted = () => {
     setCurrentScreen('home');
@@ -82,7 +84,7 @@ function AppContent() {
 
   if (currentScreen === 'home') {
     return (
-      <HomeScreen 
+      <HomeScreen
         onLanguageSettings={handleLanguageSettings}
         onCreateBill={handleCreateBill}
         onViewBills={handleViewBills}
@@ -93,25 +95,25 @@ function AppContent() {
 
   if (currentScreen === 'createBill') {
     return (
-      <CreateBillScreen 
-        navigation={{ 
-          navigate: () => {}, 
-          goBack: handleBackToHome 
-        }} 
+      <CreateBillScreen
+        navigation={{
+          navigate: () => {},
+          goBack: handleBackToHome,
+        }}
       />
     );
   }
 
   if (currentScreen === 'bills') {
     return (
-      <BillsScreen 
-        navigation={{ 
+      <BillsScreen
+        navigation={{
           goBack: handleBackToHome,
           navigate: (screen: string, params?: any) => {
             if (screen === 'BillDetail' && params?.bill) {
               handleViewBillDetail(params.bill);
             }
-          }
+          },
         }}
         onCreateBill={handleCreateBill}
       />
@@ -124,7 +126,7 @@ function AppContent() {
         billId={selectedBillId || undefined}
         navigation={{
           goBack: () => setCurrentScreen('bills'),
-          navigate: () => {}
+          navigate: () => {},
         }}
       />
     );
@@ -137,13 +139,13 @@ export default function App() {
   return (
     <SafeAreaProvider>
       <Provider store={store}>
-        <PersistGate 
+        <PersistGate
           loading={
             <View style={styles.loadingContainer}>
               <ActivityIndicator size="large" color="#ffffff" />
               <Text style={styles.loadingText}>Loading...</Text>
             </View>
-          } 
+          }
           persistor={persistor}
         >
           <LanguageProvider>

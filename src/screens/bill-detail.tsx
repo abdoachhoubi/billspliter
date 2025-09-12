@@ -71,18 +71,40 @@ export default function BillDetailScreen({ navigation, route, bill: propBill, bi
     currentBillId ? selectBillById(state, currentBillId) : null
   );
   
-  // Use the bill from Redux store if available, otherwise fallback to prop
+  // Always prefer the bill from Redux store for real-time updates
   const bill = billFromStore || route?.params?.bill || propBill;
   
-  // Debug logging
+  const [showActionsModal, setShowActionsModal] = useState(false);
+  
+  // Debug logging to track state changes
   React.useEffect(() => {
     console.log('Bill Detail Debug:');
     console.log('currentBillId:', currentBillId);
-    console.log('billFromStore:', billFromStore?.status);
-    console.log('bill used:', bill?.status);
-  }, [currentBillId, billFromStore, bill]);
+    console.log('billFromStore status:', billFromStore?.status);
+    console.log('bill status:', bill?.status);
+    console.log('showActionsModal:', showActionsModal);
+  }, [currentBillId, billFromStore?.status, bill?.status, showActionsModal]);
   
-  const [showActionsModal, setShowActionsModal] = useState(false);
+  // Track previous status to detect actual changes
+  const prevStatusRef = React.useRef(billFromStore?.status);
+  
+  // Close modal only when bill status actually changes (not just when it exists)
+  React.useEffect(() => {
+    const currentStatus = billFromStore?.status;
+    const previousStatus = prevStatusRef.current;
+    
+    if (currentStatus && previousStatus && currentStatus !== previousStatus) {
+      console.log('Bill status changed from', previousStatus, 'to', currentStatus);
+      // Force modal to close when status changes
+      if (showActionsModal) {
+        console.log('Closing modal due to status change');
+        setShowActionsModal(false);
+      }
+    }
+    
+    // Update the ref for next comparison
+    prevStatusRef.current = currentStatus;
+  }, [billFromStore?.status, showActionsModal]);
 
   if (!bill) {
     return (
@@ -120,24 +142,26 @@ export default function BillDetailScreen({ navigation, route, bill: propBill, bi
 
   const handleMarkAsPaid = async () => {
     console.log('Marking bill as paid:', bill.id);
+    setShowActionsModal(false); // Close modal immediately
     try {
       await dispatch(updateBillStatusById({ billId: bill.id, status: 'paid' })).unwrap();
-      console.log('Bill status updated successfully');
+      console.log('Bill status updated successfully to paid');
     } catch (error) {
       console.error('Failed to update bill status:', error);
+      Alert.alert('Error', 'Failed to update bill status. Please try again.');
     }
-    setShowActionsModal(false);
   };
 
   const handleMarkAsPending = async () => {
     console.log('Marking bill as pending:', bill.id);
+    setShowActionsModal(false); // Close modal immediately
     try {
       await dispatch(updateBillStatusById({ billId: bill.id, status: 'pending' })).unwrap();
-      console.log('Bill status updated successfully');
+      console.log('Bill status updated successfully to pending');
     } catch (error) {
       console.error('Failed to update bill status:', error);
+      Alert.alert('Error', 'Failed to update bill status. Please try again.');
     }
-    setShowActionsModal(false);
   };
 
   const handleCancelBill = () => {
@@ -150,13 +174,14 @@ export default function BillDetailScreen({ navigation, route, bill: propBill, bi
           text: 'Yes, Cancel',
           style: 'destructive',
           onPress: async () => {
+            setShowActionsModal(false); // Close modal immediately
             try {
               await dispatch(updateBillStatusById({ billId: bill.id, status: 'cancelled' })).unwrap();
               console.log('Bill cancelled successfully');
             } catch (error) {
               console.error('Failed to cancel bill:', error);
+              Alert.alert('Error', 'Failed to cancel bill. Please try again.');
             }
-            setShowActionsModal(false);
           },
         },
       ]
