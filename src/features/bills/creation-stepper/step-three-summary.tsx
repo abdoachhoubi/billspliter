@@ -42,6 +42,7 @@ interface StepThreeSummaryProps {
   totalAmount: string;
   splitType: SplitType;
   participants: StepperParticipant[];
+  currentUser: Contact;
   onCreateBill: () => void;
 }
 
@@ -81,30 +82,80 @@ export const StepThreeSummary: React.FC<StepThreeSummaryProps> = ({
   totalAmount,
   splitType,
   participants,
+  currentUser,
   onCreateBill,
 }) => {
   const totalBillAmount = parseFloat(totalAmount || '0');
 
-  // Prepare data for pie chart
-  const chartData = participants.map((participant, index) => {
-    const colors = generateColors(participants.length);
-    const actualAmount = splitType === 'percentage' 
-      ? (participant.amount / 100) * totalBillAmount 
-      : participant.amount;
+  // Get current user's amount if they're in participants, or calculate remaining
+  const currentUserAsParticipant = participants.find(p => p.contact.id === currentUser.id);
+  
+  // Calculate remaining amount for current user if not explicitly set
+  const otherParticipants = participants.filter(p => p.contact.id !== currentUser.id);
+  const otherParticipantsTotal = otherParticipants.reduce((sum, p) => {
+    return sum + (splitType === 'percentage' ? (p.amount / 100) * totalBillAmount : p.amount);
+  }, 0);
+  
+  let currentUserAmount = 0;
+  if (currentUserAsParticipant) {
+    // Current user has manually set amount
+    currentUserAmount = splitType === 'percentage' 
+      ? (currentUserAsParticipant.amount / 100) * totalBillAmount 
+      : currentUserAsParticipant.amount;
+  } else {
+    // Calculate remaining amount for current user
+    currentUserAmount = Math.max(0, totalBillAmount - otherParticipantsTotal);
+  }
+
+  let currentUserSplitValue = 0;
+  if (currentUserAsParticipant) {
+    currentUserSplitValue = currentUserAsParticipant.amount;
+  } else {
+    // Calculate remaining percentage/amount for display
+    if (splitType === 'percentage') {
+      const otherParticipantsPercentage = otherParticipants.reduce((sum, p) => sum + p.amount, 0);
+      currentUserSplitValue = Math.max(0, 100 - otherParticipantsPercentage);
+    } else {
+      const otherParticipantsAmount = otherParticipants.reduce((sum, p) => sum + p.amount, 0);
+      currentUserSplitValue = Math.max(0, totalBillAmount - otherParticipantsAmount);
+    }
+  }
+
+  // Create combined participants list with current user first
+  const allParticipants = [
+    // Current user first
+    {
+      contact: currentUser,
+      amount: currentUserSplitValue,
+      actualAmount: currentUserAmount,
+      isCurrentUser: true,
+    },
+    // Other participants
+    ...otherParticipants.map(p => ({
+      contact: p.contact,
+      amount: p.amount,
+      actualAmount: splitType === 'percentage' ? (p.amount / 100) * totalBillAmount : p.amount,
+      isCurrentUser: false,
+    }))
+  ];
+
+  // Prepare data for pie chart using all participants
+  const chartData = allParticipants.map((participant, index) => {
+    const colors = generateColors(allParticipants.length);
     
     return {
-      name: `${participant.contact.firstName} ${participant.contact.lastName}`,
-      population: actualAmount,
+      name: participant.isCurrentUser 
+        ? 'YOU' 
+        : `${participant.contact.firstName} ${participant.contact.lastName}`,
+      population: participant.actualAmount,
       color: colors[index],
       legendFontColor: COLORS.text,
       legendFontSize: 12,
     };
   });
 
-  // Calculate totals
-  const totalAllocated = participants.reduce((sum, p) => {
-    return sum + (splitType === 'percentage' ? (p.amount / 100) * totalBillAmount : p.amount);
-  }, 0);
+  // Calculate totals using all participants
+  const totalAllocated = allParticipants.reduce((sum, p) => sum + p.actualAmount, 0);
 
   const remainingAmount = totalBillAmount - totalAllocated;
 
@@ -219,7 +270,7 @@ export const StepThreeSummary: React.FC<StepThreeSummaryProps> = ({
       </View>
 
       {/* Pie Chart */}
-      {participants.length > 0 && (
+      {allParticipants.length > 0 && (
         <View style={{
           backgroundColor: COLORS.background,
           borderRadius: BORDER_RADIUS.lg,
@@ -273,15 +324,12 @@ export const StepThreeSummary: React.FC<StepThreeSummaryProps> = ({
             color: COLORS.text,
             marginLeft: SPACING.sm,
           }}>
-            Participants ({participants.length})
+            Participants ({allParticipants.length})
           </Text>
         </View>
 
-        {participants.map((participant, index) => {
-          const colors = generateColors(participants.length);
-          const actualAmount = splitType === 'percentage' 
-            ? (participant.amount / 100) * totalBillAmount 
-            : participant.amount;
+        {allParticipants.map((participant, index) => {
+          const colors = generateColors(allParticipants.length);
 
           return (
             <View
@@ -291,11 +339,13 @@ export const StepThreeSummary: React.FC<StepThreeSummaryProps> = ({
                 alignItems: 'center',
                 paddingVertical: SPACING.md,
                 paddingHorizontal: SPACING.md,
-                backgroundColor: COLORS.cardBackground,
+                backgroundColor: participant.isCurrentUser ? COLORS.premium + '10' : COLORS.cardBackground,
                 borderRadius: BORDER_RADIUS.md,
-                marginBottom: index < participants.length - 1 ? SPACING.sm : 0,
+                marginBottom: index < allParticipants.length - 1 ? SPACING.sm : 0,
                 borderLeftWidth: 4,
                 borderLeftColor: colors[index],
+                borderWidth: participant.isCurrentUser ? 2 : 0,
+                borderColor: participant.isCurrentUser ? COLORS.premium : 'transparent',
               }}
             >
               <View style={{
@@ -317,14 +367,32 @@ export const StepThreeSummary: React.FC<StepThreeSummaryProps> = ({
               </View>
 
               <View style={{ flex: 1 }}>
-                <Text style={{
-                  fontSize: FONT_SIZES.md,
-                  fontWeight: FONT_WEIGHTS.semibold,
-                  color: COLORS.text,
-                  marginBottom: SPACING.xs,
-                }}>
-                  {participant.contact.firstName} {participant.contact.lastName}
-                </Text>
+                <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: SPACING.xs }}>
+                  <Text style={{
+                    fontSize: FONT_SIZES.md,
+                    fontWeight: FONT_WEIGHTS.semibold,
+                    color: COLORS.text,
+                    marginRight: SPACING.xs,
+                  }}>
+                    {participant.contact.firstName} {participant.contact.lastName}
+                  </Text>
+                  {participant.isCurrentUser && (
+                    <View style={{
+                      backgroundColor: COLORS.premium,
+                      paddingHorizontal: SPACING.xs,
+                      paddingVertical: 2,
+                      borderRadius: BORDER_RADIUS.sm,
+                    }}>
+                      <Text style={{
+                        fontSize: FONT_SIZES.xs,
+                        fontWeight: FONT_WEIGHTS.bold,
+                        color: COLORS.background,
+                      }}>
+                        YOU
+                      </Text>
+                    </View>
+                  )}
+                </View>
                 <Text style={{
                   fontSize: FONT_SIZES.sm,
                   color: COLORS.textSecondary,
@@ -339,7 +407,7 @@ export const StepThreeSummary: React.FC<StepThreeSummaryProps> = ({
                   fontWeight: FONT_WEIGHTS.bold,
                   color: COLORS.text,
                 }}>
-                  ${actualAmount.toFixed(2)}
+                  ${participant.actualAmount.toFixed(2)}
                 </Text>
                 {splitType === 'percentage' && (
                   <Text style={{
@@ -398,7 +466,7 @@ export const StepThreeSummary: React.FC<StepThreeSummaryProps> = ({
             ${totalAllocated.toFixed(2)}
             {splitType === 'percentage' && (
               <Text style={{ color: COLORS.textSecondary }}>
-                {' '}({participants.reduce((sum, p) => sum + p.amount, 0).toFixed(1)}%)
+                {' '}({allParticipants.reduce((sum, p) => sum + p.amount, 0).toFixed(1)}%)
               </Text>
             )}
           </Text>

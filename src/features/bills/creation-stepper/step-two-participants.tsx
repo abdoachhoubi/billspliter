@@ -48,6 +48,7 @@ interface StepTwoParticipantsProps {
   setParticipants: (participants: StepperParticipant[]) => void;
   availableContacts: Contact[];
   setAvailableContacts?: (contacts: Contact[]) => void; // Make optional since contacts come from Redux
+  currentUser: Contact; // Add current user to show as owner
 }
 
 // Contact Selection Modal Component
@@ -324,19 +325,61 @@ export const StepTwoParticipants: React.FC<StepTwoParticipantsProps> = ({
   setParticipants,
   availableContacts,
   setAvailableContacts,
+  currentUser,
 }) => {
   const [showContactModal, setShowContactModal] = useState(false);
   const [editingParticipant, setEditingParticipant] = useState<number | null>(null);
 
-  // Calculate remaining amount/percentage
-  const allocatedValue = participants.reduce((sum, p) => sum + p.amount, 0);
-  const totalBillAmount = parseFloat(totalAmount || '0');
+  // Create a current user participant to always include them
+  const [currentUserAmount, setCurrentUserAmount] = useState(0);
   
-  // For percentage split, calculate remaining percentage (max 100%)
-  // For amount split, calculate remaining amount
+  const currentUserParticipant: StepperParticipant = React.useMemo(() => {
+    // Check if current user is already in participants
+    const existingUserIndex = participants.findIndex(p => p.contact.id === currentUser.id);
+    if (existingUserIndex >= 0) {
+      return participants[existingUserIndex];
+    }
+    
+    // Use manually set amount if available, otherwise calculate remaining
+    if (currentUserAmount > 0) {
+      return {
+        contact: currentUser,
+        amount: currentUserAmount,
+      };
+    }
+    
+    // Calculate what the current user should get (remaining amount/percentage)
+    const otherParticipantsTotal = participants
+      .filter(p => p.contact.id !== currentUser.id)
+      .reduce((sum, p) => sum + p.amount, 0);
+    
+    const totalBillAmount = parseFloat(totalAmount || '0');
+    const remaining = splitType === 'percentage' 
+      ? Math.max(0, 100 - otherParticipantsTotal)
+      : Math.max(0, totalBillAmount - otherParticipantsTotal);
+    
+    return {
+      contact: currentUser,
+      amount: remaining,
+    };
+  }, [participants, currentUser, totalAmount, splitType, currentUserAmount]);
+
+  // All participants including current user
+  const allParticipants = React.useMemo(() => {
+    const otherParticipants = participants.filter(p => p.contact.id !== currentUser.id);
+    return [currentUserParticipant, ...otherParticipants];
+  }, [currentUserParticipant, participants, currentUser.id]);
+
+  // Calculate remaining amount/percentage (excluding current user's share)
+  const otherParticipantsTotal = participants
+    .filter(p => p.contact.id !== currentUser.id)
+    .reduce((sum, p) => sum + p.amount, 0);
+  
+  const totalBillAmount = parseFloat(totalAmount || '0');
+  const totalAllocated = otherParticipantsTotal + currentUserParticipant.amount;
   const remainingValue = splitType === 'percentage' 
-    ? 100 - allocatedValue 
-    : totalBillAmount - allocatedValue;
+    ? 100 - totalAllocated 
+    : totalBillAmount - totalAllocated;
 
   // Participant management
   const handleSelectContact = (contact: Contact) => {
@@ -377,20 +420,51 @@ export const StepTwoParticipants: React.FC<StepTwoParticipantsProps> = ({
   };
 
   const handleUpdateParticipantAmount = (index: number, amount: number) => {
-    const updatedParticipants = [...participants];
-    const otherParticipantsTotal = participants
-      .filter((_, i) => i !== index)
-      .reduce((sum, p) => sum + p.amount, 0);
+    const participant = allParticipants[index];
+    if (!participant) return;
     
-    const maxForThisParticipant = totalBillAmount - otherParticipantsTotal;
-    const clampedAmount = Math.min(Math.max(0, amount), maxForThisParticipant);
+    const isCurrentUser = participant.contact.id === currentUser.id;
     
-    updatedParticipants[index].amount = clampedAmount;
-    setParticipants(updatedParticipants);
+    if (isCurrentUser) {
+      // For current user, set their amount manually
+      const totalBillAmount = parseFloat(totalAmount || '0');
+      const otherParticipantsTotal = participants.reduce((sum, p) => sum + p.amount, 0);
+      
+      const maxForCurrentUser = splitType === 'percentage' 
+        ? 100 - otherParticipantsTotal
+        : totalBillAmount - otherParticipantsTotal;
+      
+      const clampedAmount = Math.min(Math.max(0, amount), maxForCurrentUser);
+      setCurrentUserAmount(clampedAmount);
+    } else {
+      // For other participants, find their index in the original participants array
+      const participantIndex = participants.findIndex(p => p.contact.id === participant.contact.id);
+      if (participantIndex === -1) return;
+      
+      const updatedParticipants = [...participants];
+      const otherParticipantsTotal = participants
+        .filter((_, i) => i !== participantIndex)
+        .reduce((sum, p) => sum + p.amount, 0);
+      
+      const maxForThisParticipant = splitType === 'percentage' 
+        ? 100 - otherParticipantsTotal - currentUserAmount
+        : totalBillAmount - otherParticipantsTotal - currentUserAmount;
+      
+      const clampedAmount = Math.min(Math.max(0, amount), maxForThisParticipant);
+      
+      updatedParticipants[participantIndex].amount = clampedAmount;
+      setParticipants(updatedParticipants);
+    }
   };
 
   const handleRemoveParticipant = (index: number) => {
-    const updatedParticipants = participants.filter((_, i) => i !== index);
+    const participant = allParticipants[index];
+    if (!participant || participant.contact.id === currentUser.id) return; // Can't remove current user
+    
+    const participantIndex = participants.findIndex(p => p.contact.id === participant.contact.id);
+    if (participantIndex === -1) return;
+    
+    const updatedParticipants = participants.filter((_, i) => i !== participantIndex);
     setParticipants(updatedParticipants);
   };
 
@@ -484,7 +558,7 @@ export const StepTwoParticipants: React.FC<StepTwoParticipantsProps> = ({
               Allocated:
             </Text>
             <Text style={{ fontSize: FONT_SIZES.sm, fontWeight: FONT_WEIGHTS.semibold, color: COLORS.premium }}>
-              {splitType === 'percentage' ? `${allocatedValue.toFixed(1)}%` : `$${allocatedValue.toFixed(2)}`}
+              {splitType === 'percentage' ? `${totalAllocated.toFixed(1)}%` : `$${totalAllocated.toFixed(2)}`}
             </Text>
           </View>
           
@@ -506,27 +580,28 @@ export const StepTwoParticipants: React.FC<StepTwoParticipantsProps> = ({
         </View>
 
         {/* Participants List */}
-        {participants.length > 0 ? (
-          <View>
-            <Text style={{
-              fontSize: FONT_SIZES.md,
-              fontWeight: FONT_WEIGHTS.semibold,
-              color: COLORS.text,
-              marginBottom: SPACING.md,
-            }}>
-              Participants ({participants.length})
-            </Text>
-            
-            {participants.map((participant, index) => (
+        <View>
+          <Text style={{
+            fontSize: FONT_SIZES.md,
+            fontWeight: FONT_WEIGHTS.semibold,
+            color: COLORS.text,
+            marginBottom: SPACING.md,
+          }}>
+            Participants ({allParticipants.length})
+          </Text>
+          
+          {allParticipants.map((participant, index) => {
+            const isCurrentUser = participant.contact.id === currentUser.id;
+            return (
               <View
                 key={participant.contact.id}
                 style={{
-                  backgroundColor: COLORS.background,
+                  backgroundColor: isCurrentUser ? COLORS.cardBackground : COLORS.background,
                   borderRadius: BORDER_RADIUS.md,
                   padding: SPACING.md,
                   marginBottom: SPACING.md,
-                  borderWidth: 1,
-                  borderColor: COLORS.border,
+                  borderWidth: isCurrentUser ? 2 : 1,
+                  borderColor: isCurrentUser ? COLORS.premium : COLORS.border,
                 }}
               >
                 {/* Participant Header */}
@@ -539,7 +614,7 @@ export const StepTwoParticipants: React.FC<StepTwoParticipantsProps> = ({
                     width: 48,
                     height: 48,
                     borderRadius: 24,
-                    backgroundColor: COLORS.premium,
+                    backgroundColor: isCurrentUser ? COLORS.premium : COLORS.premium,
                     alignItems: 'center',
                     justifyContent: 'center',
                     marginRight: SPACING.md,
@@ -554,14 +629,32 @@ export const StepTwoParticipants: React.FC<StepTwoParticipantsProps> = ({
                   </View>
                   
                   <View style={{ flex: 1 }}>
-                    <Text style={{
-                      fontSize: FONT_SIZES.md,
-                      fontWeight: FONT_WEIGHTS.semibold,
-                      color: COLORS.text,
-                      marginBottom: SPACING.xs,
-                    }}>
-                      {participant.contact.firstName} {participant.contact.lastName}
-                    </Text>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: SPACING.xs }}>
+                      <Text style={{
+                        fontSize: FONT_SIZES.md,
+                        fontWeight: FONT_WEIGHTS.semibold,
+                        color: COLORS.text,
+                        marginRight: SPACING.sm,
+                      }}>
+                        {participant.contact.firstName} {participant.contact.lastName}
+                      </Text>
+                      {isCurrentUser && (
+                        <View style={{
+                          backgroundColor: COLORS.premium,
+                          paddingHorizontal: SPACING.xs,
+                          paddingVertical: 2,
+                          borderRadius: BORDER_RADIUS.sm,
+                        }}>
+                          <Text style={{
+                            fontSize: FONT_SIZES.xs,
+                            fontWeight: FONT_WEIGHTS.bold,
+                            color: COLORS.background,
+                          }}>
+                            YOU
+                          </Text>
+                        </View>
+                      )}
+                    </View>
                     <Text style={{
                       fontSize: FONT_SIZES.lg,
                       fontWeight: FONT_WEIGHTS.bold,
@@ -596,16 +689,18 @@ export const StepTwoParticipants: React.FC<StepTwoParticipantsProps> = ({
                     <Edit3 size={18} color={editingParticipant === index ? COLORS.background : COLORS.premium} />
                   </TouchableOpacity>
                   
-                  <TouchableOpacity
-                    onPress={() => handleRemoveParticipant(index)}
-                    style={{
-                      padding: SPACING.sm,
-                      borderRadius: BORDER_RADIUS.sm,
-                      backgroundColor: COLORS.cardBackground,
-                    }}
-                  >
-                    <X size={18} color={COLORS.error} />
-                  </TouchableOpacity>
+                  {!isCurrentUser && (
+                    <TouchableOpacity
+                      onPress={() => handleRemoveParticipant(index)}
+                      style={{
+                        padding: SPACING.sm,
+                        borderRadius: BORDER_RADIUS.sm,
+                        backgroundColor: COLORS.cardBackground,
+                      }}
+                    >
+                      <X size={18} color={COLORS.error} />
+                    </TouchableOpacity>
+                  )}
                 </View>
 
                 {/* Amount Slider (when editing) */}
@@ -622,18 +717,22 @@ export const StepTwoParticipants: React.FC<StepTwoParticipantsProps> = ({
                       marginBottom: SPACING.md,
                       textAlign: 'center',
                     }}>
-                      {splitType === 'percentage' 
-                        ? `Adjust Percentage: ${participant.amount.toFixed(1)}%`
-                        : `Adjust Amount: $${participant.amount.toFixed(2)}`
+                      {isCurrentUser 
+                        ? `Adjust Your ${splitType === 'percentage' ? 'Percentage' : 'Amount'}: ${participant.amount.toFixed(splitType === 'percentage' ? 1 : 2)}${splitType === 'percentage' ? '%' : ''}`
+                        : `Adjust ${splitType === 'percentage' ? 'Percentage' : 'Amount'}: ${participant.amount.toFixed(splitType === 'percentage' ? 1 : 2)}${splitType === 'percentage' ? '%' : ''}`
                       }
                     </Text>
                     
                     <Slider
                       style={{ height: 40 }}
                       minimumValue={0}
-                      maximumValue={splitType === 'percentage' 
-                        ? 100 - allocatedValue + participant.amount 
-                        : totalBillAmount - allocatedValue + participant.amount
+                      maximumValue={isCurrentUser 
+                        ? (splitType === 'percentage' 
+                          ? 100 - otherParticipantsTotal
+                          : totalBillAmount - otherParticipantsTotal)
+                        : (splitType === 'percentage' 
+                          ? 100 - otherParticipantsTotal - currentUserParticipant.amount + participant.amount 
+                          : totalBillAmount - otherParticipantsTotal - currentUserParticipant.amount + participant.amount)
                       }
                       value={participant.amount}
                       onValueChange={(value) => handleUpdateParticipantAmount(index, value)}
@@ -650,32 +749,40 @@ export const StepTwoParticipants: React.FC<StepTwoParticipantsProps> = ({
                         {splitType === 'percentage' ? '0%' : '$0'}
                       </Text>
                       <Text style={{ fontSize: FONT_SIZES.xs, color: COLORS.textSecondary }}>
-                        {splitType === 'percentage' 
-                          ? `${(100 - allocatedValue + participant.amount).toFixed(1)}%`
-                          : `$${(totalBillAmount - allocatedValue + participant.amount).toFixed(2)}`
+                        {isCurrentUser 
+                          ? (splitType === 'percentage' 
+                            ? `${(100 - otherParticipantsTotal).toFixed(1)}%`
+                            : `$${(totalBillAmount - otherParticipantsTotal).toFixed(2)}`)
+                          : (splitType === 'percentage' 
+                            ? `${(100 - otherParticipantsTotal - currentUserParticipant.amount + participant.amount).toFixed(1)}%`
+                            : `$${(totalBillAmount - otherParticipantsTotal - currentUserParticipant.amount + participant.amount).toFixed(2)}`)
                         }
                       </Text>
                     </View>
                   </View>
                 )}
               </View>
-            ))}
-          </View>
-        ) : (
-          // Empty State
+            );
+          })}
+        </View>
+        {/* Show empty state only if no other participants besides current user */}
+        {participants.filter(p => p.contact.id !== currentUser.id).length === 0 && (
           <View style={{
-            paddingVertical: SPACING.xxl,
+            paddingVertical: SPACING.lg,
             alignItems: 'center',
+            backgroundColor: COLORS.cardBackground,
+            borderRadius: BORDER_RADIUS.md,
+            marginTop: SPACING.md,
           }}>
-            <Users size={64} color={COLORS.textSecondary} />
+            <Users size={48} color={COLORS.textSecondary} />
             <Text style={{
-              fontSize: FONT_SIZES.lg,
+              fontSize: FONT_SIZES.md,
               fontWeight: FONT_WEIGHTS.semibold,
               color: COLORS.text,
               marginTop: SPACING.md,
               textAlign: 'center',
             }}>
-              No participants added yet
+              Add more participants
             </Text>
             <Text style={{
               fontSize: FONT_SIZES.sm,
@@ -685,7 +792,7 @@ export const StepTwoParticipants: React.FC<StepTwoParticipantsProps> = ({
               lineHeight: 20,
             }}>
               {availableContacts.length === 0 
-                ? "Tap \"Add\" to create your first contact\nand start splitting bills"
+                ? "Tap \"Add\" to create your first contact\nand invite them to split the bill"
                 : "Tap \"Add\" to select from your contacts\nor create a new contact"
               }
             </Text>

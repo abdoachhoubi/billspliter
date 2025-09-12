@@ -141,34 +141,44 @@ export const CreateBillScreen: React.FC<CreateBillScreenProps> = ({
   const canProceedToStep2 = title.trim() && totalAmount && parseFloat(totalAmount) > 0;
   
   const canProceedToStep3 = useMemo(() => {
-    if (participants.length === 0) return false;
+    // Since we now always include the current user, we need at least 2 participants total (current user + 1 other)
+    const otherParticipants = participants.filter(p => p.contact.id !== currentUser.id);
+    if (otherParticipants.length === 0) return false;
     
-    const allocatedValue = participants.reduce((sum, p) => sum + p.amount, 0);
+    const allocatedValue = otherParticipants.reduce((sum, p) => sum + p.amount, 0);
     
     if (splitType === 'percentage') {
-      // For percentage split, total should not exceed 100%
+      // For percentage split, other participants should not exceed 100%
       return allocatedValue > 0 && allocatedValue <= 100;
     } else {
-      // For amount split, total should not exceed bill amount
+      // For amount split, other participants should not exceed bill amount
       return allocatedValue > 0 && allocatedValue <= parseFloat(totalAmount || '0');
     }
-  }, [participants, splitType, totalAmount]);
+  }, [participants, splitType, totalAmount, currentUser.id]);
 
   const handleCreateBill = async () => {
     try {
+      // Filter out current user from participants as they are handled separately as owner
+      const otherParticipants = participants.filter(p => p.contact.id !== currentUser.id);
+      
+      // Check if current user was manually set as a participant
+      const currentUserAsParticipant = participants.find(p => p.contact.id === currentUser.id);
+      
       // Dispatch the createBill action
       const result = await dispatch(createBill({
         title,
         description,
         totalAmount: parseFloat(totalAmount || '0'),
         splitType,
-        participants,
+        participants: otherParticipants,
         owner: currentUser,
+        // Pass current user's manual amount if set
+        ownerManualAmount: currentUserAsParticipant?.amount,
       })).unwrap();
 
       Alert.alert(
         'Bill Created Successfully!',
-        `Bill "${title}" has been created with ${participants.length} participants.`,
+        `Bill "${title}" has been created with ${participants.filter(p => p.contact.id !== currentUser.id).length + 1} participants.`,
         [
           {
             text: 'OK',
@@ -193,8 +203,8 @@ export const CreateBillScreen: React.FC<CreateBillScreenProps> = ({
     
     if (currentStep === 1 && !canProceedToStep3) {
       const errorMessage = splitType === 'percentage' 
-        ? 'Please add at least one participant and ensure the total percentage doesn\'t exceed 100%.'
-        : 'Please add at least one participant and ensure the total allocation doesn\'t exceed the bill amount.';
+        ? 'Please add at least one other participant and ensure their total percentage doesn\'t exceed 100%.'
+        : 'Please add at least one other participant and ensure their total allocation doesn\'t exceed the bill amount.';
       Alert.alert('Incomplete Information', errorMessage);
       return;
     }
@@ -240,6 +250,7 @@ export const CreateBillScreen: React.FC<CreateBillScreenProps> = ({
             availableContacts={availableContacts}
             totalAmount={totalAmount}
             splitType={splitType}
+            currentUser={currentUser}
           />
         );
       case 2:
@@ -250,6 +261,7 @@ export const CreateBillScreen: React.FC<CreateBillScreenProps> = ({
             totalAmount={totalAmount}
             splitType={splitType}
             participants={participants}
+            currentUser={currentUser}
             onCreateBill={handleCreateBill}
           />
         );

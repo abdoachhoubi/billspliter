@@ -28,6 +28,7 @@ export const createBill = createAsyncThunk(
       splitType: 'percentage' | 'amount';
       participants: { contact: Contact; amount: number }[];
       owner: Contact; // The person creating the bill
+      ownerManualAmount?: number; // Optional manual amount for owner
     },
     { dispatch }
   ) => {
@@ -38,14 +39,20 @@ export const createBill = createAsyncThunk(
       const billId = generateId();
       const currentDate = new Date().toISOString();
 
-      // Calculate owner's split based on remaining amount/percentage
+      // Calculate owner's split based on remaining amount/percentage or use manual amount
       let ownerSplitValue = 0;
-      if (billData.splitType === 'percentage') {
-        const participantsTotalPercentage = billData.participants.reduce((sum, p) => sum + p.amount, 0);
-        ownerSplitValue = Math.max(0, 100 - participantsTotalPercentage); // Remaining percentage
+      if (billData.ownerManualAmount !== undefined) {
+        // Use the manually set amount
+        ownerSplitValue = billData.ownerManualAmount;
       } else {
-        const participantsTotalAmount = billData.participants.reduce((sum, p) => sum + p.amount, 0);
-        ownerSplitValue = Math.max(0, billData.totalAmount - participantsTotalAmount); // Remaining amount
+        // Calculate based on remaining amount/percentage
+        if (billData.splitType === 'percentage') {
+          const participantsTotalPercentage = billData.participants.reduce((sum, p) => sum + p.amount, 0);
+          ownerSplitValue = Math.max(0, 100 - participantsTotalPercentage); // Remaining percentage
+        } else {
+          const participantsTotalAmount = billData.participants.reduce((sum, p) => sum + p.amount, 0);
+          ownerSplitValue = Math.max(0, billData.totalAmount - participantsTotalAmount); // Remaining amount
+        }
       }
 
       // Create owner from contact
