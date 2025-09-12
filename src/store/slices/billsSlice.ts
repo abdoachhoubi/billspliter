@@ -37,7 +37,7 @@ const billsSlice = createSlice({
         state.bills[index] = {
           ...state.bills[index],
           ...action.payload,
-          lastModified: new Date(),
+          lastModified: new Date().toISOString(),
         };
         state.lastUpdated = Date.now();
       }
@@ -53,7 +53,7 @@ const billsSlice = createSlice({
       const index = state.bills.findIndex(bill => bill.id === action.payload.id);
       if (index !== -1) {
         state.bills[index].status = action.payload.status;
-        state.bills[index].lastModified = new Date();
+        state.bills[index].lastModified = new Date().toISOString();
         state.lastUpdated = Date.now();
       }
     },

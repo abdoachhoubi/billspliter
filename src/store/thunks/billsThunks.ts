@@ -36,7 +36,7 @@ export const createBill = createAsyncThunk(
       dispatch(setError(null));
 
       const billId = generateId();
-      const currentDate = new Date();
+      const currentDate = new Date().toISOString();
 
       // Calculate owner's split based on remaining amount/percentage
       let ownerSplitValue = 0;
@@ -155,7 +155,7 @@ export const updateExistingBill = createAsyncThunk(
         updatedBill.owner = updatedOwner;
       }
 
-      updatedBill.lastModified = new Date();
+      updatedBill.lastModified = new Date().toISOString();
 
       // Validate the updated bill
       const validationErrors = BillUtils.validateBill(updatedBill);

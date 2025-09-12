@@ -24,8 +24,8 @@ export interface Bill {
   splitType: SplitType;
   owner: BillOwner;
   participants: BillParticipant[]; // Other participants (excluding owner)
-  creationDate: Date;
-  lastModified: Date;
+  creationDate: string; // ISO string for Redux serialization
+  lastModified: string; // ISO string for Redux serialization
   status: 'pending' | 'paid' | 'cancelled';
   description?: string;
   // category will be added later when category system is implemented

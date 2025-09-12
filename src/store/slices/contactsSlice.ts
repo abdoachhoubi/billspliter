@@ -25,6 +25,11 @@ const contactsSlice = createSlice({
   name: 'contacts',
   initialState,
   reducers: {
+    // Set contacts array
+    setContacts: (state, action: PayloadAction<Contact[]>) => {
+      state.contacts = action.payload;
+    },
+    
     // Set error state
     setError: (state, action: PayloadAction<string | null>) => {
       state.error = action.payload;
@@ -164,6 +169,7 @@ const contactsSlice = createSlice({
 });
 
 export const {
+  setContacts,
   setError,
   clearSearchResults,
   clearContacts,

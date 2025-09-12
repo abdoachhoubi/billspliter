@@ -19,15 +19,20 @@ import { Bill, BillUtils } from '../common/entities/bill.entity';
 interface HomeScreenProps {
   onLanguageSettings?: () => void;
   onCreateBill?: () => void;
+  onViewBills?: () => void;
+  onViewBillDetail?: (bill: Bill) => void;
 }
 
-export default function HomeScreen({ onLanguageSettings, onCreateBill }: HomeScreenProps) {
+export default function HomeScreen({ onLanguageSettings, onCreateBill, onViewBills, onViewBillDetail }: HomeScreenProps) {
   const { t } = useTranslation();
   const bills = useSelector(selectAllBills);
   const billsStats = useSelector(selectBillsStats);
 
   const renderBillItem = ({ item: bill }: { item: Bill }) => (
-    <View style={styles.billCard}>
+    <TouchableOpacity 
+      style={styles.billCard}
+      onPress={() => onViewBillDetail?.(bill)}
+    >
       <View style={styles.billHeader}>
         <Text style={styles.billTitle}>{bill.title}</Text>
         <View style={[styles.statusBadge, getStatusBadgeStyle(bill.status)]}>
@@ -61,7 +66,7 @@ export default function HomeScreen({ onLanguageSettings, onCreateBill }: HomeScr
           {bill.description}
         </Text>
       )}
-    </View>
+    </TouchableOpacity>
   );
 
   const getStatusBadgeStyle = (status: string) => {
@@ -126,13 +131,23 @@ export default function HomeScreen({ onLanguageSettings, onCreateBill }: HomeScr
       <View style={styles.billsSection}>
         <View style={styles.billsHeader}>
           <Text style={styles.sectionTitle}>Your Bills</Text>
-          <TouchableOpacity
-            style={styles.createButton}
-            onPress={onCreateBill}
-          >
-            <Plus size={20} color="#ffffff" />
-            <Text style={styles.createButtonText}>Create Bill</Text>
-          </TouchableOpacity>
+          <View style={styles.headerButtons}>
+            {bills.length > 0 && (
+              <TouchableOpacity
+                style={styles.viewAllButton}
+                onPress={onViewBills}
+              >
+                <Text style={styles.viewAllButtonText}>View All</Text>
+              </TouchableOpacity>
+            )}
+            <TouchableOpacity
+              style={styles.createButton}
+              onPress={onCreateBill}
+            >
+              <Plus size={20} color="#ffffff" />
+              <Text style={styles.createButtonText}>Create Bill</Text>
+            </TouchableOpacity>
+          </View>
         </View>
 
         {bills.length === 0 ? (
@@ -152,11 +167,23 @@ export default function HomeScreen({ onLanguageSettings, onCreateBill }: HomeScr
           </View>
         ) : (
           <FlatList
-            data={bills}
+            data={bills.slice(0, 3)} // Show only first 3 bills on home screen
             renderItem={renderBillItem}
             keyExtractor={(item) => item.id}
             showsVerticalScrollIndicator={false}
             contentContainerStyle={styles.billsList}
+            ListFooterComponent={
+              bills.length > 3 ? (
+                <TouchableOpacity
+                  style={styles.viewMoreButton}
+                  onPress={onViewBills}
+                >
+                  <Text style={styles.viewMoreText}>
+                    View {bills.length - 3} more bills
+                  </Text>
+                </TouchableOpacity>
+              ) : null
+            }
           />
         )}
       </View>
@@ -219,6 +246,23 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: 16,
+  },
+  headerButtons: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+  },
+  viewAllButton: {
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: '#ffffff',
+  },
+  viewAllButtonText: {
+    color: '#ffffff',
+    fontSize: 14,
+    fontWeight: '600',
   },
   sectionTitle: {
     fontSize: 20,
@@ -328,5 +372,19 @@ const styles = StyleSheet.create({
     color: '#000000',
     fontSize: 16,
     fontWeight: '600',
+  },
+  viewMoreButton: {
+    backgroundColor: 'transparent',
+    borderWidth: 1,
+    borderColor: '#333333',
+    paddingVertical: 12,
+    borderRadius: 8,
+    marginTop: 12,
+  },
+  viewMoreText: {
+    color: '#ffffff',
+    fontSize: 14,
+    textAlign: 'center',
+    fontWeight: '500',
   },
 });

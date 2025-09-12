@@ -684,7 +684,10 @@ export const StepTwoParticipants: React.FC<StepTwoParticipantsProps> = ({
               textAlign: 'center',
               lineHeight: 20,
             }}>
-              Tap "Add" to select from your contacts{'\n'}or create a new contact
+              {availableContacts.length === 0 
+                ? "Tap \"Add\" to create your first contact\nand start splitting bills"
+                : "Tap \"Add\" to select from your contacts\nor create a new contact"
+              }
             </Text>
           </View>
         )}

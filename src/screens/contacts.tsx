@@ -207,9 +207,16 @@ export default function ContactsScreen() {
         style={styles.list}
         showsVerticalScrollIndicator={false}
         ListEmptyComponent={
-          <EmptyState 
-            message={searchQuery ? t('contacts.no_contacts_title') : t('contacts.no_contacts_message')} 
-          />
+          !isSearching ? (
+            <EmptyState 
+              message={searchQuery ? "No Contacts Found" : "No Contacts Yet"}
+              subtitle={searchQuery 
+                ? "Try adjusting your search terms or add a new contact" 
+                : "Add your first contact to start splitting bills"}
+              actionText={!searchQuery ? "Add Contact" : undefined}
+              onAction={!searchQuery ? () => setShowAddForm(true) : undefined}
+            />
+          ) : null
         }
       />
     </SafeAreaView>

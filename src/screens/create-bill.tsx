@@ -128,12 +128,12 @@ export const CreateBillScreen: React.FC<CreateBillScreenProps> = ({
   // Step 2: Participants
   const [participants, setParticipants] = useState<StepperParticipant[]>([]);
   
-  // Mock current user (in real app, this would come from Auth context or Redux)
+  // Current user (in real app, this would come from Auth context or Redux)
   const currentUser: Contact = {
     id: 'current-user-id',
-    firstName: 'John',
-    lastName: 'Doe',
-    email: 'john.doe@example.com',
+    firstName: 'Current',
+    lastName: 'User',
+    email: 'current.user@example.com',
     phone: '+1234567890',
   };
 

@@ -1,20 +1,22 @@
 import React from 'react';
-import { TextInput, StyleSheet } from 'react-native';
+import { TextInput, StyleSheet, TextStyle } from 'react-native';
 
 interface SearchInputProps {
   value: string;
   onChangeText: (text: string) => void;
   placeholder?: string;
+  containerStyle?: TextStyle;
 }
 
 export default function SearchInput({ 
   value, 
   onChangeText, 
-  placeholder = "Search..." 
+  placeholder = "Search...",
+  containerStyle
 }: SearchInputProps) {
   return (
     <TextInput
-      style={styles.searchInput}
+      style={[styles.searchInput, containerStyle]}
       placeholder={placeholder}
       placeholderTextColor="#888888"
       value={value}

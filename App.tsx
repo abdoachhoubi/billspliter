@@ -7,18 +7,25 @@ import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { store, persistor } from './src/store';
 import { LanguageProvider, useLanguage } from './src/context/LanguageContext';
+// import { useSampleData } from './src/common/hooks/useSampleData'; // Removed for production
 import LanguageSettingsScreen from './src/screens/language-settings';
 import WelcomeScreen from './src/screens/auth';
 import OnboardingScreen from './src/screens/onboarding';
 import HomeScreen from './src/screens/home';
 import ProfileScreen from './src/screens/profile';
+import BillsScreen from './src/screens/bills';
+import BillDetailScreen from './src/screens/bill-detail';
 import { CreateBillScreen } from '@/screens/create-bill';
 
 function AppContent() {
   const { t } = useTranslation();
   const { currentLanguage, isCurrentRTL } = useLanguage();
   const [showLanguageSettings, setShowLanguageSettings] = useState(false);
-  const [currentScreen, setCurrentScreen] = useState<'onboarding' | 'home' | 'createBill'>('onboarding');
+  const [currentScreen, setCurrentScreen] = useState<'onboarding' | 'home' | 'createBill' | 'bills' | 'billDetail'>('home'); // Start with home for testing
+  const [selectedBillId, setSelectedBillId] = useState<string | null>(null);
+  
+  // Remove sample data loading
+  // useSampleData();
 
   const handleGetStarted = () => {
     setCurrentScreen('home');
@@ -30,6 +37,15 @@ function AppContent() {
 
   const handleCreateBill = () => {
     setCurrentScreen('createBill');
+  };
+
+  const handleViewBills = () => {
+    setCurrentScreen('bills');
+  };
+
+  const handleViewBillDetail = (bill: any) => {
+    setSelectedBillId(bill.id);
+    setCurrentScreen('billDetail');
   };
 
   const handleBackToHome = () => {
@@ -69,6 +85,8 @@ function AppContent() {
       <HomeScreen 
         onLanguageSettings={handleLanguageSettings}
         onCreateBill={handleCreateBill}
+        onViewBills={handleViewBills}
+        onViewBillDetail={handleViewBillDetail}
       />
     );
   }
@@ -80,6 +98,34 @@ function AppContent() {
           navigate: () => {}, 
           goBack: handleBackToHome 
         }} 
+      />
+    );
+  }
+
+  if (currentScreen === 'bills') {
+    return (
+      <BillsScreen 
+        navigation={{ 
+          goBack: handleBackToHome,
+          navigate: (screen: string, params?: any) => {
+            if (screen === 'BillDetail' && params?.bill) {
+              handleViewBillDetail(params.bill);
+            }
+          }
+        }}
+        onCreateBill={handleCreateBill}
+      />
+    );
+  }
+
+  if (currentScreen === 'billDetail') {
+    return (
+      <BillDetailScreen
+        billId={selectedBillId || undefined}
+        navigation={{
+          goBack: () => setCurrentScreen('bills'),
+          navigate: () => {}
+        }}
       />
     );
   }
