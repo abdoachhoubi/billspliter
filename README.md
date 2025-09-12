@@ -6,13 +6,11 @@ A React Native Expo app built with TypeScript for splitting bills between friend
 
 - 🎨 **Modern UI** with NativeWind (Tailwind CSS for React Native)
 - 🌙 **Dark/Light Mode** support with system preference detection
-- 🔐 **Authentication** context with secure token storage
 - 🧭 **Navigation** using React Navigation v7
 - 📱 **Cross-platform** support (iOS, Android, Web)
 - 🧪 **Testing** setup with Jest and React Native Testing Library
 - 🔧 **Development Tools** with ESLint and Prettier
-- 📦 **Secure Storage** using Expo Secure Store
-- 🌐 **API Integration** with Axios and interceptors
+- � **Local Storage** using Redux Persist for offline functionality
 
 ## Project Structure
 

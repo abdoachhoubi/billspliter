@@ -28,11 +28,6 @@
     "subtitle": "Divide cuentas con amigos sin problemas. Rastrea gastos, comparte costos y liquida deudas con facilidad.",
     "get_started": "Comenzar"
   },
-  "welcome": {
-    "sign_in_text": "Inicia sesión para comenzar",
-    "sign_in_google": "Iniciar sesión con Google",
-    "sign_in_apple": "Iniciar sesión con Apple"
-  },
   "home": {
     "title": "¡Bienvenido a Divisor de Cuentas!",
     "subtitle": "Tu viaje hacia la división de cuentas sin esfuerzo comienza aquí."
@@ -47,38 +42,6 @@
     "searching": "Buscando...",
     "no_contacts_title": "No se Encontraron Contactos",
     "no_contacts_message": "Agrega algunos contactos para comenzar a dividir cuentas."
-  },
-  "profile": {
-    "title": "Perfil",
-    "edit_profile": "Editar Perfil",
-    "help": "Ayuda",
-    "help_subtitle": "Obtén soporte y encuentra respuestas",
-    "stats": "Estadísticas",
-    "stats_subtitle": "Ve tus análisis de gastos",
-    "wallet": "Billetera",
-    "activity": "Actividad",
-    "privacy_checkup": "Revisión de privacidad",
-    "privacy_subtitle": "Haz un recorrido interactivo de tu configuración de privacidad",
-    "settings": "Configuración",
-    "messages": "Mensajes",
-    "business_profile": "Configura tu perfil de negocio",
-    "business_subtitle": "Automatiza gastos de viajes de trabajo y comidas",
-    "manage_account": "Gestionar cuenta",
-    "legal": "Legal",
-    "logout": "Cerrar Sesión",
-    "logout_message": "¿Estás seguro de que quieres cerrar sesión?",
-    "total_bills": "Total de Cuentas",
-    "total_spent": "Total Gastado",
-    "this_month": "Este mes",
-    "member_since": "Miembro desde",
-    "favorites": "Favoritos",
-    "language": "Idioma",
-    "currency": "Moneda",
-    "categories": "Categorías",
-    "contacts": "Contactos",
-    "plan": "Plan",
-    "privacy_policy": "Política de Privacidad",
-    "delete_account": "Eliminar Cuenta"
   },
   "bills": {
     "title": "Cuentas",

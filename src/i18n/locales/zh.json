@@ -26,11 +26,6 @@
     "subtitle": "与朋友无缝分割账单。跟踪支出，分享成本，轻松结算债务。",
     "get_started": "开始使用"
   },
-  "welcome": {
-    "sign_in_text": "登录开始使用",
-    "sign_in_google": "使用谷歌登录",
-    "sign_in_apple": "使用苹果登录"
-  },
   "home": {
     "title": "欢迎使用账单分割器！",
     "subtitle": "您的轻松账单分割之旅从这里开始。"
@@ -44,38 +39,6 @@
     "search_placeholder": "搜索联系人...",
     "no_contacts_title": "未找到联系人",
     "no_contacts_message": "添加一些联系人以开始分割账单。"
-  },
-  "profile": {
-    "title": "个人资料",
-    "edit_profile": "编辑个人资料",
-    "help": "帮助",
-    "help_subtitle": "获取支持并找到答案",
-    "stats": "统计",
-    "stats_subtitle": "查看您的支出分析",
-    "wallet": "钱包",
-    "activity": "活动",
-    "privacy_checkup": "隐私检查",
-    "privacy_subtitle": "进行隐私设置的交互式导览",
-    "settings": "设置",
-    "messages": "消息",
-    "business_profile": "设置您的商业档案",
-    "business_subtitle": "自动化工作旅行和餐费",
-    "manage_account": "管理账户",
-    "legal": "法律",
-    "logout": "注销",
-    "logout_message": "您确定要注销吗？",
-    "total_bills": "总账单数",
-    "total_spent": "总支出",
-    "this_month": "本月",
-    "member_since": "会员自",
-    "favorites": "收藏",
-    "language": "语言",
-    "currency": "货币",
-    "categories": "分类",
-    "contacts": "联系人",
-    "plan": "计划",
-    "privacy_policy": "隐私政策",
-    "delete_account": "删除账户"
   },
   "bills": {
     "create_title": "创建账单",

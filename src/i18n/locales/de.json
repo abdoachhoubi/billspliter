@@ -27,11 +27,6 @@
     "subtitle": "Teile Rechnungen nahtlos mit Freunden. Verfolge Ausgaben, teile Kosten und begleiche Schulden mit Leichtigkeit.",
     "get_started": "Loslegen"
   },
-  "welcome": {
-    "sign_in_text": "Melde dich an, um zu beginnen",
-    "sign_in_google": "Mit Google anmelden",
-    "sign_in_apple": "Mit Apple anmelden"
-  },
   "home": {
     "title": "Willkommen bei Rechnung Teiler!",
     "subtitle": "Deine Reise zum mühelosen Rechnung Teilen beginnt hier."
@@ -45,38 +40,6 @@
     "search_placeholder": "Kontakte suchen...",
     "no_contacts_title": "Keine Kontakte Gefunden",
     "no_contacts_message": "Füge einige Kontakte hinzu, um mit dem Rechnung Teilen zu beginnen."
-  },
-  "profile": {
-    "title": "Profil",
-    "edit_profile": "Profil Bearbeiten",
-    "help": "Hilfe",
-    "help_subtitle": "Erhalte Unterstützung und finde Antworten",
-    "stats": "Statistiken",
-    "stats_subtitle": "Betrachte deine Ausgaben-Analysen",
-    "wallet": "Geldbörse",
-    "activity": "Aktivität",
-    "privacy_checkup": "Datenschutz-Check",
-    "privacy_subtitle": "Mache eine interaktive Tour durch deine Datenschutz-Einstellungen",
-    "settings": "Einstellungen",
-    "messages": "Nachrichten",
-    "business_profile": "Richte dein Geschäftsprofil ein",
-    "business_subtitle": "Automatisiere Arbeitsreise- und Mahlzeitkosten",
-    "manage_account": "Konto verwalten",
-    "legal": "Rechtliches",
-    "logout": "Abmelden",
-    "logout_message": "Bist du sicher, dass du dich abmelden möchtest?",
-    "total_bills": "Gesamte Rechnungen",
-    "total_spent": "Gesamt Ausgegeben",
-    "this_month": "Diesen Monat",
-    "member_since": "Mitglied seit",
-    "favorites": "Favoriten",
-    "language": "Sprache",
-    "currency": "Währung",
-    "categories": "Kategorien",
-    "contacts": "Kontakte",
-    "plan": "Plan",
-    "privacy_policy": "Datenschutzrichtlinie",
-    "delete_account": "Konto Löschen"
   },
   "bills": {
     "create_title": "Rechnung Erstellen",

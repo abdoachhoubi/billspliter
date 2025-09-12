@@ -3,7 +3,6 @@ import HomeScreen from '@/screens/home';
 import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import ContactsScreen from '../screens/contacts';
-import ProfileScreen from '../screens/profile';
 import { BottomTabNavigation, TabName } from './BottomTabNavigation';
 
 interface MainTabContainerProps {
@@ -29,9 +28,6 @@ export const MainTabContainer: React.FC<MainTabContainerProps> = ({}) => {
 
       case 'contacts':
         return <ContactsScreen />;
-
-      case 'profile':
-        return <ProfileScreen />;
 
       default:
         return <HomeScreen />;

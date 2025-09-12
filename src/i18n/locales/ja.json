@@ -26,11 +26,6 @@
     "subtitle": "友達とシームレスに請求書を分割しましょう。支出を追跡し、コストを共有し、借金を簡単に精算します。",
     "get_started": "始める"
   },
-  "welcome": {
-    "sign_in_text": "サインインして始める",
-    "sign_in_google": "Googleでサインイン",
-    "sign_in_apple": "Appleでサインイン"
-  },
   "home": {
     "title": "請求書分割アプリへようこそ！",
     "subtitle": "簡単な請求書分割の旅がここから始まります。"
@@ -44,38 +39,6 @@
     "search_placeholder": "連絡先を検索...",
     "no_contacts_title": "連絡先が見つかりません",
     "no_contacts_message": "請求書分割を始めるために連絡先を追加してください。"
-  },
-  "profile": {
-    "title": "プロフィール",
-    "edit_profile": "プロフィールを編集",
-    "help": "ヘルプ",
-    "help_subtitle": "サポートを受けて回答を見つける",
-    "stats": "統計",
-    "stats_subtitle": "支出分析を表示",
-    "wallet": "ウォレット",
-    "activity": "アクティビティ",
-    "privacy_checkup": "プライバシーチェック",
-    "privacy_subtitle": "プライバシー設定の対話的なツアーを行う",
-    "settings": "設定",
-    "messages": "メッセージ",
-    "business_profile": "ビジネスプロフィールを設定",
-    "business_subtitle": "出張費や食事代を自動化",
-    "manage_account": "アカウント管理",
-    "legal": "法的事項",
-    "logout": "ログアウト",
-    "logout_message": "ログアウトしてもよろしいですか？",
-    "total_bills": "総請求書数",
-    "total_spent": "総支出",
-    "this_month": "今月",
-    "member_since": "メンバー歴",
-    "favorites": "お気に入り",
-    "language": "言語",
-    "currency": "通貨",
-    "categories": "カテゴリ",
-    "contacts": "連絡先",
-    "plan": "プラン",
-    "privacy_policy": "プライバシーポリシー",
-    "delete_account": "アカウント削除"
   },
   "bills": {
     "create_title": "請求書を作成",

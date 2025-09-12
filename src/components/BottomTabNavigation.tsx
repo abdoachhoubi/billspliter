@@ -1,4 +1,4 @@
-import { Document, Home, Profile, People } from 'iconsax-react-nativejs';
+import { Document, Home, People } from 'iconsax-react-nativejs';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -12,7 +12,7 @@ import {
 const { width } = Dimensions.get('window');
 const TAB_WIDTH = width / 4; // Account for left/right margins (16*2) + padding (16*2)
 
-export type TabName = 'home' | 'bills' | 'contacts' | 'profile';
+export type TabName = 'home' | 'bills' | 'contacts';
 
 interface BottomTabNavigationProps {
   activeTab: TabName;
@@ -75,13 +75,6 @@ const BottomNavigation = ({
         <People color={currentTab === 'contacts' ? '#FFFFFF' : '#000000'} />
       ),
       name: t('contacts'),
-    },
-    {
-      id: 'profile',
-      icon: (
-        <Profile color={currentTab === 'profile' ? '#FFFFFF' : '#000000'} />
-      ),
-      name: t('profile'),
     },
   ];
 
