@@ -15,6 +15,7 @@
     "@react-native-community/slider": "^5.0.1",
     "@reduxjs/toolkit": "^2.9.0",
     "expo": "~54.0.0",
+    "expo-dev-client": "~6.0.12",
     "expo-localization": "~17.0.6",
     "expo-status-bar": "~3.0.7",
     "i18next": "^25.5.2",
@@ -27,8 +28,7 @@
     "react-native-safe-area-context": "^5.6.1",
     "react-native-svg": "^15.13.0",
     "react-redux": "^9.2.0",
-    "redux-persist": "^6.0.0",
-    "expo-dev-client": "~6.0.12"
+    "redux-persist": "^6.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
