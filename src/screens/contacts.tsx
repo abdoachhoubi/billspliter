@@ -235,14 +235,6 @@ export default function ContactsScreen({ onViewContactDetail }: ContactsScreenPr
 
   const displayContacts: ContactWithDisplay[] = filteredAndSortedContacts;
 
-  // Debug logging to check contact IDs
-  React.useEffect(() => {
-    console.log('Contacts Debug - Display Contacts:');
-    displayContacts.forEach((contact, index) => {
-      console.log(`Contact ${index}:`, { id: contact.id, fullName: contact.fullName });
-    });
-  }, [displayContacts]);
-
   const renderContact = ({ item }: { item: ContactWithDisplay }) => (
     <ContactItem
       id={item.id}

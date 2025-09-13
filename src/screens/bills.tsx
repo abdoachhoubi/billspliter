@@ -24,6 +24,7 @@ import {
   CheckCircle,
   XCircle,
   Calendar,
+  Settings,
 } from 'lucide-react-native';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -64,6 +65,7 @@ interface BillsScreenProps {
   };
   onCreateBill?: () => void;
   onViewBillDetail?: (bill: Bill) => void;
+  onLanguageSettings?: () => void;
 }
 
 type FilterType = 'all' | 'pending' | 'paid' | 'cancelled';
@@ -73,6 +75,7 @@ export default function BillsScreen({
   navigation,
   onCreateBill,
   onViewBillDetail,
+  onLanguageSettings,
 }: BillsScreenProps) {
   const { t } = useTranslation();
   const dispatch = useDispatch<AppDispatch>();
@@ -349,9 +352,19 @@ export default function BillsScreen({
           )}
           <Text style={styles.headerTitle}>Bills</Text>
         </View>
-        <TouchableOpacity style={styles.createButton} onPress={onCreateBill}>
-          <Plus size={20} color={COLORS.background} />
-        </TouchableOpacity>
+        <View style={styles.headerRight}>
+          {onLanguageSettings && (
+            <TouchableOpacity 
+              style={styles.settingsButton} 
+              onPress={onLanguageSettings}
+            >
+              <Settings size={20} color={COLORS.text} />
+            </TouchableOpacity>
+          )}
+          <TouchableOpacity style={styles.createButton} onPress={onCreateBill}>
+            <Plus size={20} color={COLORS.background} />
+          </TouchableOpacity>
+        </View>
       </View>
 
       {/* Stats */}
@@ -571,6 +584,16 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.premium,
     padding: SPACING.sm,
     borderRadius: BORDER_RADIUS.round,
+  },
+  headerRight: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: SPACING.sm,
+  },
+  settingsButton: {
+    padding: SPACING.sm,
+    borderRadius: BORDER_RADIUS.round,
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
   },
   statsContainer: {
     flexDirection: 'row',

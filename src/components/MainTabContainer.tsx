@@ -1,5 +1,4 @@
 import BillsScreen from '@/screens/bills';
-import HomeScreen from '@/screens/home';
 import React, { useState } from 'react';
 import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
 import ContactsScreen from '../screens/contacts';
@@ -18,7 +17,7 @@ interface MainTabContainerProps {
 }
 
 export const MainTabContainer: React.FC<MainTabContainerProps> = ({}) => {
-  const [activeTab, setActiveTab] = useState<TabName>('home');
+  const [activeTab, setActiveTab] = useState<TabName>('bills');
   const [currentScreen, setCurrentScreen] = useState<'main' | 'createBill' | 'billDetail' | 'contactDetail' | 'languageSettings'>('main');
   const [selectedBill, setSelectedBill] = useState<Bill | null>(null);
   const [selectedContact, setSelectedContact] = useState<ContactWithStats | null>(null);
@@ -119,20 +118,12 @@ export const MainTabContainer: React.FC<MainTabContainerProps> = ({}) => {
 
   const renderScreen = () => {
     switch (activeTab) {
-      case 'home':
-        return (
-          <HomeScreen 
-            onCreateBill={handleCreateBill}
-            onViewBillDetail={handleViewBillDetail}
-            onLanguageSettings={handleLanguageSettings}
-          />
-        );
-
       case 'bills':
         return (
           <BillsScreen 
             onCreateBill={handleCreateBill}
             onViewBillDetail={handleViewBillDetail}
+            onLanguageSettings={handleLanguageSettings}
           />
         );
 
@@ -145,7 +136,7 @@ export const MainTabContainer: React.FC<MainTabContainerProps> = ({}) => {
 
       default:
         return (
-          <HomeScreen 
+          <BillsScreen 
             onCreateBill={handleCreateBill}
             onViewBillDetail={handleViewBillDetail}
             onLanguageSettings={handleLanguageSettings}

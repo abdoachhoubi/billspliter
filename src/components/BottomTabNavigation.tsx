@@ -1,4 +1,4 @@
-import { Document, Home, People } from 'iconsax-react-nativejs';
+import { Document, People } from 'iconsax-react-nativejs';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -10,9 +10,9 @@ import {
 } from 'react-native';
 
 const { width } = Dimensions.get('window');
-const TAB_WIDTH = width / 4; // Account for left/right margins (16*2) + padding (16*2)
+const TAB_WIDTH = width / 2; // Now only 2 tabs instead of 3
 
-export type TabName = 'home' | 'bills' | 'contacts';
+export type TabName = 'bills' | 'contacts';
 
 interface BottomTabNavigationProps {
   activeTab: TabName;
@@ -59,11 +59,6 @@ const BottomNavigation = ({
   const [currentTab, setCurrentTab] = useState<TabName>(activeTab);
 
   const tabs: Tab[] = [
-    {
-      id: 'home',
-      icon: <Home color={currentTab === 'home' ? '#FFFFFF' : '#000000'} />,
-      name: t('home'),
-    },
     {
       id: 'bills',
       icon: <Document color={currentTab === 'bills' ? '#FFFFFF' : '#000000'} />,
