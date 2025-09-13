@@ -73,6 +73,10 @@ export class ContactsService {
       // First try to load from local storage
       const localContacts = await this.loadLocalContacts();
 
+      // Debug logging
+      console.log('GetAllContacts Debug:');
+      console.log('Loaded contacts:', localContacts.map(c => ({ id: c.id, name: `${c.firstName} ${c.lastName}` })));
+
       // Simulate API call delay for realism
       await delay(300);
 
@@ -169,10 +173,18 @@ export class ContactsService {
   static async deleteContact(id: string): Promise<boolean> {
     try {
       const contacts = await this.loadLocalContacts();
+      
+      // Debug logging
+      console.log('Delete Contact Debug:');
+      console.log('ID to delete:', id);
+      console.log('Existing contact IDs:', contacts.map(c => c.id));
+      
       const filteredContacts = contacts.filter(contact => contact.id !== id);
 
       if (filteredContacts.length === contacts.length) {
-        throw new Error('Contact not found');
+        // Contact not found, return false instead of throwing
+        console.log('Contact not found - no contact with this ID exists');
+        return false;
       }
 
       // Save updated contacts
@@ -181,6 +193,7 @@ export class ContactsService {
       // Simulate API delay
       await delay(300);
 
+      console.log('Contact successfully deleted');
       return true;
     } catch (error) {
       console.error('Error deleting contact:', error);

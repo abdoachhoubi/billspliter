@@ -109,6 +109,7 @@ export default function ContactsScreen({ onViewContactDetail }: ContactsScreenPr
   };
 
   const handleDeleteContact = (id: string, name: string) => {
+    console.log('HandleDeleteContact called with:', { id, name });
     Alert.alert(
       t('contacts.delete_contact_title'),
       t('contacts.delete_contact_message'),
@@ -117,7 +118,10 @@ export default function ContactsScreen({ onViewContactDetail }: ContactsScreenPr
         {
           text: t('common.delete'),
           style: 'destructive',
-          onPress: () => dispatch(deleteContact(id)),
+          onPress: () => {
+            console.log('Dispatching deleteContact with ID:', id);
+            dispatch(deleteContact(id));
+          },
         },
       ]
     );
@@ -230,6 +234,14 @@ export default function ContactsScreen({ onViewContactDetail }: ContactsScreenPr
   }, [contactsWithStats, searchResults, searchQuery, filterBy, sortBy, groupFilter]);
 
   const displayContacts: ContactWithDisplay[] = filteredAndSortedContacts;
+
+  // Debug logging to check contact IDs
+  React.useEffect(() => {
+    console.log('Contacts Debug - Display Contacts:');
+    displayContacts.forEach((contact, index) => {
+      console.log(`Contact ${index}:`, { id: contact.id, fullName: contact.fullName });
+    });
+  }, [displayContacts]);
 
   const renderContact = ({ item }: { item: ContactWithDisplay }) => (
     <ContactItem
