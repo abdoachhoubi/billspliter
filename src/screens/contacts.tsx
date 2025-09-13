@@ -2,7 +2,7 @@ import React, { useEffect, useState, useMemo } from 'react';
 import { View, Text, FlatList, StyleSheet, Alert, TouchableOpacity, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
-import { Archive, Refresh, Add, CloseCircle, Sort, Filter } from 'iconsax-react-nativejs';
+import { Archive, Refresh, Add, CloseCircle, Sort, Filter, People, Star1, Profile2User, Briefcase, DocumentText, User } from 'iconsax-react-nativejs';
 import {
   Contact,
   CreateContact,
@@ -270,51 +270,100 @@ export default function ContactsScreen({ onViewContactDetail }: ContactsScreenPr
       <View style={styles.header}>
         <View style={styles.titleContainer}>
           <Text style={styles.title}>
-            {t('contacts.title')} ({displayContacts.length})
+            {t('contacts.title')}
           </Text>
-          {hasLocalData && (
-            <View style={styles.persistedIndicator}>
-              <Archive size={12} color="#888888" />
-              <Text style={styles.persistedText}>Saved Locally</Text>
-            </View>
-          )}
+          <View style={styles.subtitleRow}>
+            <Text style={styles.contactCount}>
+              {displayContacts.length} {displayContacts.length === 1 ? 'contact' : 'contacts'}
+            </Text>
+            {hasLocalData && (
+              <View style={styles.persistedIndicator}>
+                <Archive size={12} color="#10B981" />
+                <Text style={styles.persistedText}>Saved Locally</Text>
+              </View>
+            )}
+          </View>
         </View>
         <View style={styles.headerButtons}>
-          <CircularIconButton 
-            Icon={Sort} 
+          <TouchableOpacity 
+            style={[styles.actionButton, sortBy !== 'name' && styles.actionButtonActive]}
             onPress={() => {
               // Cycle through sort options
               const sortOptions: typeof sortBy[] = ['name', 'balance', 'activity', 'bills-count', 'recent'];
               const currentIndex = sortOptions.indexOf(sortBy);
               const nextIndex = (currentIndex + 1) % sortOptions.length;
               setSortBy(sortOptions[nextIndex]);
-            }} 
-          />
-          <CircularIconButton 
-            Icon={Filter} 
+            }}
+          >
+            <Sort size={18} color={sortBy !== 'name' ? "#000000" : "#ffffff"} />
+            {sortBy !== 'name' && <View style={styles.activeIndicator} />}
+          </TouchableOpacity>
+          
+          <TouchableOpacity 
+            style={[styles.actionButton, filterBy !== 'all' && styles.actionButtonActive]}
             onPress={() => {
               // Cycle through filter options
               const filterOptions: typeof filterBy[] = ['all', 'active', 'owes-you', 'you-owe', 'settled'];
               const currentIndex = filterOptions.indexOf(filterBy);
               const nextIndex = (currentIndex + 1) % filterOptions.length;
               setFilterBy(filterOptions[nextIndex]);
-            }} 
-          />
-          <CircularIconButton Icon={Refresh} onPress={handleRefresh} />
-          <CircularIconButton
-            Icon={showAddForm ? CloseCircle : Add}
-            backgroundColor="#ffffff"
-            iconColor="#000000"
+            }}
+          >
+            <Filter size={18} color={filterBy !== 'all' ? "#000000" : "#ffffff"} />
+            {filterBy !== 'all' && <View style={styles.activeIndicator} />}
+          </TouchableOpacity>
+          
+          <TouchableOpacity 
+            style={styles.actionButton}
+            onPress={handleRefresh}
+          >
+            <Refresh size={18} color="#ffffff" />
+          </TouchableOpacity>
+          
+          <TouchableOpacity
+            style={styles.addButton}
             onPress={() => setShowAddForm(!showAddForm)}
-          />
+          >
+            {showAddForm ? (
+              <CloseCircle size={20} color="#000000" />
+            ) : (
+              <Add size={20} color="#000000" />
+            )}
+          </TouchableOpacity>
         </View>
       </View>
 
-      <SearchInput
-        value={searchQuery}
-        onChangeText={setSearchQuery}
-        placeholder={t('contacts.search_placeholder')}
-      />
+      {/* Summary Stats */}
+      {displayContacts.length > 0 && (
+        <View style={styles.summaryCard}>
+          <View style={styles.summaryItem}>
+            <Text style={styles.summaryNumber}>{displayContacts.length}</Text>
+            <Text style={styles.summaryLabel}>Total Contacts</Text>
+          </View>
+          <View style={styles.summaryDivider} />
+          <View style={styles.summaryItem}>
+            <Text style={styles.summaryNumber}>
+              {displayContacts.filter(c => c.isFavorite).length}
+            </Text>
+            <Text style={styles.summaryLabel}>Favorites</Text>
+          </View>
+          <View style={styles.summaryDivider} />
+          <View style={styles.summaryItem}>
+            <Text style={styles.summaryNumber}>
+              {displayContacts.filter(c => c.stats?.activeBills > 0).length}
+            </Text>
+            <Text style={styles.summaryLabel}>Active Bills</Text>
+          </View>
+        </View>
+      )}
+
+      <View style={styles.searchContainer}>
+        <SearchInput
+          value={searchQuery}
+          onChangeText={setSearchQuery}
+          placeholder={t('contacts.search_placeholder')}
+        />
+      </View>
 
       {/* Filter and Sort Status Bar */}
       {(filterBy !== 'all' || sortBy !== 'name' || groupFilter !== 'all') && (
@@ -347,13 +396,13 @@ export default function ContactsScreen({ onViewContactDetail }: ContactsScreenPr
         contentContainerStyle={styles.groupFiltersContent}
       >
         {[
-          { key: 'all', label: 'All', icon: '👥' },
-          { key: 'favorites', label: 'Favorites', icon: '⭐' },
-          { key: 'family', label: 'Family', icon: '👨‍👩‍👧‍👦' },
-          { key: 'friends', label: 'Friends', icon: '👯' },
-          { key: 'work', label: 'Work', icon: '💼' },
-          { key: 'other', label: 'Other', icon: '📝' },
-        ].map(({ key, label, icon }) => (
+          { key: 'all', label: 'All', IconComponent: People },
+          { key: 'favorites', label: 'Favorites', IconComponent: Star1 },
+          { key: 'family', label: 'Family', IconComponent: Profile2User },
+          { key: 'friends', label: 'Friends', IconComponent: User },
+          { key: 'work', label: 'Work', IconComponent: Briefcase },
+          { key: 'other', label: 'Other', IconComponent: DocumentText },
+        ].map(({ key, label, IconComponent }) => (
           <TouchableOpacity
             key={key}
             onPress={() => setGroupFilter(key as typeof groupFilter)}
@@ -362,7 +411,11 @@ export default function ContactsScreen({ onViewContactDetail }: ContactsScreenPr
               groupFilter === key && styles.groupFilterPillActive
             ]}
           >
-            <Text style={styles.groupFilterIcon}>{icon}</Text>
+            <IconComponent 
+              size={16} 
+              color={groupFilter === key ? "#000000" : "#888888"} 
+              variant={groupFilter === key ? "Bold" : "Outline"}
+            />
             <Text style={[
               styles.groupFilterText,
               groupFilter === key && styles.groupFilterTextActive
@@ -397,16 +450,29 @@ export default function ContactsScreen({ onViewContactDetail }: ContactsScreenPr
         showsVerticalScrollIndicator={false}
         ListEmptyComponent={
           !isSearching ? (
-            <EmptyState
-              message={searchQuery ? 'No Contacts Found' : 'No Contacts Yet'}
-              subtitle={
-                searchQuery
+            <View style={styles.emptyStateContainer}>
+              <View style={styles.emptyStateIcon}>
+                <People size={40} color="#888888" variant="Bold" />
+              </View>
+              <Text style={styles.emptyStateTitle}>
+                {searchQuery ? 'No Contacts Found' : 'No Contacts Yet'}
+              </Text>
+              <Text style={styles.emptyStateSubtitle}>
+                {searchQuery
                   ? 'Try adjusting your search terms or add a new contact'
-                  : 'Add your first contact to start splitting bills'
-              }
-              actionText={!searchQuery ? 'Add Contact' : undefined}
-              onAction={!searchQuery ? () => setShowAddForm(true) : undefined}
-            />
+                  : 'Add your first contact to start splitting bills and managing expenses together'
+                }
+              </Text>
+              {!searchQuery && (
+                <TouchableOpacity 
+                  style={styles.emptyStateButton}
+                  onPress={() => setShowAddForm(true)}
+                >
+                  <Add size={20} color="#000000" />
+                  <Text style={styles.emptyStateButtonText}>Add Your First Contact</Text>
+                </TouchableOpacity>
+              )}
+            </View>
           ) : null
         }
       />
@@ -443,21 +509,107 @@ const styles = StyleSheet.create({
     color: '#ffffff',
     letterSpacing: -0.5,
   },
-  persistedIndicator: {
+  subtitleRow: {
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: 8,
-    gap: 6,
+    gap: 12,
   },
-  persistedText: {
-    fontSize: 13,
+  contactCount: {
+    fontSize: 16,
     color: '#888888',
     fontWeight: '500',
+  },
+  persistedIndicator: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    backgroundColor: '#0f2f1f',
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 12,
+  },
+  persistedText: {
+    fontSize: 12,
+    color: '#10B981',
+    fontWeight: '600',
   },
   headerButtons: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 16,
+    gap: 12,
+  },
+  actionButton: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: '#1a1a1a',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#333333',
+    position: 'relative',
+  },
+  actionButtonActive: {
+    backgroundColor: '#ffffff',
+    borderColor: '#ffffff',
+  },
+  activeIndicator: {
+    position: 'absolute',
+    top: 2,
+    right: 2,
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: '#10B981',
+  },
+  addButton: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: '#ffffff',
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#ffffff',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.15,
+    shadowRadius: 6,
+    elevation: 4,
+  },
+  searchContainer: {
+    paddingHorizontal: 24,
+    paddingBottom: 16,
+  },
+  summaryCard: {
+    flexDirection: 'row',
+    backgroundColor: '#1a1a1a',
+    marginHorizontal: 24,
+    marginBottom: 16,
+    borderRadius: 16,
+    padding: 20,
+    borderWidth: 1,
+    borderColor: '#2a2a2a',
+  },
+  summaryItem: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  summaryNumber: {
+    fontSize: 24,
+    fontWeight: '700',
+    color: '#ffffff',
+    marginBottom: 4,
+  },
+  summaryLabel: {
+    fontSize: 12,
+    color: '#888888',
+    fontWeight: '500',
+    textAlign: 'center',
+  },
+  summaryDivider: {
+    width: 1,
+    backgroundColor: '#333333',
+    marginHorizontal: 16,
   },
   list: {
     flex: 1,
@@ -492,37 +644,91 @@ const styles = StyleSheet.create({
   },
   groupFilters: {
     marginHorizontal: 24,
-    marginBottom: 16,
+    marginBottom: 20,
+    maxHeight: 40,
   },
   groupFiltersContent: {
     paddingRight: 24,
+    alignItems: 'center',
   },
   groupFilterPill: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 16,
-    paddingVertical: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
     backgroundColor: '#1a1a1a',
-    borderRadius: 20,
-    marginRight: 12,
+    borderRadius: 18,
+    marginRight: 10,
     borderWidth: 1,
-    borderColor: 'transparent',
+    borderColor: '#2a2a2a',
+    minHeight: 36,
   },
   groupFilterPillActive: {
-    backgroundColor: '#333333',
+    backgroundColor: '#ffffff',
     borderColor: '#ffffff',
   },
   groupFilterIcon: {
-    fontSize: 14,
     marginRight: 6,
   },
   groupFilterText: {
-    fontSize: 14,
+    fontSize: 13,
     color: '#888888',
-    fontWeight: '500',
+    fontWeight: '600',
   },
   groupFilterTextActive: {
+    color: '#000000',
+    fontWeight: '700',
+  },
+  emptyStateContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 60,
+    paddingHorizontal: 32,
+  },
+  emptyStateIcon: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    backgroundColor: '#1a1a1a',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 24,
+    borderWidth: 2,
+    borderColor: '#333333',
+  },
+  emptyStateTitle: {
+    fontSize: 24,
+    fontWeight: '700',
     color: '#ffffff',
+    textAlign: 'center',
+    marginBottom: 12,
+    letterSpacing: -0.3,
+  },
+  emptyStateSubtitle: {
+    fontSize: 16,
+    color: '#888888',
+    textAlign: 'center',
+    lineHeight: 24,
+    marginBottom: 32,
+    maxWidth: 300,
+  },
+  emptyStateButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#ffffff',
+    paddingHorizontal: 24,
+    paddingVertical: 16,
+    borderRadius: 25,
+    gap: 8,
+    shadowColor: '#ffffff',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 12,
+    elevation: 6,
+  },
+  emptyStateButtonText: {
+    fontSize: 16,
     fontWeight: '600',
+    color: '#000000',
   },
 });
