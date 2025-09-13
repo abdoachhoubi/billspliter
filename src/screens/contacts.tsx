@@ -51,7 +51,11 @@ interface ContactWithDisplay extends ContactWithStats {
   initials: string;
 }
 
-export default function ContactsScreen() {
+interface ContactsScreenProps {
+  onViewContactDetail?: (contact: ContactWithStats) => void;
+}
+
+export default function ContactsScreen({ onViewContactDetail }: ContactsScreenProps) {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const contactsWithStats = useAppSelector(selectContactsWithStats);
@@ -240,8 +244,12 @@ export default function ContactsScreen() {
       showStats={showStats}
       onDelete={handleDeleteContact}
       onPress={(contactId) => {
-        // TODO: Navigate to contact detail screen
-        console.log('Contact pressed:', contactId);
+        const contact = contactsWithStats.find(c => c.id === contactId);
+        if (contact && onViewContactDetail) {
+          onViewContactDetail(contact);
+        } else {
+          console.log('Contact pressed:', contactId);
+        }
       }}
       onToggleFavorite={(contactId) => {
         dispatch(toggleContactFavorite(contactId));

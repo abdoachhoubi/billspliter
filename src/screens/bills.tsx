@@ -63,6 +63,7 @@ interface BillsScreenProps {
     navigate: (screen: string, params?: any) => void;
   };
   onCreateBill?: () => void;
+  onViewBillDetail?: (bill: Bill) => void;
 }
 
 type FilterType = 'all' | 'pending' | 'paid' | 'cancelled';
@@ -71,6 +72,7 @@ type SortType = 'date' | 'amount' | 'title';
 export default function BillsScreen({
   navigation,
   onCreateBill,
+  onViewBillDetail,
 }: BillsScreenProps) {
   const { t } = useTranslation();
   const dispatch = useDispatch<AppDispatch>();
@@ -219,7 +221,7 @@ export default function BillsScreen({
   const renderBillItem = ({ item: bill }: { item: Bill }) => (
     <TouchableOpacity
       style={styles.billCard}
-      onPress={() => navigation?.navigate?.('BillDetail', { bill })}
+      onPress={() => onViewBillDetail?.(bill) || navigation?.navigate?.('BillDetail', { bill })}
     >
       <View style={styles.billHeader}>
         <View style={styles.billTitleContainer}>
@@ -337,12 +339,14 @@ export default function BillsScreen({
       {/* Header */}
       <View style={styles.header}>
         <View style={styles.headerLeft}>
-          <TouchableOpacity
-            style={styles.backButton}
-            onPress={() => navigation?.goBack()}
-          >
-            <ArrowLeft size={24} color={COLORS.text} />
-          </TouchableOpacity>
+          {navigation?.goBack && (
+            <TouchableOpacity
+              style={styles.backButton}
+              onPress={() => navigation?.goBack()}
+            >
+              <ArrowLeft size={24} color={COLORS.text} />
+            </TouchableOpacity>
+          )}
           <Text style={styles.headerTitle}>Bills</Text>
         </View>
         <TouchableOpacity style={styles.createButton} onPress={onCreateBill}>
