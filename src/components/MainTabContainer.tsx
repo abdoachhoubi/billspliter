@@ -3,6 +3,7 @@ import HomeScreen from '@/screens/home';
 import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import ContactsScreen from '../screens/contacts';
+import { CreateBillScreen } from '../screens/create-bill';
 import { BottomTabNavigation, TabName } from './BottomTabNavigation';
 
 interface MainTabContainerProps {
@@ -13,15 +14,38 @@ interface MainTabContainerProps {
 
 export const MainTabContainer: React.FC<MainTabContainerProps> = ({}) => {
   const [activeTab, setActiveTab] = useState<TabName>('home');
+  const [currentScreen, setCurrentScreen] = useState<'main' | 'createBill'>('main');
 
   const handleTabPress = (tab: TabName) => {
     setActiveTab(tab);
+    setCurrentScreen('main'); // Always go back to main when changing tabs
   };
+
+  const handleCreateBill = () => {
+    setCurrentScreen('createBill');
+  };
+
+  const handleBackToMain = () => {
+    setCurrentScreen('main');
+  };
+
+  if (currentScreen === 'createBill') {
+    return (
+      <View style={styles.container}>
+        <CreateBillScreen 
+          navigation={{
+            goBack: handleBackToMain,
+            navigate: () => {},
+          }}
+        />
+      </View>
+    );
+  }
 
   const renderScreen = () => {
     switch (activeTab) {
       case 'home':
-        return <HomeScreen />;
+        return <HomeScreen onCreateBill={handleCreateBill} />;
 
       case 'bills':
         return <BillsScreen />;
@@ -30,7 +54,7 @@ export const MainTabContainer: React.FC<MainTabContainerProps> = ({}) => {
         return <ContactsScreen />;
 
       default:
-        return <HomeScreen />;
+        return <HomeScreen onCreateBill={handleCreateBill} />;
     }
   };
 
